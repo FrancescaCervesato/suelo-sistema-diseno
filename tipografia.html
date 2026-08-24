@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SUELO — Tipografía y Espaciado</title>
+<meta name="description" content="Escalas tipográficas, pesos, jerarquía de textos y sistema de espaciado de SUELO." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="css/tokens.css" />
+<link rel="stylesheet" href="css/base.css" />
+<style>
+  /* ---------- Página Tipografía y Espaciado — estilos específicos ---------- */
+  .estado-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    height: 53px;
+    padding: 8px 16px;
+    border-radius: var(--space-3);
+    background: #25a36f;
+    border: 0.3px solid #1e7350;
+  }
+  .estado-badge__icon { font-size: 20px; line-height: 30px; }
+  .estado-badge__label { font-weight: 700; font-size: 20px; line-height: 30px; color: #fff; }
+
+  .type-scale-panel { display:flex; flex-direction:column; gap:20px; width:100%; }
+  .type-scale-panel__heading { display:flex; flex-direction:column; gap:4px; }
+  .type-scale-panel__title { font-weight:700; font-size:20px; color: var(--texto-default); }
+  .type-scale-panel__subtitle { font-size:14px; color: var(--texto-light-2); }
+
+  .type-table {
+    border: 1px solid var(--borde-default);
+    border-radius: 12px;
+    width: 100%;
+    overflow-x: auto;
+  }
+  .type-table__inner { min-width: 900px; }
+  .type-table__header {
+    display: grid;
+    grid-template-columns: 180px 120px 80px 140px 90px 1fr;
+    gap: 16px;
+    padding: 12px 16px;
+    background: var(--gris-1);
+    font-weight: 700;
+    font-size: 12px;
+    color: var(--texto-light);
+  }
+  .type-row {
+    display: grid;
+    grid-template-columns: 180px 120px 80px 140px 90px 1fr;
+    gap: 16px;
+    align-items: center;
+    padding: 16px;
+    border-bottom: 1px solid var(--borde-default);
+  }
+  .type-row:last-child { border-bottom: none; }
+  .type-row__token { display:flex; flex-direction:column; }
+  .type-row__name { color:#8e24aa; font-weight:600; font-size:12px; }
+  .type-row__cat { color: var(--texto-light-2); font-size:11px; text-transform:uppercase; }
+  .type-row__family, .type-row__weight, .type-row__label, .type-row__px { font-size:13px; color: var(--texto-light); }
+  .type-row__sample { color: var(--texto-default); line-height:1.4; }
+
+  .guidelines-row { display:flex; gap:24px; width:100%; align-items:stretch; }
+  .guideline-card { flex:1 0 0; min-width:0; border-radius:12px; padding:20px; display:flex; flex-direction:column; gap:12px; border:1px solid; }
+  .guideline-card--do { background:#f3f8f6; border-color:#50a381; }
+  .guideline-card--dont { background:#f5ecec; border-color:#e07171; }
+  .guideline-card__title { font-weight:700; font-size:16px; }
+  .guideline-card--do .guideline-card__title { color:#1e7350; }
+  .guideline-card--dont .guideline-card__title { color:#c91313; }
+  .guideline-card__text { font-size:14px; line-height:1.5; color: var(--texto-default); }
+
+  .spacing-panel { display:flex; flex-direction:column; gap:24px; width:100%; }
+  .spacing-panel__heading { display:flex; flex-direction:column; gap:4px; }
+  .spacing-panel__title { font-weight:700; font-size:20px; color: var(--texto-default); }
+  .spacing-panel__subtitle { font-size:14px; color: var(--texto-light-2); }
+
+  .spacing-list {
+    background:#fff;
+    border:1px solid var(--borde-default);
+    border-radius:12px;
+    padding:24px;
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+    width:100%;
+  }
+  .spacing-item { display:flex; align-items:center; gap:16px; width:100%; }
+  .spacing-item__meta { display:flex; flex-direction:column; width:180px; flex-shrink:0; }
+  .spacing-item__name { font-weight:600; font-size:13px; color: var(--texto-default); }
+  .spacing-item__var { font-size:11px; color: var(--texto-light-2); }
+  .spacing-item__chip { width:80px; flex-shrink:0; }
+  .spacing-chip {
+    display:inline-flex; align-items:center; justify-content:center;
+    background: var(--gris-1); border:1px solid var(--texto-light-3);
+    border-radius:8px; padding:0 8px; height:24px;
+    font-weight:700; font-size:11px; color: var(--texto-light);
+  }
+  .spacing-item__track { flex:1 0 0; display:flex; align-items:center; }
+  .spacing-bar { background:#8e24aa; height:16px; border-radius:4px; }
+
+  .usage-grid { display:flex; gap:24px; width:100%; }
+  .usage-card {
+    flex:1 0 0; min-width:0;
+    background: var(--gris-1);
+    border:1px solid var(--borde-default);
+    border-radius:12px;
+    padding:24px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+  .usage-card__title { font-weight:700; font-size:15px; color: var(--texto-default); }
+  .schematic-box {
+    background:#fff; border:1.5px dashed #8e24aa; border-radius:6px;
+    padding:24px; display:flex; flex-direction:column; gap:12px; width:100%;
+  }
+  .schematic-box__label-row { display:flex; align-items:center; justify-content:space-between; width:100%; }
+  .schematic-box__label { font-weight:600; font-size:13px; color:#8e24aa; }
+  .schematic-box__token { font-size:11px; color: var(--texto-light-2); }
+  .schematic-box__rect { background: var(--gris-2); height:40px; border-radius:6px; width:100%; }
+
+  .schematic-stack { background:#fff; border-radius:8px; padding:16px; display:flex; flex-direction:column; gap:16px; width:100%; }
+  .schematic-stack__rect { background: var(--gris-2); height:32px; border-radius:6px; width:100%; }
+  .schematic-stack__gap-row { display:flex; align-items:center; gap:8px; width:100%; }
+  .schematic-stack__gap-line { flex:1 0 0; height:1.5px; background: var(--texto-light-3); }
+  .schematic-stack__gap-label { font-weight:700; font-size:11px; color:#8e24aa; white-space:nowrap; }
+
+  @media (max-width: 900px) {
+    .guidelines-row, .usage-grid { flex-direction: column; }
+    .spacing-item__meta { width: 140px; }
+  }
+</style>
+</head>
+<body data-page="tipografia">
+<div class="app-shell">
+  <nav class="sidebar" id="sidebar-root"></nav>
+
+  <main class="main">
+    <div class="breadcrumbs" style="justify-content:space-between; width:100%;">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <span class="brand">SUELO</span>
+        <span class="sep">›</span>
+        <span class="current">Tipografía</span>
+      </div>
+      <div class="estado-badge">
+        <span class="estado-badge__icon">✅</span>
+        <span class="estado-badge__label">Finalizado</span>
+      </div>
+    </div>
+
+    <section class="section">
+      <h1 style="font-weight:700; font-size:32px; letter-spacing:-0.32px; color:#1c2e4d; margin:0;">Tipografía</h1>
+      <p style="font-size:16px; line-height:1.6; color:var(--texto-light); max-width:900px; margin:0;">Noto Sans is defined as SUELO's primary font family to render structured, highly readable user interfaces. It guarantees linguistic neutrality, wide character support, and elegant visual density across varied operational modules.</p>
+    </section>
+
+    <div class="type-scale-panel">
+      <div class="type-scale-panel__heading">
+        <div class="type-scale-panel__title">SUELO Type Scale Hierarchy</div>
+        <div class="type-scale-panel__subtitle">A comprehensive directory of the 24 text styles cataloged in the system.</div>
+      </div>
+      <div class="type-table">
+        <div class="type-table__inner">
+          <div class="type-table__header">
+            <div>STYLE TOKEN NAME</div>
+            <div>FONT FAMILY</div>
+            <div>WEIGHT</div>
+            <div>SIZE</div>
+            <div>LINE HEIGHT</div>
+            <div>VISUAL RENDER SPECIMEN SAMPLE</div>
+          </div>
+            <div class="type-row">
+              <div class="type-row__token">
+                <span class="type-row__name">notoSansH1Bold</span>
+                <span class="type-row__cat">Headings</span>
+              </div>
+              <div class="type-row__family">Noto Sans</div>
+              <div class="type-row__weight">700</div>
+              <div class="type-row__label">Tipografia H1</div>
+              <div class="type-row__px">72px</div>
+              <div class="type-row__sample" style="font-weight:700;font-size:20px;">H1 Bold Title</div>
+            </div>
+            <div class="type-row">
+              <div class="type-row__token">
+                <span class="type-row__name">notoSansH1Semibold</span>
+                <span class="type-row__cat">Headings</span>
+              </div>
+              <div class="type-row__family">Noto Sans</div>
+              <div class="type-row__weight">600</div>
+              <div class="type-row__label">Tipografia H1</div>
+              <div class="type-row__px">72px</div>
+              <div class="type-row__sample" style="font-weight:600;font-size:20px;">H1 Semibold Title</div>
+            </div>
+            <div class="type-row">
+              <div class="type-row__token">
+                <span class="type-row__name">notoSansH1Medium</span>
+                <span class="type-row__cat">Headings</span>
+              </div>
+              <div class="type-row__family">Noto Sans</div>
+              <div class="type-row__weight">500</div>
+              <div class="type-row__label">Tipografia H1</div>
+              <div class="type-row__px">72px</div>
+              <div class="type-row__sample" style="font-weight:500;font-size:20px;">H1 Medium Title</div>
+            </div>
+            <div class="type-row">
+              <div class="type-row__token">
+                <span class="type-row__name">notoSansH1Regular</span>
+                <span class="type-row__cat">Headings</span>
+              </div>
+              <div class="type-row__family">Noto Sans</div>
+              <div class="type-row__weight">400</div>
+              <div class="type-row__label">Tipografia H1</div>
+              <div class="type-row__px">72px</div>
+              <div class="type-row__sample" style="font-weight:400;font-size:20px;">H1 Regular Title</div>
+            </div>
+            <div class="type-row">
+              <div class="type-row__token">
+                <span class="type-row__name">notoSansH2Bold</span>
+                <span class="type-row__cat">Headings</span>
+              </div>
+              <div class="type-row__family">Noto Sans</div>
+              <div class="type-row__weight">700</div>
+              <div class="type-row__label">Tipografia H2</div>
+              <div class="type-row__px">60px</div>
+              <div class="type-row__sample" style="font-weight:700;font-size:20px;">H2 Bold Subtitle</div>
+            </div>
+            <div class="type-row">
+              <div class="type-row__token">
+                <span class="type-row__name">notoSansH2Semibold</span>
+                <span class="type-row__cat">Headings</span>
+              </div>
+              <div class="type-row__family">Noto Sans</div>
+              <div class="type-row__weight">600</div>
+              <div class="type-row__label">Tipografia H2</div>
+              <div class="type-row__px">60px</div>
+              <div class="type-row__sample" style="font-weight:600;font-size:20px;">H2 Semibold Subtitle</div>
+            </div>
+            <div class="type-row">
+              <div class="type-row__token">
+                <span class="type-row__name">notoSansH2Medium</span>
+                <span class="type-row__cat">Headings</span>
+              </div>
+              <div class="type-row__family">Noto Sans</div>
+              <div class="type-row__weight">500</div>
+              <div class="type-row__label">Tipografia H2</div>
+              <div class="type-row__px">60px</div>
+              <div class="type-row__sample" style="font-weight:500;font-size:20px;">H2 Medium Subtitle</div>
+            </div>
+            <div class="type-row">
+              <div class="type-row__token">
+                <span class="type-row__name">notoSansH2Regular</span>
+                <span class="type-row__cat">Headings</span>
+              </div>
+              <div class="type-row__family">Noto Sans</div>
+              <div class="type-row__weight">400</div>
+              <div class="type-row__label">Tipografia H2</div>
+              <div class="type-row__px">60px</div>
+              <div class="type-row__sample" style="font-weight:400;font-size:20px;">H2 Regular Subtitle</div>
+            </div>
+            <div class="type-row">
+              <div class="type-row__token">
+                <span class="type-row__name">notoSansH3Bold</span>
+                <span class="type-row__cat">Headings</span>
+              </div>
+              <div class="type-row__family">Noto Sans</div>
+              <div class="type-row__weight">700</div>
+              <div class="type-row__label">Tipografia H3</div>
+              <div class="type-row__px">48px</div>
+              <div class="type-row__sample" style="font-weight:700;font-size:20px;">H3 Section Header</div>
+            </div>
+            <div class="type-row">
+              <div class="type-row__token">
+                <span class="type-row__name">notoSansH3Semibold</span>
+                <span class="type-row__cat">Headings</span>
+              </div>
+              <div class="type-row__family">Noto Sans</div>
+              <div class="type-row__weight">600</div>
+              <div class="type-row__label">Tipografia H3</div>
+              <div class="type-row__px">48px</div>
+              <div class="type-row__sample" style="font-weight:600;font-size:20px;">H3 Section Header</div>
+            </div>
+            <div class="type-row">
+              <div class="type-row__token">
+                <span class="type-row__name">notoSansH3Medium</span>
+                <span class="type-row__cat">Headings</span>
+              </div>
+              <div class="type-row__family">Noto Sans</div>
+              <div class="type-row__weight">500</div>
+              <div class="type-row__label">Tipografia H3</div>
+              <div class="type-row__px">48px</div>
+              <div class="type-row__sample" style="font-weight:500;font-size:20px;">H3 Section Header</div>
+            </div>
+            <div class="type-row">
+              <div class="type-row__token">
+                <span class="type-row__name">notoSansH3Regular</span>
+                <span class="type-row__cat">Headings</span>
+              </div>
+              <div class="type-row__family">Noto Sans</div>
+              <div class="type-row__weight">400</div>
+              <div class="type-row__label">Tipografia H3</div>
+              <div class="type-row__px">48px</div>
+              <div class="type-row__sample" style="font-weight:400;font-size:20px;">H3 Section Header</div>
+            </div>
+            <div class="type-row">
+              <div class="type-row__token">
+                <span class="type-row__name">notoSansH4Bold</span>
+                <span class="type-row__cat">Headings</span>
+              </div>
+              <div class="type-row__family">Noto Sans</div>
+              <div class="type-row__weight">700</div>
+              <div class="type-row__label">Tipografia H4</div>
+              <div class="type-row__px">38px</div>
+              <div class="type-row__sample" style="font-weight:700;font-size:20px;">H4 Card Header</div>
+            </div>
+            <div class="type-row">
+              <div class="type-row__token">
+                <span class="type-row__name">notoSansH5Bold</span>
+                <span class="type-row__cat">Headings</span>
+              </div>
+              <div class="type-row__family">Noto Sans</div>
+              <div class="type-row__weight">700</div>
+              <div class="type-row__label">Tipografia H5</div>
+              <div class="type-row__px">32px</div>
+              <div class="type-row__sample" style="font-weight:700;font-size:20px;">H5 Small Header</div>
+            </div>
+            <div class="type-row">
+              <div class="type-row__token">
+                <span class="type-row__name">notoSansH5Semibold</span>
+                <span class="type-row__cat">Headings</span>
+              </div>
+              <div class="type-row__family">Noto Sans</div>
+              <div class="type-row__weight">600</div>
+              <div class="type-row__label">Tipografia H5</div>
+              <div class="type-row__px">32px</div>
+              <div class="type-row__sample" style="font-weight:600;font-size:20px;">H5 Small Header</div>
+            </div>
+            <div class="type-row">
+              <div class="type-row__token">
+                <span class="type-row__name">notoSansBody1Bold</span>
+                <span class="type-row__cat">Body</span>
+              </div>
+              <div class="type-row__family">Noto Sans</div>
+              <div class="type-row__weight">700</div>
+              <div class="type-row__label">Tipografia Body 1</div>
+              <div class="type-row__px">24px</div>
+              <div class="type-row__sample" style="font-weight:700;font-size:14px;">Body 1 Bold content style representation.</div>
+            </div>
+            <div class="type-row">
+              <div class="type-row__token">
+                <span class="type-row__name">notoSansBody1Semibold</span>
+                <span class="type-row__cat">Body</span>
+              </div>
+              <div class="type-row__family">Noto Sans</div>
+              <div class="type-row__weight">600</div>
+              <div class="type-row__label">Tipografia Body 1</div>
+              <div class="type-row__px">24px</div>
+              <div class="type-row__sample" style="font-weight:600;font-size:14px;">Body 1 Semibold text sample description.</div>
+            </div>
+            <div class="type-row">
+              <div class="type-row__token">
+                <span class="type-row__name">notoSansBody1Medium</span>
+                <span class="type-row__cat">Body</span>
+              </div>
+              <div class="type-row__family">Noto Sans</div>
+              <div class="type-row__weight">500</div>
+              <div class="type-row__label">Tipografia Body 1</div>
+              <div class="type-row__px">24px</div>
+              <div class="type-row__sample" style="font-weight:500;font-size:14px;">Body 1 Medium paragraph style description.</div>
+            </div>
+            <div class="type-row">
+              <div class="type-row__token">
+                <span class="type-row__name">notoSansBody1RegularDisplay</span>
+                <span class="type-row__cat">Body</span>
+              </div>
+              <div class="type-row__family">Noto Sans</div>
+              <div class="type-row__weight">400</div>
+              <div class="type-row__label">Tipografia Body 1</div>
+              <div class="type-row__px">20px</div>
+              <div class="type-row__sample" style="font-weight:400;font-size:14px;">Body 1 Regular Display text content.</div>
+            </div>
+            <div class="type-row">
+              <div class="type-row__token">
+                <span class="type-row__name">notoSansBody2Bold</span>
+                <span class="type-row__cat">Body</span>
+              </div>
+              <div class="type-row__family">Noto Sans</div>
+              <div class="type-row__weight">700</div>
+              <div class="type-row__label">Tipografia Body 2</div>
+              <div class="type-row__px">16px</div>
+              <div class="type-row__sample" style="font-weight:700;font-size:14px;">Body 2 Bold metadata snippet description.</div>
+            </div>
+            <div class="type-row">
+              <div class="type-row__token">
+                <span class="type-row__name">notoSansBody2Semibold</span>
+                <span class="type-row__cat">Body</span>
+              </div>
+              <div class="type-row__family">Noto Sans</div>
+              <div class="type-row__weight">600</div>
+              <div class="type-row__label">Tipografia Body 2</div>
+              <div class="type-row__px">16px</div>
+              <div class="type-row__sample" style="font-weight:600;font-size:14px;">Body 2 Semibold meta descriptor block.</div>
+            </div>
+            <div class="type-row">
+              <div class="type-row__token">
+                <span class="type-row__name">notoSansBody2Medium</span>
+                <span class="type-row__cat">Body</span>
+              </div>
+              <div class="type-row__family">Noto Sans</div>
+              <div class="type-row__weight">500</div>
+              <div class="type-row__label">Tipografia Body 2</div>
+              <div class="type-row__px">16px</div>
+              <div class="type-row__sample" style="font-weight:500;font-size:14px;">Body 2 Medium meta descriptor block.</div>
+            </div>
+            <div class="type-row">
+              <div class="type-row__token">
+                <span class="type-row__name">notoSansBody2RegularDisplay</span>
+                <span class="type-row__cat">Body</span>
+              </div>
+              <div class="type-row__family">Noto Sans</div>
+              <div class="type-row__weight">400</div>
+              <div class="type-row__label">Tipografia Body 2</div>
+              <div class="type-row__px">16px</div>
+              <div class="type-row__sample" style="font-weight:400;font-size:14px;">Body 2 Regular Display standard metadata.</div>
+            </div>
+            <div class="type-row">
+              <div class="type-row__token">
+                <span class="type-row__name">notoSansCaptionBold</span>
+                <span class="type-row__cat">Captions</span>
+              </div>
+              <div class="type-row__family">Noto Sans</div>
+              <div class="type-row__weight">700</div>
+              <div class="type-row__label">Caption 1</div>
+              <div class="type-row__px">18px</div>
+              <div class="type-row__sample" style="font-weight:700;font-size:12px;">Caption bold note label.</div>
+            </div>
+            <div class="type-row">
+              <div class="type-row__token">
+                <span class="type-row__name">notoSansCaptionSemibold</span>
+                <span class="type-row__cat">Captions</span>
+              </div>
+              <div class="type-row__family">Noto Sans</div>
+              <div class="type-row__weight">600</div>
+              <div class="type-row__label">Caption 1</div>
+              <div class="type-row__px">18px</div>
+              <div class="type-row__sample" style="font-weight:600;font-size:12px;">Caption semibold note label.</div>
+            </div>
+            <div class="type-row">
+              <div class="type-row__token">
+                <span class="type-row__name">notoSansCaptionMedium</span>
+                <span class="type-row__cat">Captions</span>
+              </div>
+              <div class="type-row__family">Noto Sans</div>
+              <div class="type-row__weight">500</div>
+              <div class="type-row__label">Caption 1</div>
+              <div class="type-row__px">18px</div>
+              <div class="type-row__sample" style="font-weight:500;font-size:12px;">Caption medium note label.</div>
+            </div>
+            <div class="type-row">
+              <div class="type-row__token">
+                <span class="type-row__name">notoSansCaptionRegularDisplay</span>
+                <span class="type-row__cat">Captions</span>
+              </div>
+              <div class="type-row__family">Noto Sans</div>
+              <div class="type-row__weight">400</div>
+              <div class="type-row__label">Caption 1</div>
+              <div class="type-row__px">18px</div>
+              <div class="type-row__sample" style="font-weight:400;font-size:12px;">Caption regular display note description.</div>
+            </div>
+            <div class="type-row">
+              <div class="type-row__token">
+                <span class="type-row__name">notoSansCaption2Bold</span>
+                <span class="type-row__cat">Captions</span>
+              </div>
+              <div class="type-row__family">Noto Sans</div>
+              <div class="type-row__weight">700</div>
+              <div class="type-row__label">Caption 2</div>
+              <div class="type-row__px">16px</div>
+              <div class="type-row__sample" style="font-weight:700;font-size:12px;">Caption 2 micro-bold note.</div>
+            </div>
+            <div class="type-row">
+              <div class="type-row__token">
+                <span class="type-row__name">notoSansCaption2SemiboldDisplay</span>
+                <span class="type-row__cat">Captions</span>
+              </div>
+              <div class="type-row__family">Noto Sans</div>
+              <div class="type-row__weight">600</div>
+              <div class="type-row__label">Caption 2</div>
+              <div class="type-row__px">16px</div>
+              <div class="type-row__sample" style="font-weight:600;font-size:12px;">Caption 2 micro-semibold display note.</div>
+            </div>
+            <div class="type-row">
+              <div class="type-row__token">
+                <span class="type-row__name">notoSansCaption2Medium</span>
+                <span class="type-row__cat">Captions</span>
+              </div>
+              <div class="type-row__family">Noto Sans</div>
+              <div class="type-row__weight">500</div>
+              <div class="type-row__label">Caption 2</div>
+              <div class="type-row__px">16px</div>
+              <div class="type-row__sample" style="font-weight:500;font-size:12px;">Caption 2 micro-medium note.</div>
+            </div>
+            <div class="type-row">
+              <div class="type-row__token">
+                <span class="type-row__name">notoSansCaption2RegularDisplay</span>
+                <span class="type-row__cat">Captions</span>
+              </div>
+              <div class="type-row__family">Noto Sans</div>
+              <div class="type-row__weight">400</div>
+              <div class="type-row__label">Caption 2</div>
+              <div class="type-row__px">14px</div>
+              <div class="type-row__sample" style="font-weight:400;font-size:12px;">Caption 2 micro regular display note.</div>
+            </div>
+            <div class="type-row">
+              <div class="type-row__token">
+                <span class="type-row__name">fontawesomeSolid</span>
+                <span class="type-row__cat">Icons</span>
+              </div>
+              <div class="type-row__family">Font Awesome 6 Free</div>
+              <div class="type-row__weight">900</div>
+              <div class="type-row__label">14px</div>
+              <div class="type-row__px">Auto</div>
+              <div class="type-row__sample" style="font-size:14px; display:flex; gap:12px;">
+                <i class="fa-solid fa-house"></i><i class="fa-solid fa-gear"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-bell"></i>
+              </div>
+            </div>
+            <div class="type-row">
+              <div class="type-row__token">
+                <span class="type-row__name">fontawesomeRegular</span>
+                <span class="type-row__cat">Icons</span>
+              </div>
+              <div class="type-row__family">Font Awesome 6 Free</div>
+              <div class="type-row__weight">400</div>
+              <div class="type-row__label">14px</div>
+              <div class="type-row__px">Auto</div>
+              <div class="type-row__sample" style="font-size:14px; display:flex; gap:12px;">
+                <i class="fa-regular fa-star"></i><i class="fa-regular fa-heart"></i><i class="fa-regular fa-bell"></i><i class="fa-regular fa-clock"></i>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" style="gap:16px;">
+      <div class="type-scale-panel__title">Guía de Uso Tipográfico</div>
+      <div class="guidelines-row">
+        <div class="guideline-card guideline-card--do">
+          <div class="guideline-card__title">✅ CORRECTO</div>
+          <div class="guideline-card__text">Usa notoSansH1Bold exclusivamente para encabezados principales de página y puntos de entrada de alto nivel en el dashboard, para reforzar una jerarquía visual correcta.</div>
+        </div>
+        <div class="guideline-card guideline-card--dont">
+          <div class="guideline-card__title">❌ INCORRECTO</div>
+          <div class="guideline-card__text">No uses estilos de bajo peso como notoSansCaption para contenido de párrafo general, ya que compromete la legibilidad en pantallas industriales de baja resolución.</div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="rule" />
+
+    <section class="section">
+      <h2 style="font-weight:700; font-size:32px; letter-spacing:-0.32px; color:var(--texto-default); margin:0;">Espaciado (Spacing Scale)</h2>
+      <p style="font-size:16px; line-height:1.6; color:var(--texto-light); max-width:900px; margin:0;">SUELO maintains an incremental spatial grid computed directly from numeric tokens. These values control outer container margins, block relationships, and inner-element padding to produce unified and balanced UI layouts.</p>
+    </section>
+
+    <div class="spacing-panel">
+      <div class="spacing-panel__heading">
+        <div class="spacing-panel__title">Referencia de Tokens de Espaciado</div>
+        <div class="spacing-panel__subtitle">Visual representation of spatial dimensions from zero up to 80 pixels.</div>
+      </div>
+      <div class="spacing-list">
+            <div class="spacing-item">
+              <div class="spacing-item__meta">
+                <span class="spacing-item__name">0-pmy</span>
+                <span class="spacing-item__var">variables.espaciado.espaciado0Pmy</span>
+              </div>
+              <div class="spacing-item__chip"><span class="spacing-chip">0px</span></div>
+              <div class="spacing-item__track"><div class="spacing-bar" style="width:3px;"></div></div>
+            </div>
+            <div class="spacing-item">
+              <div class="spacing-item__meta">
+                <span class="spacing-item__name">0.25-pmy</span>
+                <span class="spacing-item__var">variables.espaciado.espaciado025Pmy</span>
+              </div>
+              <div class="spacing-item__chip"><span class="spacing-chip">4px</span></div>
+              <div class="spacing-item__track"><div class="spacing-bar" style="width:16px;"></div></div>
+            </div>
+            <div class="spacing-item">
+              <div class="spacing-item__meta">
+                <span class="spacing-item__name">0.5-pmy</span>
+                <span class="spacing-item__var">variables.espaciado.espaciado05Pmy</span>
+              </div>
+              <div class="spacing-item__chip"><span class="spacing-chip">8px</span></div>
+              <div class="spacing-item__track"><div class="spacing-bar" style="width:32px;"></div></div>
+            </div>
+            <div class="spacing-item">
+              <div class="spacing-item__meta">
+                <span class="spacing-item__name">0.75-pmy</span>
+                <span class="spacing-item__var">variables.espaciado.espaciado075Pmy</span>
+              </div>
+              <div class="spacing-item__chip"><span class="spacing-chip">12px</span></div>
+              <div class="spacing-item__track"><div class="spacing-bar" style="width:48px;"></div></div>
+            </div>
+            <div class="spacing-item">
+              <div class="spacing-item__meta">
+                <span class="spacing-item__name">1-pmy</span>
+                <span class="spacing-item__var">variables.espaciado.espaciado1Pmy</span>
+              </div>
+              <div class="spacing-item__chip"><span class="spacing-chip">16px</span></div>
+              <div class="spacing-item__track"><div class="spacing-bar" style="width:64px;"></div></div>
+            </div>
+            <div class="spacing-item">
+              <div class="spacing-item__meta">
+                <span class="spacing-item__name">1.125-pmy</span>
+                <span class="spacing-item__var">variables.espaciado.espaciado1125Pmy</span>
+              </div>
+              <div class="spacing-item__chip"><span class="spacing-chip">18px</span></div>
+              <div class="spacing-item__track"><div class="spacing-bar" style="width:72px;"></div></div>
+            </div>
+            <div class="spacing-item">
+              <div class="spacing-item__meta">
+                <span class="spacing-item__name">1.5-pmy</span>
+                <span class="spacing-item__var">variables.espaciado.espaciado15Pmy</span>
+              </div>
+              <div class="spacing-item__chip"><span class="spacing-chip">24px</span></div>
+              <div class="spacing-item__track"><div class="spacing-bar" style="width:96px;"></div></div>
+            </div>
+            <div class="spacing-item">
+              <div class="spacing-item__meta">
+                <span class="spacing-item__name">2-pmy</span>
+                <span class="spacing-item__var">variables.espaciado.espaciado2Pmy2</span>
+              </div>
+              <div class="spacing-item__chip"><span class="spacing-chip">32px</span></div>
+              <div class="spacing-item__track"><div class="spacing-bar" style="width:128px;"></div></div>
+            </div>
+            <div class="spacing-item">
+              <div class="spacing-item__meta">
+                <span class="spacing-item__name">2.5-pmy</span>
+                <span class="spacing-item__var">variables.espaciado.espaciado25Pmy</span>
+              </div>
+              <div class="spacing-item__chip"><span class="spacing-chip">40px</span></div>
+              <div class="spacing-item__track"><div class="spacing-bar" style="width:160px;"></div></div>
+            </div>
+            <div class="spacing-item">
+              <div class="spacing-item__meta">
+                <span class="spacing-item__name">3-pmy</span>
+                <span class="spacing-item__var">variables.espaciado.espaciado3Pmy</span>
+              </div>
+              <div class="spacing-item__chip"><span class="spacing-chip">48px</span></div>
+              <div class="spacing-item__track"><div class="spacing-bar" style="width:192px;"></div></div>
+            </div>
+            <div class="spacing-item">
+              <div class="spacing-item__meta">
+                <span class="spacing-item__name">3.5-pmy</span>
+                <span class="spacing-item__var">variables.espaciado.espaciado35Pmy</span>
+              </div>
+              <div class="spacing-item__chip"><span class="spacing-chip">56px</span></div>
+              <div class="spacing-item__track"><div class="spacing-bar" style="width:224px;"></div></div>
+            </div>
+            <div class="spacing-item">
+              <div class="spacing-item__meta">
+                <span class="spacing-item__name">4-pmy</span>
+                <span class="spacing-item__var">variables.espaciado.espaciado4Pmy</span>
+              </div>
+              <div class="spacing-item__chip"><span class="spacing-chip">64px</span></div>
+              <div class="spacing-item__track"><div class="spacing-bar" style="width:256px;"></div></div>
+            </div>
+            <div class="spacing-item">
+              <div class="spacing-item__meta">
+                <span class="spacing-item__name">4.5-pmy</span>
+                <span class="spacing-item__var">variables.espaciado.espaciado45Pmy</span>
+              </div>
+              <div class="spacing-item__chip"><span class="spacing-chip">72px</span></div>
+              <div class="spacing-item__track"><div class="spacing-bar" style="width:288px;"></div></div>
+            </div>
+            <div class="spacing-item">
+              <div class="spacing-item__meta">
+                <span class="spacing-item__name">5-pmy</span>
+                <span class="spacing-item__var">variables.espaciado.espaciado5Pmy</span>
+              </div>
+              <div class="spacing-item__chip"><span class="spacing-chip">80px</span></div>
+              <div class="spacing-item__track"><div class="spacing-bar" style="width:320px;"></div></div>
+            </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="type-scale-panel__title">Ejemplos de Aplicación de Tokens de Espaciado</div>
+      <div class="usage-grid">
+        <div class="usage-card">
+          <div class="usage-card__title">Padding de Layout de Cards</div>
+          <div class="schematic-box">
+            <div class="schematic-box__label-row">
+              <span class="schematic-box__label">Outer Padding (24px)</span>
+              <span class="schematic-box__token">espaciado15Pmy</span>
+            </div>
+            <div class="schematic-box__rect"></div>
+          </div>
+        </div>
+        <div class="usage-card">
+          <div class="usage-card__title">Gaps de Espaciado entre Componentes</div>
+          <div class="schematic-stack">
+            <div class="schematic-stack__rect"></div>
+            <div class="schematic-stack__gap-row">
+              <div class="schematic-stack__gap-line"></div>
+              <span class="schematic-stack__gap-label">Gap (16px / espaciado1Pmy)</span>
+              <div class="schematic-stack__gap-line"></div>
+            </div>
+            <div class="schematic-stack__rect"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="rule" />
+  </main>
+</div>
+<div class="accent-bar" style="position:fixed; bottom:0; left:0; right:0;"></div>
+<script src="js/nav.js"></script>
+</body>
+</html>

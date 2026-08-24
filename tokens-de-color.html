@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SUELO — Tokens de Color</title>
+<meta name="description" content="SUELO — Paleta semántica y escalas de color para toda la interfaz." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="css/tokens.css" />
+<link rel="stylesheet" href="css/base.css" />
+<style>
+  .page-title {
+    font-weight: 700;
+    font-size: var(--h1-size);
+    line-height: var(--h1-lh);
+    letter-spacing: -1.28px;
+    color: #1c2e4d;
+    margin: 0;
+  }
+  .page-desc {
+    font-weight: 400;
+    font-size: var(--body1-size);
+    line-height: var(--body1-lh);
+    color: var(--texto-light);
+    max-width: 800px;
+    margin: 0;
+  }
+  .token-subtitle {
+    font-size: 12px;
+    line-height: 18px;
+    color: var(--texto-light);
+    max-width: 1000px;
+    margin: 0;
+  }
+  .token-group {
+    background: var(--gris-1);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+  }
+  .token-group__label {
+    font-weight: 700;
+    font-size: var(--caption-size);
+    line-height: var(--caption-lh);
+    color: var(--texto-default);
+    margin: 0;
+  }
+  .swatch-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    width: 100%;
+  }
+  .swatch-card {
+    background: var(--blanco);
+    border: 1px solid var(--gris-2);
+    border-radius: 6px;
+    padding: 12px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    width: 260px;
+  }
+  .swatch-card__color {
+    width: 48px;
+    height: 48px;
+    border-radius: 6px;
+    flex-shrink: 0;
+  }
+  .swatch-card__meta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+  }
+  .swatch-card__name {
+    font-weight: 700;
+    font-size: 11px;
+    line-height: 16px;
+    color: var(--texto-default);
+  }
+  .swatch-card__hex {
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 14px;
+    color: var(--texto-light-2);
+  }
+  .swatch-card__desc {
+    font-weight: 400;
+    font-size: 10px;
+    line-height: normal;
+    color: var(--texto-light);
+    max-width: 176px;
+  }
+
+  .gray-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    width: 100%;
+  }
+  .gray-card {
+    background: var(--blanco);
+    border: 1px solid var(--gris-2);
+    border-radius: 6px;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 100px;
+  }
+  .gray-card__color {
+    width: 50px;
+    height: 50px;
+    border-radius: 4px;
+    border: 1px solid var(--gris-2);
+  }
+  .gray-card__meta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    font-size: 11px;
+    line-height: 16px;
+    width: 100%;
+  }
+  .gray-card__name { font-weight: 700; color: var(--texto-default); }
+  .gray-card__hex { font-weight: 400; color: var(--texto-light-2); line-height: 14px; }
+
+  .token-cards-row {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    width: 100%;
+  }
+  .token-card {
+    border: 1px solid var(--gris-2);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    flex: 1 0 0;
+    min-width: 0;
+  }
+  .token-card--full { width: 100%; flex: none; }
+  .token-card__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+  .token-card__title {
+    font-weight: 700;
+    font-size: var(--caption-size);
+    line-height: 18px;
+    color: var(--texto-default);
+    margin: 0;
+  }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0 8px;
+    height: 22px;
+    border-radius: 8px;
+    background: #1d4a91;
+    color: #f6f7fa;
+    font-weight: 700;
+    font-size: 11px;
+    white-space: nowrap;
+  }
+  .token-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+  }
+  .token-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+  }
+  .token-item__color {
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    border: 1px solid var(--gris-2);
+    flex-shrink: 0;
+  }
+  .token-item__meta { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .token-item__name { font-weight: 700; font-size: 11px; line-height: 16px; }
+  .token-item__desc { font-weight: 400; font-size: 11px; line-height: normal; color: var(--texto-light); }
+
+  .ring-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    width: 100%;
+  }
+  .ring-card {
+    background: var(--gris-1);
+    border-radius: 6px;
+    padding: 12px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    width: 260px;
+  }
+  .ring-card__circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 18px;
+    background: var(--blanco);
+    border-style: solid;
+    border-width: 3px;
+    flex-shrink: 0;
+  }
+  .ring-card__meta { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .ring-card__name { font-weight: 700; font-size: 11px; line-height: 16px; color: var(--texto-default); }
+  .ring-card__desc { font-weight: 400; font-size: 11px; line-height: normal; color: var(--texto-light); max-width: 188px; }
+
+  @media (max-width: 900px) {
+    .token-cards-row { flex-direction: column; }
+  }
+</style>
+</head>
+<body data-page="tokens-de-color">
+<div class="app-shell">
+  <nav class="sidebar" id="sidebar-root"></nav>
+
+  <main class="main">
+    <div class="breadcrumbs">
+      <span class="brand">SUELO</span>
+      <span class="sep">›</span>
+      <span class="current">Tokens de Color</span>
+    </div>
+
+    <section class="section">
+      <h1 class="page-title">Tokens de Color</h1>
+      <p class="page-desc">El sistema de diseño SUELO utiliza un modelo de dos capas para gestionar colores de manera eficiente. La capa primitiva define el universo de opciones de color, mientras que la capa semántica asigna significado y contexto para un soporte consistente de temas claros y oscuros.</p>
+    </section>
+
+    <hr class="rule" />
+
+    <section class="section">
+      <h2 class="section-title section-title--lg">Colores Primitivos</h2>
+      <p class="token-subtitle">Valores literales e inmutables definidos en el archivo de tokens global (colección <b>tokenColores</b>).</p>
+
+      <div class="token-group">
+        <p class="token-group__label">GRUPO PRIMARIO</p>
+        <div class="swatch-row">
+          <div class="swatch-card">
+            <div class="swatch-card__color" style="background:#0077e4;"></div>
+            <div class="swatch-card__meta">
+              <div class="swatch-card__name">primario-default-pmy</div>
+              <div class="swatch-card__hex">#0077E4</div>
+              <div class="swatch-card__desc">Color de marca primario</div>
+            </div>
+          </div>
+          <div class="swatch-card">
+            <div class="swatch-card__color" style="background:#1d4a91;"></div>
+            <div class="swatch-card__meta">
+              <div class="swatch-card__name">primario-dark-pmy</div>
+              <div class="swatch-card__hex">#1D4A91</div>
+              <div class="swatch-card__desc">Contraste y énfasis principal</div>
+            </div>
+          </div>
+          <div class="swatch-card">
+            <div class="swatch-card__color" style="background:#1c2f4d;"></div>
+            <div class="swatch-card__meta">
+              <div class="swatch-card__name">primario-dark-3-pmy</div>
+              <div class="swatch-card__hex">#1C2F4D</div>
+              <div class="swatch-card__desc">Variante extra oscura para fondo</div>
+            </div>
+          </div>
+          <div class="swatch-card">
+            <div class="swatch-card__color" style="background:#78a8f3;"></div>
+            <div class="swatch-card__meta">
+              <div class="swatch-card__name">primario-light-pmy</div>
+              <div class="swatch-card__hex">#78A8F3</div>
+              <div class="swatch-card__desc">Fondo sutil e indicadores</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="token-group">
+        <p class="token-group__label">GRUPO GRISES (Escala de Grises)</p>
+        <div class="gray-row">
+          <div class="gray-card">
+            <div class="gray-card__color" style="background:#ffffff;"></div>
+            <div class="gray-card__meta">
+              <div class="gray-card__name">pmy</div>
+              <div class="gray-card__hex">#FFFFFF</div>
+            </div>
+          </div>
+          <div class="gray-card">
+            <div class="gray-card__color" style="background:#f6f7fa;"></div>
+            <div class="gray-card__meta">
+              <div class="gray-card__name">1</div>
+              <div class="gray-card__hex">#F6F7FA</div>
+            </div>
+          </div>
+          <div class="gray-card">
+            <div class="gray-card__color" style="background:#eaecee;"></div>
+            <div class="gray-card__meta">
+              <div class="gray-card__name">2</div>
+              <div class="gray-card__hex">#EAECEE</div>
+            </div>
+          </div>
+          <div class="gray-card">
+            <div class="gray-card__color" style="background:#dadee3;"></div>
+            <div class="gray-card__meta">
+              <div class="gray-card__name">3</div>
+              <div class="gray-card__hex">#DADEE3</div>
+            </div>
+          </div>
+          <div class="gray-card">
+            <div class="gray-card__color" style="background:#a6aebc;"></div>
+            <div class="gray-card__meta">
+              <div class="gray-card__name">4</div>
+              <div class="gray-card__hex">#A6AEBC</div>
+            </div>
+          </div>
+          <div class="gray-card">
+            <div class="gray-card__color" style="background:#778294;"></div>
+            <div class="gray-card__meta">
+              <div class="gray-card__name">5</div>
+              <div class="gray-card__hex">#778294</div>
+            </div>
+          </div>
+          <div class="gray-card">
+            <div class="gray-card__color" style="background:#414d5f;"></div>
+            <div class="gray-card__meta">
+              <div class="gray-card__name">6</div>
+              <div class="gray-card__hex">#414D5F</div>
+            </div>
+          </div>
+          <div class="gray-card">
+            <div class="gray-card__color" style="background:#313d4f;"></div>
+            <div class="gray-card__meta">
+              <div class="gray-card__name">7</div>
+              <div class="gray-card__hex">#313D4F</div>
+            </div>
+          </div>
+          <div class="gray-card">
+            <div class="gray-card__color" style="background:#273142;"></div>
+            <div class="gray-card__meta">
+              <div class="gray-card__name">8</div>
+              <div class="gray-card__hex">#273142</div>
+            </div>
+          </div>
+          <div class="gray-card">
+            <div class="gray-card__color" style="background:#222c3c;"></div>
+            <div class="gray-card__meta">
+              <div class="gray-card__name">9</div>
+              <div class="gray-card__hex">#222C3C</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="rule" />
+
+    <section class="section">
+      <h2 class="section-title section-title--lg">Colores Semánticos</h2>
+      <p class="token-subtitle">Asignación funcional que cambia dinámicamente según el contexto o el tema actual (colección <b>modoColor</b>).</p>
+
+      <div class="token-cards-row">
+        <div class="token-card">
+          <div class="token-card__header">
+            <p class="token-card__title">ELEVACIÓN Y FONDOS</p>
+            <span class="chip">Tokens</span>
+          </div>
+          <div class="token-list">
+            <div class="token-item">
+              <div class="token-item__color" style="background:#ffffff;"></div>
+              <div class="token-item__meta">
+                <div class="token-item__name" style="color:var(--texto-default);">elevacionDefault</div>
+                <div class="token-item__desc">Fondo de tarjeta estándar</div>
+              </div>
+            </div>
+            <div class="token-item">
+              <div class="token-item__color" style="background:#f6f7fa;"></div>
+              <div class="token-item__meta">
+                <div class="token-item__name" style="color:var(--texto-default);">elevacion1</div>
+                <div class="token-item__desc">Capa sutil sobre fondo</div>
+              </div>
+            </div>
+            <div class="token-item">
+              <div class="token-item__color" style="background:#eaecee;"></div>
+              <div class="token-item__meta">
+                <div class="token-item__name" style="color:var(--texto-default);">elevacion2</div>
+                <div class="token-item__desc">Contenedores interactivos</div>
+              </div>
+            </div>
+            <div class="token-item">
+              <div class="token-item__color" style="background:#dadee3;"></div>
+              <div class="token-item__meta">
+                <div class="token-item__name" style="color:var(--texto-default);">elevacion3</div>
+                <div class="token-item__desc">Bordes y separadores</div>
+              </div>
+            </div>
+            <div class="token-item">
+              <div class="token-item__color" style="background:#e4eefd;"></div>
+              <div class="token-item__meta">
+                <div class="token-item__name" style="color:var(--texto-default);">elevacionColorPrimarioLight</div>
+                <div class="token-item__desc">Fondo activo primario</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="token-card">
+          <div class="token-card__header">
+            <p class="token-card__title">TEXTO Y CONTENIDO</p>
+            <span class="chip">Tipos</span>
+          </div>
+          <div class="token-list">
+            <div class="token-item">
+              <div class="token-item__color" style="background:#1b2431;"></div>
+              <div class="token-item__meta">
+                <div class="token-item__name" style="color:#1b2431;">textoDefaultPmy</div>
+                <div class="token-item__desc">Cuerpo principal y headings</div>
+              </div>
+            </div>
+            <div class="token-item">
+              <div class="token-item__color" style="background:#414d5f;"></div>
+              <div class="token-item__meta">
+                <div class="token-item__name" style="color:#414d5f;">textoLightPmy</div>
+                <div class="token-item__desc">Textos secundarios</div>
+              </div>
+            </div>
+            <div class="token-item">
+              <div class="token-item__color" style="background:#778294;"></div>
+              <div class="token-item__meta">
+                <div class="token-item__name" style="color:#778294;">textoLight2Pmy</div>
+                <div class="token-item__desc">Placeholders e íconos sutiles</div>
+              </div>
+            </div>
+            <div class="token-item">
+              <div class="token-item__color" style="background:#0077e4;"></div>
+              <div class="token-item__meta">
+                <div class="token-item__name" style="color:#0077e4;">textoColorPrimarioPmy</div>
+                <div class="token-item__desc">Links e interactivos</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="token-card token-card--full">
+        <p class="token-card__title">BORDES Y SEÑALADORES</p>
+        <div class="ring-row">
+          <div class="ring-card">
+            <div class="ring-card__circle" style="border-color:#dadee3;"></div>
+            <div class="ring-card__meta">
+              <div class="ring-card__name">bordesDefaultPmy</div>
+              <div class="ring-card__desc">Contornos por defecto</div>
+            </div>
+          </div>
+          <div class="ring-card">
+            <div class="ring-card__circle" style="border-color:#78a8f3;"></div>
+            <div class="ring-card__meta">
+              <div class="ring-card__name">bordesPrimarioPmy</div>
+              <div class="ring-card__desc">Foco o selección activa</div>
+            </div>
+          </div>
+          <div class="ring-card">
+            <div class="ring-card__circle" style="border-color:#e07171;"></div>
+            <div class="ring-card__meta">
+              <div class="ring-card__name">bordesRojoPmy</div>
+              <div class="ring-card__desc">Contorno de error</div>
+            </div>
+          </div>
+          <div class="ring-card">
+            <div class="ring-card__circle" style="border-color:#50a381;"></div>
+            <div class="ring-card__meta">
+              <div class="ring-card__name">bordesVerdePmy</div>
+              <div class="ring-card__desc">Contorno de éxito</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="rule" />
+  </main>
+</div>
+<div class="accent-bar" style="position:fixed; bottom:0; left:0; right:0;"></div>
+<script src="js/nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SUELO — Catálogo de Componentes</title>
+<meta name="description" content="Documentación y referencia de los 41 componentes oficiales del sistema de diseño SUELO. Organizados por Atomic Design: Átomos → Moléculas → Organismos." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="css/tokens.css" />
+<link rel="stylesheet" href="css/base.css" />
+<style>
+  .comp-title {
+    font-weight: 700;
+    font-size: 22px;
+    color: #1c2945;
+  }
+  .comp-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 22px;
+    min-width: 27px;
+    padding: 0 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+  }
+  .comp-badge--atomos { background: #009e94; }
+  .comp-badge--moleculas { background: #5959d9; }
+  .comp-badge--organismos { background: #8c38ab; }
+  .comp-cat-desc {
+    color: #6b737d;
+    font-size: 14px;
+    max-width: 900px;
+  }
+  .comp-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    width: 100%;
+  }
+  .comp-card {
+    background: #fff;
+    border: 1px solid #d1d6db;
+    border-radius: 8px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  a.comp-card:hover {
+    border-color: var(--color-primario);
+  }
+  .comp-card__title {
+    font-weight: 600;
+    font-size: 14px;
+    color: #1c2945;
+  }
+  .comp-card__desc {
+    color: #6b737d;
+    font-size: 12px;
+  }
+  .comp-card--obsoleto {
+    background: #fffaf0;
+    border-color: #e5b233;
+  }
+  .comp-card--obsoleto .comp-card__title {
+    color: #b28000;
+  }
+  .comp-divider {
+    height: 1px;
+    width: 100%;
+    background: #d1d6db;
+    border: none;
+    margin: 0;
+  }
+  .comp-notas {
+    background: #fff7ed;
+    border-radius: 8px;
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+  .comp-notas__title {
+    font-weight: 600;
+    font-size: 16px;
+    color: #b28000;
+    margin: 0;
+  }
+  .comp-notas__list {
+    color: #8c661a;
+    font-size: 13px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  @media (max-width: 900px) {
+    .comp-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body data-page="componentes">
+<div class="app-shell">
+  <nav class="sidebar" id="sidebar-root"></nav>
+
+  <main class="main">
+    <div class="breadcrumbs">
+      <span class="brand">SUELO</span>
+      <span class="sep">›</span>
+      <span class="current">Componentes</span>
+    </div>
+
+    <section class="section">
+      <h1 class="section-title" style="font-size:32px; color:#1c2945;">Catálogo de Componentes</h1>
+      <p class="section-subtitle" style="font-size:16px; max-width:900px;">Documentación y referencia de los 41 componentes oficiales del sistema de diseño SUELO. Organizados por Atomic Design: Átomos → Moléculas → Organismos.</p>
+    </section>
+
+    <!-- Átomos -->
+    <section class="section">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <h2 class="comp-title">Átomos</h2>
+        <span class="comp-badge comp-badge--atomos">15</span>
+      </div>
+      <p class="comp-cat-desc">Elementos fundamentales e indivisibles del sistema: botones, controles, íconos y elementos tipográficos base.</p>
+
+      <div class="comp-grid">
+        <a class="comp-card" href="botones.html">
+          <div class="comp-card__title">Boton default</div>
+          <div class="comp-card__desc">Botón principal para acciones. Variantes: Primario, Default, Soft, Link, Compra.</div>
+        </a>
+        <a class="comp-card" href="botones.html">
+          <div class="comp-card__title">Boton segmentado</div>
+          <div class="comp-card__desc">Grupo de botones para alternar entre opciones mutuamente excluyentes.</div>
+        </a>
+        <a class="comp-card" href="botones.html">
+          <div class="comp-card__title">Partes botón segmentado</div>
+          <div class="comp-card__desc">Sub-componentes internos que componen el botón segmentado.</div>
+        </a>
+
+        <a class="comp-card" href="controles.html">
+          <div class="comp-card__title">Checkbox</div>
+          <div class="comp-card__desc">Control de selección múltiple con estados checked, unchecked e indeterminado.</div>
+        </a>
+        <a class="comp-card" href="controles.html">
+          <div class="comp-card__title">Check</div>
+          <div class="comp-card__desc">Indicador visual de verificación/confirmación simple.</div>
+        </a>
+        <a class="comp-card" href="controles.html">
+          <div class="comp-card__title">Toggle</div>
+          <div class="comp-card__desc">Interruptor on/off para activar o desactivar configuraciones.</div>
+        </a>
+
+        <a class="comp-card" href="feedback.html">
+          <div class="comp-card__title">Spinner</div>
+          <div class="comp-card__desc">Indicador de carga animado para procesos en curso.</div>
+        </a>
+        <div class="comp-card">
+          <div class="comp-card__title">Tag</div>
+          <div class="comp-card__desc">Etiqueta visual para categorizar o etiquetar contenido.</div>
+        </div>
+        <div class="comp-card">
+          <div class="comp-card__title">Chips</div>
+          <div class="comp-card__desc">Elementos compactos para filtros, selección o visualización de datos.</div>
+        </div>
+
+        <a class="comp-card" href="marca.html">
+          <div class="comp-card__title">Logo primary</div>
+          <div class="comp-card__desc">Logotipo principal de SUELO en sus variantes oficiales.</div>
+        </a>
+        <a class="comp-card" href="marca.html">
+          <div class="comp-card__title">Stickers</div>
+          <div class="comp-card__desc">Elementos decorativos e ilustrativos del sistema.</div>
+        </a>
+        <a class="comp-card" href="marca.html">
+          <div class="comp-card__title">Ilustraciones</div>
+          <div class="comp-card__desc">Set de ilustraciones para estados vacíos y comunicación visual.</div>
+        </a>
+
+        <div class="comp-card">
+          <div class="comp-card__title">CIRCLE-XMARK</div>
+          <div class="comp-card__desc">Ícono de cierre/cancelación circular.</div>
+        </div>
+        <div class="comp-card">
+          <div class="comp-card__title">Titulo</div>
+          <div class="comp-card__desc">Componente tipográfico para encabezados con estilos predefinidos.</div>
+        </div>
+        <div class="comp-card">
+          <div class="comp-card__title">Trend numérico</div>
+          <div class="comp-card__desc">Indicador de tendencia con valor numérico y dirección (positivo/negativo).</div>
+        </div>
+      </div>
+
+      <hr class="comp-divider" />
+    </section>
+
+    <!-- Moléculas -->
+    <section class="section">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <h2 class="comp-title">Moléculas</h2>
+        <span class="comp-badge comp-badge--moleculas">21</span>
+      </div>
+      <p class="comp-cat-desc">Combinaciones de átomos que forman unidades funcionales: inputs con labels, menús desplegables, controles de tabla.</p>
+
+      <div class="comp-grid">
+        <a class="comp-card" href="formularios.html">
+          <div class="comp-card__title">Input</div>
+          <div class="comp-card__desc">Campo de entrada de texto con label, placeholder, validación y estados.</div>
+        </a>
+        <a class="comp-card" href="formularios.html">
+          <div class="comp-card__title">Select</div>
+          <div class="comp-card__desc">Selector desplegable para elegir una opción de una lista.</div>
+        </a>
+        <a class="comp-card" href="feedback.html">
+          <div class="comp-card__title">Tooltip</div>
+          <div class="comp-card__desc">Información contextual flotante al hacer hover sobre un elemento.</div>
+        </a>
+
+        <a class="comp-card" href="feedback.html">
+          <div class="comp-card__title">Toast advertencia</div>
+          <div class="comp-card__desc">Notificación temporal para mensajes de advertencia al usuario.</div>
+        </a>
+        <a class="comp-card" href="navegacion.html">
+          <div class="comp-card__title">Breadcrumb</div>
+          <div class="comp-card__desc">Navegación jerárquica que muestra la ubicación actual del usuario.</div>
+        </a>
+        <a class="comp-card" href="navegacion.html">
+          <div class="comp-card__title">Stepper</div>
+          <div class="comp-card__desc">Indicador de progreso por pasos para flujos multi-etapa.</div>
+        </a>
+
+        <a class="comp-card" href="formularios.html">
+          <div class="comp-card__title">Date picker</div>
+          <div class="comp-card__desc">Selector de fecha con calendario interactivo.</div>
+        </a>
+        <a class="comp-card" href="navegacion.html">
+          <div class="comp-card__title">Tabs</div>
+          <div class="comp-card__desc">Navegación por pestañas para organizar contenido en secciones.</div>
+        </a>
+        <a class="comp-card" href="navegacion.html">
+          <div class="comp-card__title">Partes tab</div>
+          <div class="comp-card__desc">Sub-componentes internos que componen cada pestaña individual.</div>
+        </a>
+
+        <a class="comp-card" href="navegacion.html">
+          <div class="comp-card__title">Desplegable botón</div>
+          <div class="comp-card__desc">Botón que abre un menú desplegable con opciones adicionales.</div>
+        </a>
+        <a class="comp-card" href="navegacion.html">
+          <div class="comp-card__title">Desplegable menu</div>
+          <div class="comp-card__desc">Menú contextual desplegable con lista de opciones.</div>
+        </a>
+        <a class="comp-card" href="navegacion.html">
+          <div class="comp-card__title">Item desplegable</div>
+          <div class="comp-card__desc">Elemento individual dentro de un menú desplegable.</div>
+        </a>
+
+        <a class="comp-card" href="navegacion.html">
+          <div class="comp-card__title">Items de menu</div>
+          <div class="comp-card__desc">Colección de elementos de menú para navegación y acciones.</div>
+        </a>
+        <a class="comp-card" href="datos-tablas.html">
+          <div class="comp-card__title">Campos tabla</div>
+          <div class="comp-card__desc">Celdas y campos editables para uso dentro de tablas de datos.</div>
+        </a>
+        <a class="comp-card" href="datos-tablas.html">
+          <div class="comp-card__title">Columnas</div>
+          <div class="comp-card__desc">Definición de columnas para tablas con encabezados y ordenamiento.</div>
+        </a>
+
+        <a class="comp-card" href="datos-tablas.html">
+          <div class="comp-card__title">Paginado de grilla</div>
+          <div class="comp-card__desc">Control de paginación para navegar entre páginas de datos.</div>
+        </a>
+        <a class="comp-card" href="formularios.html">
+          <div class="comp-card__title">Drag and drop (uploader)</div>
+          <div class="comp-card__desc">Zona de arrastre para carga de archivos con feedback visual.</div>
+        </a>
+        <div class="comp-card">
+          <div class="comp-card__title">Notas frames</div>
+          <div class="comp-card__desc">Frames de anotaciones para documentación y comentarios internos.</div>
+        </div>
+
+        <div class="comp-card">
+          <div class="comp-card__title">Estados frames</div>
+          <div class="comp-card__desc">Frames que representan los diferentes estados de componentes.</div>
+        </div>
+        <a class="comp-card" href="feedback.html">
+          <div class="comp-card__title">Empty state</div>
+          <div class="comp-card__desc">Pantalla de estado vacío con ilustración y acción sugerida.</div>
+        </a>
+        <a class="comp-card" href="datos-tablas.html">
+          <div class="comp-card__title">Selector múltiple</div>
+          <div class="comp-card__desc">Control de selección múltiple con chips y búsqueda.</div>
+        </a>
+      </div>
+
+      <hr class="comp-divider" />
+    </section>
+
+    <!-- Organismos -->
+    <section class="section">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <h2 class="comp-title">Organismos</h2>
+        <span class="comp-badge comp-badge--organismos">7</span>
+      </div>
+      <p class="comp-cat-desc">Componentes complejos formados por átomos y moléculas: modales, headers, cards, paneles de filtros.</p>
+
+      <div class="comp-grid">
+        <a class="comp-card" href="organismos.html">
+          <div class="comp-card__title">Modales</div>
+          <div class="comp-card__desc">Ventanas de diálogo superpuestas para confirmaciones y formularios.</div>
+        </a>
+        <a class="comp-card" href="organismos.html">
+          <div class="comp-card__title">Header</div>
+          <div class="comp-card__desc">Encabezado principal de la aplicación con navegación y acciones.</div>
+        </a>
+        <a class="comp-card" href="organismos.html">
+          <div class="comp-card__title">Card botón</div>
+          <div class="comp-card__desc">Tarjeta interactiva con acción principal tipo botón.</div>
+        </a>
+
+        <a class="comp-card comp-card--obsoleto" href="organismos.html">
+          <div class="comp-card__title">Card KPI (OBSOLETO)</div>
+          <div class="comp-card__desc">⚠️ OBSOLETO — Tarjeta para indicadores clave. Pendiente de reemplazo.</div>
+        </a>
+        <a class="comp-card" href="organismos.html">
+          <div class="comp-card__title">Card importacion de archivos</div>
+          <div class="comp-card__desc">Tarjeta para el flujo de importación de archivos con progreso.</div>
+        </a>
+        <a class="comp-card" href="organismos.html">
+          <div class="comp-card__title">Desplegables Filtros grilla</div>
+          <div class="comp-card__desc">Panel de filtros desplegables para grillas de datos.</div>
+        </a>
+
+        <a class="comp-card" href="navegacion.html" style="grid-column: span 1;">
+          <div class="comp-card__title">Navegacion superior/Azul</div>
+          <div class="comp-card__desc">Barra de navegación superior con fondo azul SUELO.</div>
+        </a>
+      </div>
+
+      <hr class="comp-divider" />
+    </section>
+
+    <div class="comp-notas">
+      <p class="comp-notas__title">⚠ Notas del Sistema</p>
+      <ul class="comp-notas__list">
+        <li>• Card KPI está marcado como OBSOLETO — pendiente de deprecación formal y reemplazo.</li>
+        <li>• 2 component sets (Code parts/&lt;Cell&gt;, Cell) presentan errores en propertyDefinitions.</li>
+        <li>• No se encontraron tokens de radio, opacidad ni motion.</li>
+        <li>• La colección modoColor no tiene valores de modo oscuro definidos.</li>
+      </ul>
+    </div>
+  </main>
+</div>
+<div class="accent-bar" style="position:fixed; bottom:0; left:0; right:0;"></div>
+<script src="js/nav.js"></script>
+</body>
+</html>

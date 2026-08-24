@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SUELO — Detalle: Controles</title>
+<meta name="description" content="SUELO — Controles de selección e indicadores: Checkbox, Check, Toggle, Chips, Spinner, Tag, Trend numérico y Título." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="css/tokens.css" />
+<link rel="stylesheet" href="css/base.css" />
+<style>
+  .page-title {
+    font-weight: 700;
+    font-size: 32px;
+    color: #1c2e4d;
+    margin: 0;
+  }
+  .page-desc {
+    font-weight: 400;
+    font-size: 15px;
+    color: #6b737d;
+    max-width: 900px;
+    margin: 0;
+  }
+  .comp-card {
+    background: var(--blanco);
+    border: 1px solid #d1d6db;
+    border-radius: 8px;
+    padding: 24px 28px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+    overflow: hidden;
+  }
+  .comp-card__head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .comp-card__name { font-weight: 700; font-size: 20px; color: #1c2e4d; margin: 0; }
+  .badge-atomo {
+    display: inline-flex;
+    align-items: center;
+    background: #009e94;
+    color: #fff;
+    font-weight: 600;
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 10px;
+  }
+  .comp-card__desc { font-size: 14px; color: #6b737d; max-width: 850px; margin: 0; }
+  .comp-subhead { font-weight: 600; font-size: 14px; color: #1c2e4d; margin: 0; }
+
+  .prop-table { display: flex; flex-direction: column; width: 100%; font-size: 11px; }
+  .prop-table__row {
+    display: grid;
+    grid-template-columns: 150px 100px 1fr 1fr;
+    gap: 8px;
+    padding: 6px 12px;
+  }
+  .prop-table__row--head {
+    background: #f5f7fa;
+    font-weight: 600;
+    color: #6b737d;
+    padding: 8px 12px;
+  }
+  .prop-table__row--divider { height: 1px; background: #f5f7fa; padding: 0; }
+  .prop-cell--name { font-weight: 500; color: #1c2e4d; }
+  .prop-cell { color: #6b737d; }
+
+  .usage-list { display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: #6b737d; margin: 0; max-width: 850px; }
+  .usage-list p { margin: 0; }
+
+  .preview-sep { height: 1px; width: 100%; background: #e5e8ed; margin-top: 4px; }
+  .preview-panel {
+    background: #f5f7fa;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 20px 24px 24px;
+    margin: 0 -28px;
+    width: calc(100% + 56px);
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+  }
+  .preview-panel__head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .preview-panel__icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    background: #0469ff;
+    color: #fff;
+    font-weight: 700;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .preview-panel__title { font-weight: 600; font-size: 13px; color: #1c2e4d; }
+  .preview-panel__sub { font-size: 13px; color: #6b737d; }
+  .preview-content {
+    background: #fff;
+    border-radius: 8px;
+    padding: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+  }
+  .preview-item { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .preview-item__label { font-weight: 600; font-size: 10px; color: #6b737d; text-align: center; white-space: nowrap; }
+
+  /* ---- Checkbox / Radio (real controls) ---- */
+  .ctrl-row { display: flex; align-items: center; gap: 4px; }
+  .ctrl-row input[type="checkbox"],
+  .ctrl-row input[type="radio"] {
+    width: 20px;
+    height: 20px;
+    accent-color: #0077e4;
+    cursor: pointer;
+  }
+  .ctrl-row label { font-size: 14px; color: #1b2431; cursor: pointer; }
+
+  /* ---- Check (visual indicator) ---- */
+  .check-box-empty {
+    width: 24px; height: 24px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .check-box-empty span {
+    width: 14px; height: 14px;
+    border: 2px solid #dadee3;
+    border-radius: 2px;
+  }
+  .check-circle-empty {
+    width: 24px; height: 24px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .check-circle-empty span {
+    width: 14px; height: 14px;
+    border: 2px solid #dadee3;
+    border-radius: 50%;
+  }
+  .check-icon { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+  .check-icon--active { color: #0077e4; cursor: pointer; }
+  .check-icon--disabled { color: #778294; }
+
+  /* ---- Toggle ---- */
+  .toggle { position: relative; display: inline-flex; align-items: center; border-radius: 999px; cursor: pointer; flex-shrink: 0; }
+  .toggle__thumb { position: absolute; border-radius: 50%; transition: none; }
+  .toggle--16 { width: 32px; height: 16px; }
+  .toggle--20 { width: 40px; height: 20px; }
+  .toggle--32 { width: 56px; height: 32px; border: 1.5px solid; }
+  .toggle--off16, .toggle--off20 { background: #dadee3; border: 1px solid #778294; }
+  .toggle--off32 { background: #dadee3; border-color: #778294; }
+  .toggle--on { background: #1d4a91; border: none; }
+  .toggle--off-disabled { background: #eaecee; border: 1px solid #a6aebc; }
+  .toggle--on-disabled { background: #a6aebc; border: none; cursor: not-allowed; }
+  .toggle--16 .toggle__thumb, .toggle--20 .toggle__thumb { width: 12px; height: 12px; top: 2px; }
+  .toggle--32 .toggle__thumb { width: 16px; height: 16px; top: 6px; }
+  .toggle--off16 .toggle__thumb, .toggle--off20 .toggle__thumb, .toggle--off-disabled .toggle__thumb { left: 4px; background: #778294; }
+  .toggle--off-disabled .toggle__thumb { background: #a6aebc; }
+  .toggle--16.toggle--on .toggle__thumb { left: 18px; background: #f6f7fa; }
+  .toggle--20.toggle--on .toggle__thumb { left: 22px; background: #ffffff; }
+  .toggle--32.toggle--on .toggle__thumb { left: 34px; top: 6px; background: #ffffff; }
+  .toggle--32.toggle--off .toggle__thumb { left: 6px; background: #778294; }
+  .toggle--on-disabled .toggle__thumb { left: 22px; background: #f6f7fa; }
+
+  /* ---- Chips ---- */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 20px;
+    padding: 0 8px;
+    border-radius: 16px;
+    font-weight: 700;
+    font-size: 11px;
+    white-space: nowrap;
+  }
+  .chip--default { background: #f6f7fa; border: 1px solid #a6aebc; color: #414d5f; }
+  .chip--primario { background: #d7e6fc; border: 1px solid #78a8f3; color: #414d5f; }
+  .chip--amarillo { background: #fdf5db; border: 1px solid #ffc107; color: #1b2431; }
+  .chip--verde { background: #f3f8f6; border: 1px solid #50a381; color: #1e7350; }
+  .chip--rojo { background: #f5ecec; border: 1px solid #e07171; color: #c91313; }
+  .chip--default-fondo { background: #414d5f; color: #f6f7fa; }
+  .chip--amarillo-fondo { background: #ffc107; color: #f6f7fa; }
+  .chip--verde-fondo { background: #1e7350; color: #f6f7fa; }
+  .chip--rojo-fondo { background: #c91313; color: #f6f7fa; }
+
+  /* ---- Spinner ---- */
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .spinner {
+    border-radius: 50%;
+    border-style: solid;
+    border-color: currentColor;
+    border-right-color: transparent;
+    animation: spin 0.8s linear infinite;
+    display: inline-block;
+  }
+  .spinner--16 { width: 16px; height: 16px; border-width: 2px; }
+  .spinner--24 { width: 24px; height: 24px; border-width: 3px; }
+  .spinner--40 { width: 40px; height: 40px; border-width: 4px; }
+  .spinner--primario { color: #0077e4; }
+  .spinner--gris { color: #778294; }
+  .spinner--danger { color: #c91313; }
+
+  /* ---- Tag ---- */
+  .tag-demo { display: inline-flex; align-items: center; height: 24px; padding: 0 8px; border-radius: 4px; font-size: 11px; font-weight: 700; }
+
+  /* ---- Trend numérico ---- */
+  .trend { display: inline-flex; align-items: center; gap: 4px; padding: 4px; border-radius: 4px; font-size: 14px; }
+  .trend--positivo { color: #1e7350; }
+  .trend--positivo-fondo { background: #f3f8f6; color: #1e7350; }
+  .trend--negativo { color: #c91313; }
+  .trend--negativo-fondo { background: #f5ecec; color: #c91313; }
+  .trend--neutro { color: #414d5f; }
+  .trend--neutro-fondo { background: #f6f7fa; color: #414d5f; }
+  .trend i { font-size: 11px; }
+
+  @media (max-width: 900px) {
+    .prop-table__row { grid-template-columns: 1fr; gap: 2px; }
+    .preview-panel { margin: 0 -16px; width: calc(100% + 32px); }
+  }
+</style>
+</head>
+<body data-page="controles">
+<div class="app-shell">
+  <nav class="sidebar" id="sidebar-root"></nav>
+
+  <main class="main">
+    <div class="breadcrumbs">
+      <span class="brand">SUELO</span>
+      <span class="sep">›</span>
+      <span>Componentes</span>
+      <span class="sep">›</span>
+      <span class="current">Controles</span>
+    </div>
+
+    <section class="section">
+      <h1 class="page-title">Controles de Selección e Indicadores</h1>
+      <p class="page-desc">Elementos atómicos para selección, activación y visualización de estado.</p>
+    </section>
+
+    <hr class="rule" />
+
+    <!-- ===================== CHECKBOX ===================== -->
+    <div class="comp-card">
+      <div class="comp-card__head">
+        <p class="comp-card__name">Checkbox</p>
+        <span class="badge-atomo">Átomo</span>
+      </div>
+      <p class="comp-card__desc">Control de selección múltiple. Permite al usuario seleccionar una o más opciones de un conjunto.</p>
+      <p class="comp-subhead">Propiedades</p>
+      <div class="prop-table">
+        <div class="prop-table__row prop-table__row--head">
+          <div>Propiedad</div><div>Tipo</div><div>Valores</div><div>Descripción</div>
+        </div>
+        <div class="prop-table__row">
+          <div class="prop-cell--name">Estado</div>
+          <div class="prop-cell">Variant</div>
+          <div class="prop-cell">Checked | Unchecked | Indeterminado</div>
+          <div class="prop-cell">Estado actual de selección</div>
+        </div>
+        <div class="prop-table__row--divider"></div>
+        <div class="prop-table__row">
+          <div class="prop-cell--name">Deshabilitado</div>
+          <div class="prop-cell">Boolean</div>
+          <div class="prop-cell">true | false</div>
+          <div class="prop-cell">Deshabilita la interacción</div>
+        </div>
+      </div>
+      <p class="comp-subhead">Uso recomendado</p>
+      <div class="usage-list">
+        <p>• Usar para selección múltiple en formularios</p>
+        <p>• Agrupar opciones relacionadas verticalmente</p>
+        <p>• Incluir siempre una etiqueta descriptiva</p>
+      </div>
+      <div class="preview-sep"></div>
+      <div class="preview-panel">
+        <div class="preview-panel__head">
+          <span class="preview-panel__icon">◉</span>
+          <span class="preview-panel__title">Preview interactivo</span>
+          <span class="preview-panel__sub">— Checkbox — Tipos</span>
+        </div>
+        <div class="preview-content">
+          <div class="preview-item">
+            <span class="preview-item__label">Checkbox</span>
+            <div class="ctrl-row">
+              <input type="checkbox" id="cb-demo-1" />
+              <label for="cb-demo-1">Label</label>
+            </div>
+          </div>
+          <div class="preview-item">
+            <span class="preview-item__label">Radio</span>
+            <div class="ctrl-row">
+              <input type="radio" id="rb-demo-1" name="rb-demo" />
+              <label for="rb-demo-1">Label</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== CHECK ===================== -->
+    <div class="comp-card">
+      <div class="comp-card__head">
+        <p class="comp-card__name">Check</p>
+        <span class="badge-atomo">Átomo</span>
+      </div>
+      <p class="comp-card__desc">Indicador visual de verificación/confirmación simple. Checkmark sin contenedor.</p>
+      <p class="comp-subhead">Uso recomendado</p>
+      <div class="usage-list">
+        <p>• Usar como indicador visual de completitud</p>
+        <p>• No usar como control interactivo independiente</p>
+      </div>
+      <div class="preview-sep"></div>
+      <div class="preview-panel">
+        <div class="preview-panel__head">
+          <span class="preview-panel__icon">◉</span>
+          <span class="preview-panel__title">Preview interactivo</span>
+          <span class="preview-panel__sub">— Check — Estados</span>
+        </div>
+        <div class="preview-content">
+          <div class="preview-item">
+            <span class="preview-item__label">Checkbox<br>✓ Activo</span>
+            <div class="check-icon check-icon--active"><i class="fa-solid fa-square-check"></i></div>
+          </div>
+          <div class="preview-item">
+            <span class="preview-item__label">Checkbox<br> Activo</span>
+            <div class="check-box-empty"><span></span></div>
+          </div>
+          <div class="preview-item">
+            <span class="preview-item__label">Checkbox<br>✓ Deshabilitado</span>
+            <div class="check-icon check-icon--disabled"><i class="fa-solid fa-square-check"></i></div>
+          </div>
+          <div class="preview-item">
+            <span class="preview-item__label">Radio<br>✓ Activo</span>
+            <div class="check-icon check-icon--active"><i class="fa-solid fa-circle-dot"></i></div>
+          </div>
+          <div class="preview-item">
+            <span class="preview-item__label">Radio<br> Activo</span>
+            <div class="check-circle-empty"><span></span></div>
+          </div>
+          <div class="preview-item">
+            <span class="preview-item__label">Radio<br>✓ Deshabilitado</span>
+            <div class="check-icon check-icon--disabled"><i class="fa-solid fa-circle-dot"></i></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== TOGGLE ===================== -->
+    <div class="comp-card">
+      <div class="comp-card__head">
+        <p class="comp-card__name">Toggle</p>
+        <span class="badge-atomo">Átomo</span>
+      </div>
+      <p class="comp-card__desc">Interruptor on/off para activar o desactivar configuraciones de manera inmediata.</p>
+      <p class="comp-subhead">Propiedades</p>
+      <div class="prop-table">
+        <div class="prop-table__row prop-table__row--head">
+          <div>Propiedad</div><div>Tipo</div><div>Valores</div><div>Descripción</div>
+        </div>
+        <div class="prop-table__row">
+          <div class="prop-cell--name">Estado</div>
+          <div class="prop-cell">Variant</div>
+          <div class="prop-cell">On | Off</div>
+          <div class="prop-cell">Estado actual del interruptor</div>
+        </div>
+        <div class="prop-table__row--divider"></div>
+        <div class="prop-table__row">
+          <div class="prop-cell--name">Deshabilitado</div>
+          <div class="prop-cell">Boolean</div>
+          <div class="prop-cell">true | false</div>
+          <div class="prop-cell">Deshabilita el toggle</div>
+        </div>
+      </div>
+      <p class="comp-subhead">Uso recomendado</p>
+      <div class="usage-list">
+        <p>• Usar para preferencias que se aplican inmediatamente</p>
+        <p>• El estado on siempre va a la derecha</p>
+        <p>• No usar para formularios (usar Checkbox)</p>
+      </div>
+      <div class="preview-sep"></div>
+      <div class="preview-panel">
+        <div class="preview-panel__head">
+          <span class="preview-panel__icon">◉</span>
+          <span class="preview-panel__title">Preview interactivo</span>
+          <span class="preview-panel__sub">— Toggle — Tamaños y estados</span>
+        </div>
+        <div class="preview-content">
+          <div class="preview-item">
+            <span class="preview-item__label">16px OFF</span>
+            <span class="toggle toggle--16 toggle--off16"><span class="toggle__thumb"></span></span>
+          </div>
+          <div class="preview-item">
+            <span class="preview-item__label">20px OFF</span>
+            <span class="toggle toggle--20 toggle--off20"><span class="toggle__thumb"></span></span>
+          </div>
+          <div class="preview-item">
+            <span class="preview-item__label">32px OFF</span>
+            <span class="toggle toggle--32 toggle--off32 toggle--off"><span class="toggle__thumb"></span></span>
+          </div>
+          <div class="preview-item">
+            <span class="preview-item__label">16px ON</span>
+            <span class="toggle toggle--16 toggle--on"><span class="toggle__thumb"></span></span>
+          </div>
+          <div class="preview-item">
+            <span class="preview-item__label">20px ON</span>
+            <span class="toggle toggle--20 toggle--on"><span class="toggle__thumb"></span></span>
+          </div>
+          <div class="preview-item">
+            <span class="preview-item__label">32px ON</span>
+            <span class="toggle toggle--32 toggle--on"><span class="toggle__thumb"></span></span>
+          </div>
+          <div class="preview-item">
+            <span class="preview-item__label">20px OFF (Dis)</span>
+            <span class="toggle toggle--20 toggle--off-disabled"><span class="toggle__thumb"></span></span>
+          </div>
+          <div class="preview-item">
+            <span class="preview-item__label">20px ON (Dis)</span>
+            <span class="toggle toggle--20 toggle--on-disabled"><span class="toggle__thumb"></span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== CHIPS ===================== -->
+    <div class="comp-card">
+      <div class="comp-card__head">
+        <p class="comp-card__name">Chips</p>
+        <span class="badge-atomo">Átomo</span>
+      </div>
+      <p class="comp-card__desc">Elementos compactos para filtros, selección o visualización de datos categorizados.</p>
+      <p class="comp-subhead">Propiedades</p>
+      <div class="prop-table">
+        <div class="prop-table__row prop-table__row--head">
+          <div>Propiedad</div><div>Tipo</div><div>Valores</div><div>Descripción</div>
+        </div>
+        <div class="prop-table__row">
+          <div class="prop-cell--name">Variante</div>
+          <div class="prop-cell">Variant</div>
+          <div class="prop-cell">Filter | Input | Choice</div>
+          <div class="prop-cell">Tipo funcional del chip</div>
+        </div>
+        <div class="prop-table__row--divider"></div>
+        <div class="prop-table__row">
+          <div class="prop-cell--name">Removible</div>
+          <div class="prop-cell">Boolean</div>
+          <div class="prop-cell">true | false</div>
+          <div class="prop-cell">Muestra botón de cierre</div>
+        </div>
+      </div>
+      <p class="comp-subhead">Uso recomendado</p>
+      <div class="usage-list">
+        <p>• Filter chips para filtrar contenido</p>
+        <p>• Input chips para representar datos complejos</p>
+        <p>• Choice chips para selección única en contexto</p>
+      </div>
+      <div class="preview-sep"></div>
+      <div class="preview-panel">
+        <div class="preview-panel__head">
+          <span class="preview-panel__icon">◉</span>
+          <span class="preview-panel__title">Preview interactivo</span>
+          <span class="preview-panel__sub">— Chips — Tipos y colores</span>
+        </div>
+        <div class="preview-content">
+          <div class="preview-item">
+            <span class="preview-item__label">default</span>
+            <span class="chip chip--default">LABEL</span>
+          </div>
+          <div class="preview-item">
+            <span class="preview-item__label">default primario</span>
+            <span class="chip chip--primario">LABEL</span>
+          </div>
+          <div class="preview-item">
+            <span class="preview-item__label">Amarillo</span>
+            <span class="chip chip--amarillo">LABEL</span>
+          </div>
+          <div class="preview-item">
+            <span class="preview-item__label">Verde</span>
+            <span class="chip chip--verde">LABEL</span>
+          </div>
+          <div class="preview-item">
+            <span class="preview-item__label">Rojo</span>
+            <span class="chip chip--rojo">LABEL</span>
+          </div>
+          <div class="preview-item">
+            <span class="preview-item__label">default (fondo)</span>
+            <span class="chip chip--default-fondo">LABEL</span>
+          </div>
+          <div class="preview-item">
+            <span class="preview-item__label">Amarillo (fondo)</span>
+            <span class="chip chip--amarillo-fondo">LABEL</span>
+          </div>
+          <div class="preview-item">
+            <span class="preview-item__label">Verde (fondo)</span>
+            <span class="chip chip--verde-fondo">LABEL</span>
+          </div>
+          <div class="preview-item">
+            <span class="preview-item__label">Rojo (fondo)</span>
+            <span class="chip chip--rojo-fondo">LABEL</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== SPINNER ===================== -->
+    <div class="comp-card">
+      <div class="comp-card__head">
+        <p class="comp-card__name">Spinner</p>
+        <span class="badge-atomo">Átomo</span>
+      </div>
+      <p class="comp-card__desc">Indicador de carga animado circular para comunicar procesos en curso al usuario.</p>
+      <p class="comp-subhead">Propiedades</p>
+      <div class="prop-table">
+        <div class="prop-table__row prop-table__row--head">
+          <div>Propiedad</div><div>Tipo</div><div>Valores</div><div>Descripción</div>
+        </div>
+        <div class="prop-table__row">
+          <div class="prop-cell--name">Tamaño</div>
+          <div class="prop-cell">Variant</div>
+          <div class="prop-cell">small | medium | large</div>
+          <div class="prop-cell">Tamaño del spinner</div>
+        </div>
+      </div>
+      <p class="comp-subhead">Uso recomendado</p>
+      <div class="usage-list">
+        <p>• Usar para operaciones de 1-10 segundos</p>
+        <p>• Para cargas más largas, usar skeleton o progress bar</p>
+        <p>• Centrar en el contenedor del contenido que se carga</p>
+      </div>
+      <div class="preview-sep"></div>
+      <div class="preview-panel">
+        <div class="preview-panel__head">
+          <span class="preview-panel__icon">◉</span>
+          <span class="preview-panel__title">Preview interactivo</span>
+          <span class="preview-panel__sub">— Spinner — Tamaños y colores</span>
+        </div>
+        <div class="preview-content">
+          <div class="preview-item">
+            <span class="preview-item__label">Primario 16</span>
+            <span class="spinner spinner--16 spinner--primario"></span>
+          </div>
+          <div class="preview-item">
+            <span class="preview-item__label">Primario 24</span>
+            <span class="spinner spinner--24 spinner--primario"></span>
+          </div>
+          <div class="preview-item">
+            <span class="preview-item__label">Primario 40</span>
+            <span class="spinner spinner--40 spinner--primario"></span>
+          </div>
+          <div class="preview-item">
+            <span class="preview-item__label">Gris 16</span>
+            <span class="spinner spinner--16 spinner--gris"></span>
+          </div>
+          <div class="preview-item">
+            <span class="preview-item__label">Gris 24</span>
+            <span class="spinner spinner--24 spinner--gris"></span>
+          </div>
+          <div class="preview-item">
+            <span class="preview-item__label">Gris 40</span>
+            <span class="spinner spinner--40 spinner--gris"></span>
+          </div>
+          <div class="preview-item">
+            <span class="preview-item__label">Danger 16</span>
+            <span class="spinner spinner--16 spinner--danger"></span>
+          </div>
+          <div class="preview-item">
+            <span class="preview-item__label">Danger 24</span>
+            <span class="spinner spinner--24 spinner--danger"></span>
+          </div>
+          <div class="preview-item">
+            <span class="preview-item__label">Danger 40</span>
+            <span class="spinner spinner--40 spinner--danger"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== TAG ===================== -->
+    <div class="comp-card" style="padding-bottom:24px;">
+      <div class="comp-card__head">
+        <p class="comp-card__name">Tag</p>
+        <span class="badge-atomo">Átomo</span>
+      </div>
+      <p class="comp-card__desc">Etiqueta visual compacta para categorizar, etiquetar o clasificar contenido.</p>
+      <p class="comp-subhead">Propiedades</p>
+      <div class="prop-table">
+        <div class="prop-table__row prop-table__row--head">
+          <div>Propiedad</div><div>Tipo</div><div>Valores</div><div>Descripción</div>
+        </div>
+        <div class="prop-table__row">
+          <div class="prop-cell--name">Color</div>
+          <div class="prop-cell">Variant</div>
+          <div class="prop-cell">Default | Success | Warning | Error | Info</div>
+          <div class="prop-cell">Color semántico del tag</div>
+        </div>
+      </div>
+      <p class="comp-subhead">Uso recomendado</p>
+      <div class="usage-list">
+        <p>• Usar para categorización visual</p>
+        <p>• No usar como botón — no es interactivo</p>
+        <p>• Máximo 2-3 palabras por tag</p>
+      </div>
+    </div>
+
+    <!-- ===================== TREND NUMÉRICO ===================== -->
+    <div class="comp-card">
+      <div class="comp-card__head">
+        <p class="comp-card__name">Trend numérico</p>
+        <span class="badge-atomo">Átomo</span>
+      </div>
+      <p class="comp-card__desc">Indicador de tendencia con valor numérico y dirección (positivo/negativo) para métricas.</p>
+      <p class="comp-subhead">Propiedades</p>
+      <div class="prop-table">
+        <div class="prop-table__row prop-table__row--head">
+          <div>Propiedad</div><div>Tipo</div><div>Valores</div><div>Descripción</div>
+        </div>
+        <div class="prop-table__row">
+          <div class="prop-cell--name">Dirección</div>
+          <div class="prop-cell">Variant</div>
+          <div class="prop-cell">Up | Down | Neutral</div>
+          <div class="prop-cell">Tendencia del indicador</div>
+        </div>
+        <div class="prop-table__row--divider"></div>
+        <div class="prop-table__row">
+          <div class="prop-cell--name">Valor</div>
+          <div class="prop-cell">String</div>
+          <div class="prop-cell">Texto libre</div>
+          <div class="prop-cell">Valor numérico a mostrar</div>
+        </div>
+      </div>
+      <p class="comp-subhead">Uso recomendado</p>
+      <div class="usage-list">
+        <p>• Usar en dashboards y KPIs</p>
+        <p>• Verde para tendencia positiva, rojo para negativa</p>
+        <p>• Siempre acompañar con contexto del período</p>
+      </div>
+      <div class="preview-sep"></div>
+      <div class="preview-panel">
+        <div class="preview-panel__head">
+          <span class="preview-panel__icon">◉</span>
+          <span class="preview-panel__title">Preview interactivo</span>
+          <span class="preview-panel__sub">— Trend numérico — Tipos</span>
+        </div>
+        <div class="preview-content">
+          <div class="preview-item">
+            <span class="preview-item__label">Positivo</span>
+            <span class="trend trend--positivo"><i class="fa-solid fa-arrow-up"></i>11.02%</span>
+          </div>
+          <div class="preview-item">
+            <span class="preview-item__label">Positivo + fondo</span>
+            <span class="trend trend--positivo-fondo"><i class="fa-solid fa-arrow-up"></i>11.02%</span>
+          </div>
+          <div class="preview-item">
+            <span class="preview-item__label">Neutro</span>
+            <span class="trend trend--neutro"><i class="fa-solid fa-arrow-right"></i>11.02%</span>
+          </div>
+          <div class="preview-item">
+            <span class="preview-item__label">Neutro + fondo</span>
+            <span class="trend trend--neutro-fondo"><i class="fa-solid fa-arrow-right"></i>11.02%</span>
+          </div>
+          <div class="preview-item">
+            <span class="preview-item__label">Negativo</span>
+            <span class="trend trend--negativo"><i class="fa-solid fa-arrow-down"></i>11.02%</span>
+          </div>
+          <div class="preview-item">
+            <span class="preview-item__label">Negativo + fondo</span>
+            <span class="trend trend--negativo-fondo"><i class="fa-solid fa-arrow-down"></i>11.02%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== TITULO ===================== -->
+    <div class="comp-card" style="padding-bottom:24px;">
+      <div class="comp-card__head">
+        <p class="comp-card__name">Titulo</p>
+        <span class="badge-atomo">Átomo</span>
+      </div>
+      <p class="comp-card__desc">Componente tipográfico para encabezados de sección con estilos jerárquicos predefinidos.</p>
+      <p class="comp-subhead">Propiedades</p>
+      <div class="prop-table">
+        <div class="prop-table__row prop-table__row--head">
+          <div>Propiedad</div><div>Tipo</div><div>Valores</div><div>Descripción</div>
+        </div>
+        <div class="prop-table__row">
+          <div class="prop-cell--name">Nivel</div>
+          <div class="prop-cell">Variant</div>
+          <div class="prop-cell">H1 | H2 | H3 | H4 | H5</div>
+          <div class="prop-cell">Nivel jerárquico del título</div>
+        </div>
+      </div>
+      <p class="comp-subhead">Uso recomendado</p>
+      <div class="usage-list">
+        <p>• Respetar la jerarquía H1 &gt; H2 &gt; H3</p>
+        <p>• Un solo H1 por pantalla</p>
+        <p>• No saltar niveles (H1 → H3)</p>
+      </div>
+    </div>
+
+  </main>
+</div>
+<div class="accent-bar" style="position:fixed; bottom:0; left:0; right:0;"></div>
+<script src="js/nav.js"></script>
+</body>
+</html>

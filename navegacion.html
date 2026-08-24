@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SUELO — Detalle: Navegación</title>
+<meta name="description" content="SUELO — Componentes de navegación: Tabs, Breadcrumb, Stepper y Paginado de grilla." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="css/tokens.css" />
+<link rel="stylesheet" href="css/base.css" />
+<style>
+  /* ---- Estilos específicos de esta página (no tocar base.css/tokens.css) ---- */
+  .comp-card {
+    background: var(--blanco);
+    border: 1px solid #d1d6db;
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+    overflow: hidden;
+  }
+  .comp-card__body { padding: 24px 28px 0; display: flex; flex-direction: column; gap: 14px; }
+  .comp-card__header { display: flex; align-items: center; gap: 12px; }
+  .comp-card__title { font-weight: 700; font-size: 20px; color: #1c2e4d; }
+  .badge-molecula {
+    display: inline-flex; align-items: center;
+    background: #5959d9; color: #fff;
+    border-radius: 10px; padding: 3px 8px;
+    font-size: 10px; font-weight: 600;
+  }
+  .comp-card__desc { color: #6b737d; font-size: 14px; max-width: 850px; }
+  .props-title { font-weight: 600; font-size: 14px; color: #1c2e4d; }
+  .props-table { width: 100%; font-size: 11px; }
+  .props-table__head {
+    display: flex; background: #f5f7fa; color: #6b737d; font-weight: 600;
+    padding: 8px 12px;
+  }
+  .props-table__row { display: flex; padding: 6px 12px; }
+  .props-table__divider { height: 1px; background: #f5f7fa; width: 100%; }
+  .props-col--prop { width: 150px; flex-shrink: 0; }
+  .props-col--tipo { width: 100px; flex-shrink: 0; }
+  .props-col--val { width: 280px; flex-shrink: 0; }
+  .props-col--desc { width: 280px; flex-shrink: 0; }
+  .props-table__row .props-col--prop { font-weight: 500; color: #1c2e4d; }
+  .props-table__row .props-col--tipo,
+  .props-table__row .props-col--val,
+  .props-table__row .props-col--desc { font-weight: 400; color: #6b737d; }
+  .usage-title { font-weight: 600; font-size: 14px; color: #1c2e4d; }
+  .usage-list { color: #6b737d; font-size: 13px; max-width: 850px; margin: 0; padding: 0; list-style: none; }
+  .usage-list li { position: relative; padding-left: 14px; }
+  .usage-list li::before { content: "•"; position: absolute; left: 0; }
+  .preview-separator { height: 1px; background: #e5e8ed; width: 100%; }
+  .preview-box {
+    background: #f5f7fa;
+    border-radius: 0 0 8px 8px;
+    padding: 20px 24px 24px;
+    display: flex; flex-direction: column; gap: 16px;
+  }
+  .preview-header { display: flex; align-items: center; gap: 8px; }
+  .preview-header__icon {
+    width: 20px; height: 20px; border-radius: 4px; background: #0469ff;
+    color: #fff; font-size: 11px; display: flex; align-items: center; justify-content: center;
+  }
+  .preview-header__title { font-weight: 600; font-size: 13px; color: #1c2e4d; }
+  .preview-header__sub { font-weight: 400; font-size: 13px; color: #6b737d; }
+  .preview-content {
+    background: var(--blanco);
+    border-radius: 8px;
+    padding: 24px;
+    display: flex; flex-wrap: wrap; gap: 0 20px; align-items: center; justify-content: center;
+  }
+  .preview-item { display: flex; flex-direction: column; gap: 6px; align-items: center; }
+  .preview-item__label { font-weight: 600; font-size: 10px; color: #6b737d; }
+
+  /* Tabs preview */
+  .tabs-demo { display: flex; align-items: center; }
+  .tab-item {
+    width: 95px; height: 40px; display: flex; align-items: center; justify-content: center;
+    padding: 8px 24px; border-bottom: 3px solid var(--borde-default);
+    font-size: 16px; font-weight: 500; color: var(--texto-default);
+  }
+  .tab-item--active { border-bottom-color: var(--texto-color-primario); }
+
+  /* Breadcrumb preview */
+  .bc-demo { display: flex; align-items: center; gap: 8px; }
+  .bc-sep { color: var(--texto-light-2); font-size: 14px; }
+  .bc-item { color: var(--texto-light-2); font-size: 14px; }
+  .bc-item--current { color: var(--texto-light); text-decoration: underline; text-decoration-skip-ink: none; }
+
+  /* Stepper preview */
+  .stepper-demo { display: flex; align-items: center; gap: 8px; width: 112px; }
+  .stepper-demo--end { width: 20px; gap: 0; }
+  .stepper-demo__icon { font-size: 20px; line-height: 1; flex-shrink: 0; }
+  .stepper-demo__body { display: flex; align-items: center; gap: 8px; flex: 1 0 0; min-width: 0; }
+  .stepper-demo__label { font-size: 11px; white-space: nowrap; }
+  .stepper-demo__line { height: 2px; flex: 1 0 0; }
+</style>
+</head>
+<body data-page="navegacion">
+<div class="app-shell">
+  <nav class="sidebar" id="sidebar-root"></nav>
+
+  <main class="main">
+    <div class="breadcrumbs">
+      <span class="brand">SUELO</span>
+      <span class="sep">›</span>
+      <span>Componentes</span>
+      <span class="sep">›</span>
+      <span class="current">Navegación</span>
+    </div>
+
+    <section class="section">
+      <h1 class="section-title section-title--lg">Navegación y Progreso</h1>
+      <p class="section-subtitle" style="max-width:900px;">Componentes para guiar al usuario a través de la interfaz y flujos multi-paso.</p>
+    </section>
+
+    <hr class="rule" style="background:#d1d6db;" />
+
+    <!-- ===================== TABS ===================== -->
+    <div class="comp-card">
+      <div class="comp-card__body">
+        <div class="comp-card__header">
+          <span class="comp-card__title">Tabs</span>
+          <span class="badge-molecula">Molécula</span>
+        </div>
+        <p class="comp-card__desc">Navegación por pestañas para organizar contenido en secciones dentro de una misma vista.</p>
+
+        <p class="props-title">Propiedades</p>
+        <div class="props-table">
+          <div class="props-table__head">
+            <span class="props-col--prop">Propiedad</span>
+            <span class="props-col--tipo">Tipo</span>
+            <span class="props-col--val">Valores</span>
+            <span class="props-col--desc">Descripción</span>
+          </div>
+          <div class="props-table__row">
+            <span class="props-col--prop">Variante</span>
+            <span class="props-col--tipo">Variant</span>
+            <span class="props-col--val">Default | Underlined | Contained</span>
+            <span class="props-col--desc">Estilo visual de las pestañas</span>
+          </div>
+          <div class="props-table__divider"></div>
+          <div class="props-table__row">
+            <span class="props-col--prop">Activo</span>
+            <span class="props-col--tipo">Variant</span>
+            <span class="props-col--val">Índice del tab activo</span>
+            <span class="props-col--desc">Pestaña seleccionada</span>
+          </div>
+        </div>
+
+        <p class="usage-title">Uso recomendado</p>
+        <ul class="usage-list">
+          <li>Usar para 2-7 secciones de contenido relacionado</li>
+          <li>El primer tab debe ser el más relevante</li>
+          <li>No anidar tabs dentro de tabs</li>
+        </ul>
+      </div>
+
+      <div class="preview-separator"></div>
+
+      <div class="preview-box">
+        <div class="preview-header">
+          <span class="preview-header__icon">◉</span>
+          <span class="preview-header__title">Preview interactivo</span>
+          <span class="preview-header__sub">— Tabs — Cantidad</span>
+        </div>
+        <div class="preview-content">
+          <div class="preview-item">
+            <span class="preview-item__label">2 tabs</span>
+            <div class="tabs-demo">
+              <div class="tab-item tab-item--active">Botón</div>
+              <div class="tab-item">Botón</div>
+            </div>
+          </div>
+          <div class="preview-item">
+            <span class="preview-item__label">3 tabs</span>
+            <div class="tabs-demo">
+              <div class="tab-item tab-item--active">Botón</div>
+              <div class="tab-item">Botón</div>
+              <div class="tab-item">Botón</div>
+            </div>
+          </div>
+          <div class="preview-item">
+            <span class="preview-item__label">4 tabs</span>
+            <div class="tabs-demo">
+              <div class="tab-item tab-item--active">Botón</div>
+              <div class="tab-item">Botón</div>
+              <div class="tab-item">Botón</div>
+              <div class="tab-item">Botón</div>
+            </div>
+          </div>
+          <div class="preview-item">
+            <span class="preview-item__label">5 tabs</span>
+            <div class="tabs-demo">
+              <div class="tab-item tab-item--active">Botón</div>
+              <div class="tab-item">Botón</div>
+              <div class="tab-item">Botón</div>
+              <div class="tab-item">Botón</div>
+              <div class="tab-item">Botón</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== BREADCRUMB ===================== -->
+    <div class="comp-card">
+      <div class="comp-card__body">
+        <div class="comp-card__header">
+          <span class="comp-card__title">Breadcrumb</span>
+          <span class="badge-molecula">Molécula</span>
+        </div>
+        <p class="comp-card__desc">Navegación jerárquica que muestra la ubicación actual del usuario dentro de la estructura de la aplicación.</p>
+
+        <p class="props-title">Propiedades</p>
+        <div class="props-table">
+          <div class="props-table__head">
+            <span class="props-col--prop">Propiedad</span>
+            <span class="props-col--tipo">Tipo</span>
+            <span class="props-col--val">Valores</span>
+            <span class="props-col--desc">Descripción</span>
+          </div>
+          <div class="props-table__row">
+            <span class="props-col--prop">Niveles</span>
+            <span class="props-col--tipo">Instance</span>
+            <span class="props-col--val">2-5 niveles</span>
+            <span class="props-col--desc">Cantidad de niveles de profundidad</span>
+          </div>
+          <div class="props-table__divider"></div>
+          <div class="props-table__row">
+            <span class="props-col--prop">Separador</span>
+            <span class="props-col--tipo">String</span>
+            <span class="props-col--val">› | / | &gt;</span>
+            <span class="props-col--desc">Carácter separador entre niveles</span>
+          </div>
+        </div>
+
+        <p class="usage-title">Uso recomendado</p>
+        <ul class="usage-list">
+          <li>Usar en páginas con más de 2 niveles de profundidad</li>
+          <li>El último nivel (actual) no es clickeable</li>
+          <li>Siempre incluir 'Inicio' como primer nivel</li>
+        </ul>
+      </div>
+
+      <div class="preview-separator"></div>
+
+      <div class="preview-box">
+        <div class="preview-header">
+          <span class="preview-header__icon">◉</span>
+          <span class="preview-header__title">Preview interactivo</span>
+          <span class="preview-header__sub">— Breadcrumb — Niveles</span>
+        </div>
+        <div class="preview-content">
+          <div class="preview-item">
+            <span class="preview-item__label">2 niveles</span>
+            <div class="bc-demo">
+              <span class="bc-item">Item</span>
+              <span class="bc-sep">›</span>
+              <span class="bc-item bc-item--current">Item</span>
+            </div>
+          </div>
+          <div class="preview-item">
+            <span class="preview-item__label">3 niveles</span>
+            <div class="bc-demo">
+              <span class="bc-item">Item</span>
+              <span class="bc-sep">›</span>
+              <span class="bc-item">Item</span>
+              <span class="bc-sep">›</span>
+              <span class="bc-item bc-item--current">Item</span>
+            </div>
+          </div>
+          <div class="preview-item">
+            <span class="preview-item__label">4 niveles</span>
+            <div class="bc-demo">
+              <span class="bc-item">Item</span>
+              <span class="bc-sep">›</span>
+              <span class="bc-item">Item</span>
+              <span class="bc-sep">›</span>
+              <span class="bc-item">Item</span>
+              <span class="bc-sep">›</span>
+              <span class="bc-item bc-item--current">Item</span>
+            </div>
+          </div>
+          <div class="preview-item">
+            <span class="preview-item__label">5 niveles</span>
+            <div class="bc-demo">
+              <span class="bc-item">Item</span>
+              <span class="bc-sep">›</span>
+              <span class="bc-item">Item</span>
+              <span class="bc-sep">›</span>
+              <span class="bc-item">Item</span>
+              <span class="bc-sep">›</span>
+              <span class="bc-item">Item</span>
+              <span class="bc-sep">›</span>
+              <span class="bc-item bc-item--current">Item</span>
+            </div>
+          </div>
+          <div class="preview-item">
+            <span class="preview-item__label">6 niveles</span>
+            <div class="bc-demo">
+              <span class="bc-item">Item</span>
+              <span class="bc-sep">›</span>
+              <span class="bc-item">Item</span>
+              <span class="bc-sep">›</span>
+              <span class="bc-item">Item</span>
+              <span class="bc-sep">›</span>
+              <span class="bc-item">Item</span>
+              <span class="bc-sep">›</span>
+              <span class="bc-item">Item</span>
+              <span class="bc-sep">›</span>
+              <span class="bc-item bc-item--current">Item</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== STEPPER ===================== -->
+    <div class="comp-card">
+      <div class="comp-card__body">
+        <div class="comp-card__header">
+          <span class="comp-card__title">Stepper</span>
+          <span class="badge-molecula">Molécula</span>
+        </div>
+        <p class="comp-card__desc">Indicador de progreso por pasos para flujos multi-etapa lineales o no lineales.</p>
+
+        <p class="props-title">Propiedades</p>
+        <div class="props-table">
+          <div class="props-table__head">
+            <span class="props-col--prop">Propiedad</span>
+            <span class="props-col--tipo">Tipo</span>
+            <span class="props-col--val">Valores</span>
+            <span class="props-col--desc">Descripción</span>
+          </div>
+          <div class="props-table__row">
+            <span class="props-col--prop">Pasos</span>
+            <span class="props-col--tipo">Number</span>
+            <span class="props-col--val">2-7</span>
+            <span class="props-col--desc">Cantidad total de pasos</span>
+          </div>
+          <div class="props-table__divider"></div>
+          <div class="props-table__row">
+            <span class="props-col--prop">Paso actual</span>
+            <span class="props-col--tipo">Number</span>
+            <span class="props-col--val">1-N</span>
+            <span class="props-col--desc">Paso en el que se encuentra el usuario</span>
+          </div>
+          <div class="props-table__divider"></div>
+          <div class="props-table__row">
+            <span class="props-col--prop">Orientación</span>
+            <span class="props-col--tipo">Variant</span>
+            <span class="props-col--val">Horizontal | Vertical</span>
+            <span class="props-col--desc">Dirección del stepper</span>
+          </div>
+        </div>
+
+        <p class="usage-title">Uso recomendado</p>
+        <ul class="usage-list">
+          <li>Usar para flujos de 3-7 pasos</li>
+          <li>Mostrar etiquetas descriptivas en cada paso</li>
+          <li>Permitir navegación a pasos completados</li>
+        </ul>
+      </div>
+
+      <div class="preview-separator"></div>
+
+      <div class="preview-box">
+        <div class="preview-header">
+          <span class="preview-header__icon">◉</span>
+          <span class="preview-header__title">Preview interactivo</span>
+          <span class="preview-header__sub">— Stepper — Estados</span>
+        </div>
+        <div class="preview-content">
+          <div class="preview-item">
+            <span class="preview-item__label">Left Done</span>
+            <div class="stepper-demo">
+              <i class="fa-solid fa-circle-check stepper-demo__icon" style="color:var(--texto-color-primario);"></i>
+              <div class="stepper-demo__body">
+                <span class="stepper-demo__label" style="color:var(--texto-color-primario);">Texto</span>
+                <span class="stepper-demo__line" style="background:var(--texto-color-primario);"></span>
+              </div>
+            </div>
+          </div>
+          <div class="preview-item">
+            <span class="preview-item__label">Left Active</span>
+            <div class="stepper-demo">
+              <i class="fa-solid fa-circle-dot stepper-demo__icon" style="color:var(--texto-color-primario);"></i>
+              <div class="stepper-demo__body">
+                <span class="stepper-demo__label" style="color:var(--texto-color-primario);">Texto</span>
+                <span class="stepper-demo__line" style="background:var(--texto-color-primario);"></span>
+              </div>
+            </div>
+          </div>
+          <div class="preview-item">
+            <span class="preview-item__label">Left Inactive</span>
+            <div class="stepper-demo">
+              <i class="fa-regular fa-circle stepper-demo__icon" style="color:var(--texto-light-2);"></i>
+              <div class="stepper-demo__body">
+                <span class="stepper-demo__label" style="color:var(--texto-light-2);">Texto</span>
+                <span class="stepper-demo__line" style="background:var(--texto-light-2);"></span>
+              </div>
+            </div>
+          </div>
+          <div class="preview-item">
+            <span class="preview-item__label">End Done</span>
+            <div class="stepper-demo stepper-demo--end">
+              <i class="fa-solid fa-circle-check stepper-demo__icon" style="color:var(--texto-color-primario);"></i>
+            </div>
+          </div>
+          <div class="preview-item">
+            <span class="preview-item__label">End Inactive</span>
+            <div class="stepper-demo stepper-demo--end">
+              <i class="fa-regular fa-circle stepper-demo__icon" style="color:var(--texto-light-2);"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== PAGINADO DE GRILLA ===================== -->
+    <div class="comp-card">
+      <div class="comp-card__body" style="padding-bottom:24px;">
+        <div class="comp-card__header">
+          <span class="comp-card__title">Paginado de grilla</span>
+          <span class="badge-molecula">Molécula</span>
+        </div>
+        <p class="comp-card__desc">Control de paginación para navegar entre páginas de datos en tablas y grillas.</p>
+
+        <p class="props-title">Propiedades</p>
+        <div class="props-table">
+          <div class="props-table__head">
+            <span class="props-col--prop">Propiedad</span>
+            <span class="props-col--tipo">Tipo</span>
+            <span class="props-col--val">Valores</span>
+            <span class="props-col--desc">Descripción</span>
+          </div>
+          <div class="props-table__row">
+            <span class="props-col--prop">Páginas</span>
+            <span class="props-col--tipo">Number</span>
+            <span class="props-col--val">Total de páginas</span>
+            <span class="props-col--desc">Cantidad total de páginas disponibles</span>
+          </div>
+          <div class="props-table__divider"></div>
+          <div class="props-table__row">
+            <span class="props-col--prop">Actual</span>
+            <span class="props-col--tipo">Number</span>
+            <span class="props-col--val">Página actual</span>
+            <span class="props-col--desc">Página actualmente visible</span>
+          </div>
+        </div>
+
+        <p class="usage-title">Uso recomendado</p>
+        <ul class="usage-list">
+          <li>Usar para conjuntos de datos &gt; 25 elementos</li>
+          <li>Mostrar siempre primera, última y páginas cercanas</li>
+          <li>Incluir selector de 'elementos por página'</li>
+        </ul>
+      </div>
+    </div>
+
+  </main>
+</div>
+<div class="accent-bar" style="position:fixed; bottom:0; left:0; right:0;"></div>
+<script src="js/nav.js"></script>
+</body>
+</html>

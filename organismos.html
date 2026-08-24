@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SUELO — Detalle: Organismos</title>
+<meta name="description" content="SUELO — Organismos: Modales, Header, Card botón, Card KPI, Card importación de archivos, Desplegables Filtros grilla y Navegación superior." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="css/tokens.css" />
+<link rel="stylesheet" href="css/base.css" />
+<style>
+  /* ---- Página: Organismos (estilos locales, siguiendo convención de formularios.html) ---- */
+  .doc-card {
+    background: var(--blanco);
+    border: 1px solid #d1d6db;
+    border-radius: var(--radius-md);
+    padding: 24px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+  }
+  .doc-card--obsoleto { border-color: #e5b233; background: #fffdf7; }
+  .doc-card__header { display:flex; align-items:center; gap:12px; }
+  .doc-card__title { font-weight:700; font-size:20px; color:#1c2e4d; }
+  .doc-card__badge {
+    background:#8c38ab; color:#fff; font-weight:600; font-size:10px;
+    padding:3px 8px; border-radius:10px;
+  }
+  .doc-card__desc { color:#6b737d; font-size:14px; max-width:850px; }
+  .doc-card__subtitle { font-weight:600; font-size:14px; color:#1c2e4d; }
+
+  .prop-table { width:100%; border-collapse: collapse; font-size:11px; }
+  .prop-table thead th {
+    background:#f5f7fa; color:#6b737d; font-weight:600; text-align:left;
+    padding:8px 12px;
+  }
+  .prop-table tbody td { padding:6px 12px; border-top:1px solid #f5f7fa; color:#6b737d; }
+  .prop-table tbody td:first-child { color:#1c2e4d; font-weight:500; }
+  .prop-table col.col-prop { width:150px; }
+  .prop-table col.col-tipo { width:100px; }
+  .prop-table col.col-valores { width:28%; }
+  .prop-table col.col-desc { width:28%; }
+
+  .usage-list { color:#6b737d; font-size:13px; max-width:850px; line-height:1.5; }
+  .usage-list p { margin:0; }
+  .usage-list p.obsoleto-warning { color:#b28000; font-weight:700; }
+
+  .preview-separator { height:1px; width:100%; background:#e5e8ed; }
+
+  .preview-block {
+    background:#f5f7fa;
+    border-radius: 0 0 8px 8px;
+    padding: 20px 24px 24px;
+    display:flex; flex-direction:column; gap:16px; width:100%;
+  }
+  .preview-block__label { display:flex; align-items:center; gap:8px; }
+  .preview-block__icon {
+    width:20px; height:20px; border-radius:4px; background:#0469ff;
+    color:#fff; font-weight:700; font-size:12px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .preview-block__title { font-weight:600; font-size:13px; color:#1c2e4d; }
+  .preview-block__sub { font-size:13px; color:#6b737d; }
+  .preview-content {
+    background:#fff; border-radius:8px; padding:24px;
+    display:flex; flex-wrap:wrap; align-items:flex-start; gap:24px 20px;
+  }
+  .preview-item { display:flex; flex-direction:column; align-items:center; gap:6px; max-width:100%; }
+  .preview-item__caption { font-weight:600; font-size:10px; color:#6b737d; text-align:center; }
+
+  /* ---------------- Modales ---------------- */
+  .pv-modal {
+    background:#fff; box-shadow:0 0 12px rgba(27,36,49,0.3); border-radius:4px;
+    padding:24px; width:543px; max-width:100%; display:flex; flex-direction:column;
+    gap:16px; position:relative; box-sizing:border-box;
+  }
+  .pv-modal__head { display:flex; align-items:center; gap:10px; }
+  .pv-modal__icon { font-size:24px; line-height:1; }
+  .pv-modal__title { font-weight:700; font-size:20px; color:#1b2431; margin:0; }
+  .pv-modal__body { color:#414d5f; font-size:16px; line-height:20px; margin:0; }
+  .pv-modal__actions { display:flex; justify-content:flex-end; gap:8px; }
+  .pv-modal__close {
+    position:absolute; top:12px; right:12px; color:#778294; font-size:12px;
+    cursor:pointer; background:none; border:none; font-family:inherit;
+  }
+  .pv-btn {
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    height:40px; padding:8px 16px; border-radius:4px; font-size:16px; font-weight:500;
+    border:none; cursor:pointer; font-family: var(--font-body); color:#1b2431;
+  }
+  .pv-btn--sutil { background:transparent; padding:8px; }
+  .pv-btn--gray { background:#eaecee; }
+
+  /* ---------------- Header ---------------- */
+  .pv-header {
+    background:#fff; border-bottom:2px solid #dadee3; width:228px; height:40px;
+    box-sizing:border-box; display:flex; align-items:center; padding:4px 8px;
+  }
+  .pv-header--col { flex-direction:column; justify-content:center; align-items:flex-start; }
+  .pv-header--checkbox { width:40px; height:40px; flex-direction:column; align-items:center; justify-content:center; padding:0; }
+  .pv-header__title { font-weight:600; font-size:11px; color:#414d5f; }
+  .pv-header__row { display:flex; align-items:center; gap:8px; width:100%; justify-content:space-between; }
+  .pv-header__actions { display:flex; gap:2px; }
+  .pv-header__btn {
+    width:24px; height:24px; border-radius:4px; display:flex; align-items:center;
+    justify-content:center; font-size:10px; color:#414d5f;
+  }
+  .pv-header__btn--soft { background:#f6f7fa; }
+  .pv-header__btn--white { background:#fff; }
+  .pv-header__checkbox-box {
+    width:14px; height:14px; border:2px solid #dadee3; border-radius:2px;
+  }
+
+  /* ---------------- Card botón ---------------- */
+  .pv-cardbtn {
+    border:1px solid #dadee3; border-radius:4px; display:flex; box-sizing:border-box;
+  }
+  .pv-cardbtn--l { width:309px; max-width:100%; padding:16px; gap:16px; align-items:flex-start; background:#fff; }
+  .pv-cardbtn--l.pv-cardbtn--hover { background:#f6f7fa; }
+  .pv-cardbtn--s { padding:8px; gap:12px; height:60px; align-items:center; background:#fff; }
+  .pv-cardbtn--s.pv-cardbtn--hover { background:#f6f7fa; }
+  .pv-cardbtn__illus {
+    width:50px; height:50px; flex-shrink:0; border-radius:6px; background:#e4eefd;
+    display:flex; align-items:center; justify-content:center; color:#1d4a91; font-size:22px;
+  }
+  .pv-cardbtn__icon32 {
+    width:32px; height:32px; flex-shrink:0; border-radius:4px; background:#e4eefd;
+    display:flex; align-items:center; justify-content:center; color:#414d5f; font-size:18px;
+  }
+  .pv-cardbtn__icon24 {
+    width:24px; flex-shrink:0; display:flex; align-items:center; justify-content:center;
+    color:#1b2431; font-size:16px;
+  }
+  .pv-cardbtn__body { display:flex; flex-direction:column; gap:4px; flex:1 0 0; min-width:0; }
+  .pv-cardbtn__title { font-weight:600; font-size:16px; color:#1b2431; margin:0; }
+  .pv-cardbtn__desc { font-size:14px; color:#414d5f; margin:0; }
+  .pv-cardbtn__desc--sm { font-size:12px; }
+  .pv-cardbtn__link {
+    color:#0077e4; font-size:12px; background:none; border:none; padding:0;
+    font-family: var(--font-body); cursor:pointer;
+  }
+  .pv-cardbtn__star { color:#778294; font-size:16px; align-self:flex-start; }
+  .pv-cardbtn__chip {
+    display:inline-flex; align-items:center; height:20px; padding:0 8px; border-radius:8px;
+    background:#f6f7fa; border:1px solid #a6aebc; color:#414d5f; font-weight:700; font-size:11px;
+    align-self:flex-start; margin-top:4px;
+  }
+
+  /* ---------------- Card KPI (obsoleto) ---------------- */
+  .pv-kpi {
+    border:1px solid #dadee3; border-radius:4px; padding:16px; width:411px; max-width:100%;
+    display:flex; flex-direction:column; gap:8px; background:#fff; box-sizing:border-box;
+  }
+  .pv-kpi__head { display:flex; gap:8px; align-items:center; }
+  .pv-kpi__icon {
+    width:32px; height:32px; border-radius:50%; border:1px solid #414d5f; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center; color:#414d5f; font-size:14px;
+  }
+  .pv-kpi__chip {
+    display:inline-flex; align-items:center; gap:4px; height:20px; padding:0 8px; border-radius:16px;
+    background:#f6f7fa; border:1px solid #a6aebc; color:#414d5f; font-weight:700; font-size:11px;
+  }
+  .pv-kpi__desc-principal { color:#414d5f; font-weight:600; font-size:14px; margin:0; }
+  .pv-kpi__desc-principal--lg { font-size:20px; }
+  .pv-kpi__value { color:#1d4a91; font-weight:700; font-size:30px; margin:0; }
+  .pv-kpi__value--sm { font-size:24px; font-weight:600; }
+  .pv-kpi__desc-secundaria { color:#414d5f; font-size:11px; margin:0; }
+  .pv-kpi__actions { display:flex; gap:8px; }
+  .pv-kpi__btn {
+    display:inline-flex; align-items:center; gap:8px; height:24px; padding:4px 8px;
+    border-radius:4px; background:#eaecee; color:#1b2431; font-size:12px; font-weight:500;
+    border:none; font-family: var(--font-body);
+  }
+
+  /* ---------------- Card importación de archivos ---------------- */
+  .pv-import { display:flex; flex-direction:column; gap:16px; width:1046px; max-width:100%; box-sizing:border-box; }
+  .pv-import--sm { width:388px; }
+  .pv-import__row { display:flex; align-items:center; justify-content:space-between; width:100%; }
+  .pv-import__file { display:flex; align-items:center; gap:16px; min-width:0; }
+  .pv-import__icon {
+    width:32px; height:32px; flex-shrink:0; border-radius:6px; background:#e4eefd;
+    display:flex; align-items:center; justify-content:center; color:#1d4a91; font-size:18px;
+  }
+  .pv-import__name { font-size:14px; font-weight:500; color:#1b2431; margin:0; }
+  .pv-import__size { font-size:11px; color:#1b2431; margin:0; }
+  .pv-import__close { color:#414d5f; font-size:14px; background:none; border:none; cursor:pointer; flex-shrink:0; }
+  .pv-import__progress { width:100%; height:12px; border-radius:6px; background:#d7e6fc; overflow:hidden; }
+  .pv-import__progress-fill { height:100%; width:64%; background:#1d4a91; border-radius:6px; }
+  .pv-import__detail { font-size:11px; color:#414d5f; margin:0; }
+
+  /* ---------------- Desplegables Filtros grilla ---------------- */
+  .pv-filtro {
+    background:#fff; border:0.5px solid #dadee3; border-radius:4px;
+    box-shadow:0 4px 8px rgba(27,36,49,0.15); padding:12px;
+    display:flex; flex-direction:column; align-items:flex-end; gap:16px; box-sizing:border-box;
+  }
+  .pv-filtro__input {
+    width:100%; background:#fff; border:1px solid #dadee3; border-radius:4px;
+    display:flex; align-items:center; gap:10px; padding:9px 8px; box-sizing:border-box;
+  }
+  .pv-filtro__input i { color:#525252; font-size:12px; }
+  .pv-filtro__input span { flex:1 0 0; font-size:14px; color:#414d5f; }
+  .pv-filtro__checkbox { display:flex; align-items:center; gap:4px; width:100%; }
+  .pv-filtro__checkbox-box { width:14px; height:14px; border:2px solid #dadee3; border-radius:2px; flex-shrink:0; }
+  .pv-filtro__checkbox-box--checked {
+    width:16px; height:16px; border:none; color:#0077e4; font-size:16px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .pv-filtro__checkbox span { font-size:14px; color:#1b2431; }
+  .pv-filtro__rule { height:1px; width:100%; background:#dadee3; }
+  .pv-filtro__chips-row { display:flex; flex-direction:column; gap:8px; width:100%; }
+  .pv-filtro__chip {
+    display:inline-flex; align-items:center; height:20px; padding:0 8px; border-radius:16px;
+    background:#f6f7fa; border:1px solid #a6aebc; color:#414d5f; font-weight:700; font-size:11px;
+    width:fit-content;
+  }
+  .pv-filtro__actions { display:flex; gap:4px; }
+  .pv-filtro__btn {
+    display:inline-flex; align-items:center; justify-content:center; height:24px; padding:4px 8px;
+    border-radius:4px; font-size:12px; font-weight:500; border:none; font-family: var(--font-body); color:#1b2431;
+  }
+  .pv-filtro__btn--sutil { background:transparent; }
+  .pv-filtro__btn--gray { background:#eaecee; }
+  .pv-filtro__num-row { display:flex; width:100%; height:32px; }
+  .pv-filtro__num-btn {
+    width:32px; flex-shrink:0; border:0.5px solid #dadee3; display:flex; align-items:center;
+    justify-content:center; color:#778294; font-size:12px; border-radius:4px 0 0 4px;
+  }
+  .pv-filtro__num-value {
+    flex:1 0 0; border:0.5px solid #dadee3; border-radius:0 4px 4px 0; display:flex; align-items:center;
+    padding:0 8px; font-size:14px; color:#414d5f;
+  }
+  .pv-filtro__autocomplete-item {
+    border-top:1px solid #dadee3; border-bottom:1px solid #dadee3; height:32px; width:100%;
+    display:flex; align-items:center; font-size:14px; color:#1b2431;
+  }
+  .pv-filtro__loading { display:flex; align-items:center; gap:8px; color:#414d5f; font-size:12px; }
+  .pv-filtro__menu {
+    width:200px; height:40px; max-width:100%; background:#fff; border-radius:4px;
+    box-shadow:0 4px 2px rgba(27,36,49,0.15); border:0.5px solid #dadee3;
+  }
+
+  /* ---------------- Navegación superior / Azul ---------------- */
+  .pv-navbar {
+    width:100%; min-width:0; background:#1d4a91; height:60px; box-sizing:border-box;
+    display:flex; align-items:center; gap:20px; padding:0 24px 0 12px; overflow:hidden;
+  }
+  .pv-navbar__burger { color:#f6f7fa; font-size:16px; flex-shrink:0; }
+  .pv-navbar__brand {
+    display:flex; align-items:center; gap:8px; border-left:1.5px solid #f6f7fa;
+    padding-left:8px; flex-shrink:0; white-space:nowrap;
+  }
+  .pv-navbar__brand-name { color:#f6f7fa; font-size:18px; }
+  .pv-navbar__brand-by { display:flex; align-items:baseline; gap:4px; color:#f6f7fa; font-size:10px; }
+  .pv-navbar__brand-suelo { font-weight:700; font-size:12px; }
+  .pv-navbar__spacer { flex:1 0 0; }
+  .pv-navbar__content { display:flex; align-items:center; gap:16px; flex-wrap:wrap; justify-content:flex-end; }
+  .pv-navbar__select {
+    background:#fff; border:0.5px solid #dadee3; border-radius:4px; height:40px;
+    display:flex; align-items:center; gap:10px; padding:0 8px; width:200px; box-sizing:border-box;
+  }
+  .pv-navbar__select i:first-child { color:#1b2431; font-size:13px; }
+  .pv-navbar__select span { flex:1 0 0; font-size:14px; color:#1b2431; }
+  .pv-navbar__select i:last-child { color:#778294; font-size:12px; }
+  .pv-navbar__pill { display:flex; align-items:center; gap:4px; color:#f6f7fa; white-space:nowrap; }
+  .pv-navbar__pill i { width:24px; height:24px; border-radius:100px; display:flex; align-items:center; justify-content:center; font-size:14px; }
+  .pv-navbar__pill span { font-size:14px; }
+  .pv-navbar__bell { position:relative; color:#f6f7fa; font-size:16px; padding:10px; }
+  .pv-navbar__bell::after {
+    content:""; position:absolute; top:8px; right:8px; width:8px; height:8px; border-radius:50%;
+    background:#ee6002; border:1.5px solid #1d4a91;
+  }
+  .pv-navbar__avatar {
+    width:24px; height:24px; border-radius:100px; background:#0077e4; color:#fff;
+    display:flex; align-items:center; justify-content:center; font-size:12px;
+  }
+
+  @media (max-width: 900px) {
+    .prop-table { font-size:10px; }
+  }
+</style>
+</head>
+<body data-page="organismos">
+<div class="app-shell">
+  <nav class="sidebar" id="sidebar-root"></nav>
+
+  <main class="main">
+    <div class="breadcrumbs">
+      <span class="brand">SUELO</span>
+      <span class="sep">›</span>
+      <span>Componentes</span>
+      <span class="sep">›</span>
+      <span class="current">Organismos</span>
+    </div>
+
+    <div class="accent-bar" style="height:4px;"></div>
+
+    <section class="section">
+      <h1 class="section-title section-title--lg">Organismos</h1>
+      <p class="section-subtitle">Componentes de alto nivel compuestos por múltiples átomos y moléculas. Representan secciones completas de la interfaz.</p>
+    </section>
+
+    <hr class="rule" />
+
+    <div class="form-section" style="display:flex; flex-direction:column; gap:32px; width:100%;">
+
+      <!-- ============ MODALES ============ -->
+      <div class="doc-card">
+        <div class="doc-card__header">
+          <div class="doc-card__title">Modales</div>
+          <span class="doc-card__badge">Organismo</span>
+        </div>
+        <p class="doc-card__desc">Ventanas modales para confirmaciones, formularios y contenido contextual que bloquean la interacción con el fondo.</p>
+
+        <div class="doc-card__subtitle">Propiedades</div>
+        <div style="overflow-x:auto; width:100%;">
+        <table class="prop-table">
+          <colgroup>
+            <col class="col-prop"><col class="col-tipo"><col class="col-valores"><col class="col-desc">
+          </colgroup>
+          <thead><tr><th>Propiedad</th><th>Tipo</th><th>Valores</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td>Tamaño</td><td>Variant</td><td>Small | Medium | Large</td><td>Tamaño del modal</td></tr>
+            <tr><td>Con overlay</td><td>Boolean</td><td>true | false</td><td>Muestra overlay oscuro detrás del modal</td></tr>
+            <tr><td>Dismissable</td><td>Boolean</td><td>true | false</td><td>Permite cerrar con click fuera o ESC</td></tr>
+          </tbody>
+        </table>
+        </div>
+
+        <div class="doc-card__subtitle">Uso recomendado</div>
+        <div class="usage-list">
+          <p>• Usar para acciones que requieren confirmación del usuario</p>
+          <p>• Siempre incluir forma de cerrar visible</p>
+          <p>• No anidar modales dentro de modales</p>
+          <p>• Acciones destructivas requieren confirmación explícita</p>
+        </div>
+
+        <div class="preview-separator"></div>
+
+        <div class="preview-block">
+          <div class="preview-block__label">
+            <span class="preview-block__icon">◉</span>
+            <span class="preview-block__title">Preview interactivo</span>
+            <span class="preview-block__sub">— Modales — Tipos</span>
+          </div>
+          <div class="preview-content">
+
+            <div class="preview-item">
+              <span class="preview-item__caption">Default</span>
+              <div class="pv-modal">
+                <div class="pv-modal__head">
+                  <i class="fa-solid fa-circle-info pv-modal__icon" style="color:#1d4a91;"></i>
+                  <p class="pv-modal__title">¿Querés cerrar sesión?</p>
+                </div>
+                <p class="pv-modal__body">Una vez que cierres sesión deberás volver a loguearte para seguir operando.</p>
+                <div class="pv-modal__actions">
+                  <button class="pv-btn pv-btn--sutil">Cancelar</button>
+                  <button class="pv-btn pv-btn--gray">Cerrar sesión</button>
+                </div>
+                <button class="pv-modal__close"><i class="fa-solid fa-xmark"></i></button>
+              </div>
+            </div>
+
+            <div class="preview-item">
+              <span class="preview-item__caption">Warning</span>
+              <div class="pv-modal">
+                <div class="pv-modal__head">
+                  <i class="fa-solid fa-triangle-exclamation pv-modal__icon" style="color:#ffc107;"></i>
+                  <p class="pv-modal__title">¡Atención!</p>
+                </div>
+                <p class="pv-modal__body">Una vez que cierres sesión deberás volver a loguearte para seguir operando.</p>
+                <div class="pv-modal__actions">
+                  <button class="pv-btn pv-btn--sutil">Cancelar</button>
+                  <button class="pv-btn pv-btn--gray"><i class="fa-solid fa-triangle-exclamation"></i> Resolver</button>
+                </div>
+                <button class="pv-modal__close"><i class="fa-solid fa-xmark"></i></button>
+              </div>
+            </div>
+
+            <div class="preview-item">
+              <span class="preview-item__caption">Rojo</span>
+              <div class="pv-modal">
+                <div class="pv-modal__head">
+                  <i class="fa-solid fa-circle-xmark pv-modal__icon" style="color:#c91313;"></i>
+                  <p class="pv-modal__title">No es posible eliminar esta oferta</p>
+                </div>
+                <p class="pv-modal__body">Para eliminar la oferta no puede haber una carátula asociada.</p>
+                <div class="pv-modal__actions">
+                  <button class="pv-btn pv-btn--sutil">Cancelar</button>
+                  <button class="pv-btn pv-btn--gray">Ver carátula asociada</button>
+                </div>
+                <button class="pv-modal__close"><i class="fa-solid fa-xmark"></i></button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ HEADER ============ -->
+      <div class="doc-card">
+        <div class="doc-card__header">
+          <div class="doc-card__title">Header</div>
+          <span class="doc-card__badge">Organismo</span>
+        </div>
+        <p class="doc-card__desc">Cabecera principal de la aplicación con logo, navegación, notificaciones y menú de usuario.</p>
+
+        <div class="doc-card__subtitle">Propiedades</div>
+        <div style="overflow-x:auto; width:100%;">
+        <table class="prop-table">
+          <colgroup>
+            <col class="col-prop"><col class="col-tipo"><col class="col-valores"><col class="col-desc">
+          </colgroup>
+          <thead><tr><th>Propiedad</th><th>Tipo</th><th>Valores</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td>Variante</td><td>Variant</td><td>Default | Compact</td><td>Altura y densidad del header</td></tr>
+            <tr><td>Con búsqueda</td><td>Boolean</td><td>true | false</td><td>Incluye campo de búsqueda global</td></tr>
+          </tbody>
+        </table>
+        </div>
+
+        <div class="doc-card__subtitle">Uso recomendado</div>
+        <div class="usage-list">
+          <p>• Fijo en la parte superior de la vista</p>
+          <p>• Responsivo: colapsar a menú hamburguesa en mobile</p>
+          <p>• Incluir avatar de usuario con menú desplegable</p>
+        </div>
+
+        <div class="preview-separator"></div>
+
+        <div class="preview-block">
+          <div class="preview-block__label">
+            <span class="preview-block__icon">◉</span>
+            <span class="preview-block__title">Preview interactivo</span>
+            <span class="preview-block__sub">— Header — Tipos</span>
+          </div>
+          <div class="preview-content">
+
+            <div class="preview-item">
+              <span class="preview-item__caption">default</span>
+              <div class="pv-header pv-header--col">
+                <span class="pv-header__title">Title</span>
+              </div>
+            </div>
+
+            <div class="preview-item">
+              <span class="preview-item__caption">Hover header</span>
+              <div class="pv-header">
+                <div class="pv-header__row">
+                  <span class="pv-header__title">Title</span>
+                  <div class="pv-header__actions">
+                    <span class="pv-header__btn pv-header__btn--white"><i class="fa-solid fa-arrow-up"></i></span>
+                    <span class="pv-header__btn pv-header__btn--white"><i class="fa-solid fa-filter"></i></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="preview-item">
+              <span class="preview-item__caption">Hover icono</span>
+              <div class="pv-header">
+                <div class="pv-header__row">
+                  <div class="pv-header__actions">
+                    <span class="pv-header__btn pv-header__btn--soft"><i class="fa-solid fa-arrow-up"></i></span>
+                    <span class="pv-header__btn pv-header__btn--soft"><i class="fa-solid fa-filter"></i></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="preview-item">
+              <span class="preview-item__caption">Checkbox</span>
+              <div class="pv-header pv-header--checkbox">
+                <span class="pv-header__checkbox-box"></span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ CARD BOTÓN ============ -->
+      <div class="doc-card">
+        <div class="doc-card__header">
+          <div class="doc-card__title">Card botón</div>
+          <span class="doc-card__badge">Organismo</span>
+        </div>
+        <p class="doc-card__desc">Tarjeta interactiva con acción principal tipo botón. Combina contenido informativo con un CTA destacado.</p>
+
+        <div class="doc-card__subtitle">Propiedades</div>
+        <div style="overflow-x:auto; width:100%;">
+        <table class="prop-table">
+          <colgroup>
+            <col class="col-prop"><col class="col-tipo"><col class="col-valores"><col class="col-desc">
+          </colgroup>
+          <thead><tr><th>Propiedad</th><th>Tipo</th><th>Valores</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td>Con ícono</td><td>Boolean</td><td>true | false</td><td>Muestra ícono decorativo</td></tr>
+            <tr><td>Variante</td><td>Variant</td><td>Default | Highlighted</td><td>Nivel de énfasis visual</td></tr>
+          </tbody>
+        </table>
+        </div>
+
+        <div class="doc-card__subtitle">Uso recomendado</div>
+        <div class="usage-list">
+          <p>• Usar para opciones de selección tipo wizard</p>
+          <p>• Cada card debe tener una acción clara</p>
+          <p>• Mantener altura uniforme en grids de cards</p>
+        </div>
+
+        <div class="preview-separator"></div>
+
+        <div class="preview-block">
+          <div class="preview-block__label">
+            <span class="preview-block__icon">◉</span>
+            <span class="preview-block__title">Preview interactivo</span>
+            <span class="preview-block__sub">— Card botón — Tipos y estados</span>
+          </div>
+          <div class="preview-content">
+
+            <div class="preview-item">
+              <span class="preview-item__caption">Ilustración L</span>
+              <div class="pv-cardbtn pv-cardbtn--l">
+                <span class="pv-cardbtn__illus"><i class="fa-regular fa-image"></i></span>
+                <div class="pv-cardbtn__body">
+                  <p class="pv-cardbtn__title">Documentación de la bolka </p>
+                  <p class="pv-cardbtn__desc">12/12/2024</p>
+                  <button class="pv-cardbtn__link">Botón</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="preview-item">
+              <span class="preview-item__caption">Ícono L</span>
+              <div class="pv-cardbtn pv-cardbtn--l">
+                <span class="pv-cardbtn__icon32"><i class="fa-solid fa-dollar-sign"></i></span>
+                <div class="pv-cardbtn__body">
+                  <p class="pv-cardbtn__title">Título</p>
+                  <p class="pv-cardbtn__desc pv-cardbtn__desc--sm">Subtitulo</p>
+                </div>
+                <span class="pv-cardbtn__star"><i class="fa-regular fa-star"></i></span>
+                <span class="pv-cardbtn__chip">LABEL</span>
+              </div>
+            </div>
+
+            <div class="preview-item">
+              <span class="preview-item__caption">Ícono S</span>
+              <div class="pv-cardbtn pv-cardbtn--s">
+                <span class="pv-cardbtn__icon24"><i class="fa-solid fa-dollar-sign"></i></span>
+                <div class="pv-cardbtn__body" style="gap:0;">
+                  <p class="pv-cardbtn__title" style="font-size:16px; font-weight:400;">Documentación</p>
+                  <p class="pv-cardbtn__desc pv-cardbtn__desc--sm">12/12/2024</p>
+                </div>
+                <span class="pv-cardbtn__star"><i class="fa-regular fa-star"></i></span>
+              </div>
+            </div>
+
+            <div class="preview-item">
+              <span class="preview-item__caption">Ícono Hover</span>
+              <div class="pv-cardbtn pv-cardbtn--s pv-cardbtn--hover">
+                <span class="pv-cardbtn__icon24"><i class="fa-solid fa-dollar-sign"></i></span>
+                <div class="pv-cardbtn__body" style="gap:0;">
+                  <p class="pv-cardbtn__title" style="font-size:16px; font-weight:400;">Documentación</p>
+                  <p class="pv-cardbtn__desc pv-cardbtn__desc--sm">12/12/2024</p>
+                </div>
+                <span class="pv-cardbtn__star"><i class="fa-regular fa-star"></i></span>
+              </div>
+            </div>
+
+            <div class="preview-item">
+              <span class="preview-item__caption">Ilustración Hover</span>
+              <div class="pv-cardbtn pv-cardbtn--l pv-cardbtn--hover">
+                <span class="pv-cardbtn__illus"><i class="fa-regular fa-image"></i></span>
+                <div class="pv-cardbtn__body">
+                  <p class="pv-cardbtn__title" style="font-weight:600;">Documentación</p>
+                  <p class="pv-cardbtn__desc">12/12/2024</p>
+                  <button class="pv-cardbtn__link">Botón</button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ CARD KPI (OBSOLETO) ============ -->
+      <div class="doc-card doc-card--obsoleto">
+        <div class="doc-card__header">
+          <div class="doc-card__title" style="color:#b28000;">Card KPI (OBSOLETO)</div>
+          <span class="doc-card__badge">Organismo</span>
+        </div>
+        <p class="doc-card__desc">Tarjeta de indicador clave de rendimiento. NOTA: Este componente está marcado como OBSOLETO y no debe usarse en nuevos desarrollos.</p>
+
+        <div class="doc-card__subtitle">Propiedades</div>
+        <div style="overflow-x:auto; width:100%;">
+        <table class="prop-table">
+          <colgroup>
+            <col class="col-prop"><col class="col-tipo"><col class="col-valores"><col class="col-desc">
+          </colgroup>
+          <thead><tr><th>Propiedad</th><th>Tipo</th><th>Valores</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td>Trend</td><td>Instance</td><td>Trend numérico</td><td>Indicador de tendencia</td></tr>
+            <tr><td>Valor</td><td>String</td><td>Valor numérico</td><td>Cifra principal del KPI</td></tr>
+          </tbody>
+        </table>
+        </div>
+
+        <div class="doc-card__subtitle">Uso recomendado</div>
+        <div class="usage-list">
+          <p class="obsoleto-warning">⚠️ OBSOLETO — No usar en nuevos desarrollos</p>
+          <p>• Reemplazar instancias existentes cuando sea posible</p>
+          <p>• Consultar al equipo de diseño por el reemplazo recomendado</p>
+        </div>
+
+        <div class="preview-separator"></div>
+
+        <div class="preview-block">
+          <div class="preview-block__label">
+            <span class="preview-block__icon">◉</span>
+            <span class="preview-block__title">Preview interactivo</span>
+            <span class="preview-block__sub">— Card KPI — Tipos y tamaños (OBSOLETO)</span>
+          </div>
+          <div class="preview-content">
+
+            <div class="preview-item">
+              <span class="preview-item__caption">Tipo=Numero<br>Tamaño=Grande</span>
+              <div class="pv-kpi">
+                <div class="pv-kpi__head">
+                  <span class="pv-kpi__icon"><i class="fa-solid fa-dollar-sign"></i></span>
+                  <span class="pv-kpi__chip">LABEL</span>
+                </div>
+                <p class="pv-kpi__desc-principal">Descripción principal</p>
+                <p class="pv-kpi__value">1234567,25</p>
+                <p class="pv-kpi__desc-secundaria">Descripción secundaria</p>
+                <div class="pv-kpi__actions">
+                  <button class="pv-kpi__btn"><i class="fa-solid fa-chart-line"></i></button>
+                  <button class="pv-kpi__btn">Ver detalles <i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+              </div>
+            </div>
+
+            <div class="preview-item">
+              <span class="preview-item__caption">Tipo=Numero<br>Tamaño=Chico</span>
+              <div class="pv-kpi">
+                <span class="pv-kpi__chip">LABEL</span>
+                <p class="pv-kpi__desc-principal" style="font-size:12px;">Descripción principal</p>
+                <p class="pv-kpi__value pv-kpi__value--sm">1234567,25</p>
+                <p class="pv-kpi__desc-secundaria">Descripción secundaria</p>
+                <div class="pv-kpi__actions">
+                  <button class="pv-kpi__btn"><i class="fa-solid fa-chart-line"></i></button>
+                  <button class="pv-kpi__btn">Ver detalles <i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+              </div>
+            </div>
+
+            <div class="preview-item">
+              <span class="preview-item__caption">Tipo=Texto<br>Tamaño=Grande</span>
+              <div class="pv-kpi">
+                <div class="pv-kpi__head">
+                  <span class="pv-kpi__icon"><i class="fa-solid fa-dollar-sign"></i></span>
+                  <span class="pv-kpi__chip">LABEL</span>
+                </div>
+                <p class="pv-kpi__desc-principal pv-kpi__desc-principal--lg">Descripción principal</p>
+                <p class="pv-kpi__desc-secundaria">Descripción secundaria</p>
+                <div class="pv-kpi__actions">
+                  <button class="pv-kpi__btn"><i class="fa-solid fa-chart-line"></i></button>
+                  <button class="pv-kpi__btn">Ver detalles <i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+              </div>
+            </div>
+
+            <div class="preview-item">
+              <span class="preview-item__caption">Tipo=Texto<br>Tamaño=Chico</span>
+              <div class="pv-kpi">
+                <span class="pv-kpi__chip">LABEL</span>
+                <p class="pv-kpi__desc-principal" style="font-size:16px;">Descripción principal</p>
+                <p class="pv-kpi__desc-secundaria">Descripción secundaria</p>
+                <div class="pv-kpi__actions">
+                  <button class="pv-kpi__btn"><i class="fa-solid fa-chart-line"></i></button>
+                  <button class="pv-kpi__btn">Ver detalles <i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ CARD IMPORTACIÓN DE ARCHIVOS ============ -->
+      <div class="doc-card">
+        <div class="doc-card__header">
+          <div class="doc-card__title">Card importación de archivos</div>
+          <span class="doc-card__badge">Organismo</span>
+        </div>
+        <p class="doc-card__desc">Tarjeta especializada para el flujo de importación de archivos con preview y acciones de archivo.</p>
+
+        <div class="doc-card__subtitle">Propiedades</div>
+        <div style="overflow-x:auto; width:100%;">
+        <table class="prop-table">
+          <colgroup>
+            <col class="col-prop"><col class="col-tipo"><col class="col-valores"><col class="col-desc">
+          </colgroup>
+          <thead><tr><th>Propiedad</th><th>Tipo</th><th>Valores</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td>Estado</td><td>Variant</td><td>Empty | Loaded | Error</td><td>Estado de la importación</td></tr>
+            <tr><td>Preview</td><td>Boolean</td><td>true | false</td><td>Muestra preview del archivo</td></tr>
+          </tbody>
+        </table>
+        </div>
+
+        <div class="doc-card__subtitle">Uso recomendado</div>
+        <div class="usage-list">
+          <p>• Usar dentro del flujo de importación de datos</p>
+          <p>• Mostrar nombre, tamaño y tipo de archivo</p>
+          <p>• Incluir acción de eliminar archivo cargado</p>
+        </div>
+
+        <div class="preview-separator"></div>
+
+        <div class="preview-block">
+          <div class="preview-block__label">
+            <span class="preview-block__icon">◉</span>
+            <span class="preview-block__title">Preview interactivo</span>
+            <span class="preview-block__sub">— Card importación — Tamaños</span>
+          </div>
+          <div class="preview-content" style="align-items:stretch;">
+
+            <div class="preview-item" style="flex:1 0 320px; align-items:stretch;">
+              <span class="preview-item__caption">Grande</span>
+              <div class="pv-import">
+                <div class="pv-import__row">
+                  <div class="pv-import__file">
+                    <span class="pv-import__icon"><i class="fa-solid fa-file"></i></span>
+                    <div>
+                      <p class="pv-import__name">customers_Q5_2024.json</p>
+                      <p class="pv-import__size">200 KB</p>
+                    </div>
+                  </div>
+                  <button class="pv-import__close"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div class="pv-import__progress"><div class="pv-import__progress-fill"></div></div>
+                <p class="pv-import__detail">Importando archivos - 50%</p>
+              </div>
+            </div>
+
+            <div class="preview-item" style="align-items:stretch;">
+              <span class="preview-item__caption">Chico</span>
+              <div class="pv-import pv-import--sm">
+                <div class="pv-import__row">
+                  <div class="pv-import__file">
+                    <span class="pv-import__icon"><i class="fa-solid fa-file"></i></span>
+                    <div>
+                      <p class="pv-import__name">customers_Q5_2024.json</p>
+                      <p class="pv-import__size">200 KB</p>
+                    </div>
+                  </div>
+                  <button class="pv-import__close"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div class="pv-import__progress"><div class="pv-import__progress-fill"></div></div>
+                <p class="pv-import__detail">Importando archivos - 50%</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ DESPLEGABLES FILTROS GRILLA ============ -->
+      <div class="doc-card">
+        <div class="doc-card__header">
+          <div class="doc-card__title">Desplegables Filtros grilla</div>
+          <span class="doc-card__badge">Organismo</span>
+        </div>
+        <p class="doc-card__desc">Barra de filtros con desplegables para filtrado avanzado de datos en tablas y grillas.</p>
+
+        <div class="doc-card__subtitle">Propiedades</div>
+        <div style="overflow-x:auto; width:100%;">
+        <table class="prop-table">
+          <colgroup>
+            <col class="col-prop"><col class="col-tipo"><col class="col-valores"><col class="col-desc">
+          </colgroup>
+          <thead><tr><th>Propiedad</th><th>Tipo</th><th>Valores</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td>Filtros</td><td>Instance[]</td><td>Array de filtros activos</td><td>Filtros disponibles en la barra</td></tr>
+          </tbody>
+        </table>
+        </div>
+
+        <div class="doc-card__subtitle">Uso recomendado</div>
+        <div class="usage-list">
+          <p>• Posicionar sobre la tabla de datos</p>
+          <p>• Mostrar filtros activos como chips removibles</p>
+          <p>• Incluir botón 'Limpiar filtros' cuando haya filtros activos</p>
+        </div>
+
+        <div class="preview-separator"></div>
+
+        <div class="preview-block">
+          <div class="preview-block__label">
+            <span class="preview-block__icon">◉</span>
+            <span class="preview-block__title">Preview interactivo</span>
+            <span class="preview-block__sub">— Desplegables Filtros — Tipos</span>
+          </div>
+          <div class="preview-content" style="align-items:flex-start;">
+
+            <div class="preview-item">
+              <span class="preview-item__caption">Checkbox<br>default</span>
+              <div class="pv-filtro" style="width:223px;">
+                <div class="pv-filtro__input"><i class="fa-solid fa-magnifying-glass"></i><span>Placeholder</span></div>
+                <div class="pv-filtro__checkbox"><span class="pv-filtro__checkbox-box"></span><span>Todos</span></div>
+                <div class="pv-filtro__rule"></div>
+                <div class="pv-filtro__checkbox"><span class="pv-filtro__checkbox-box"></span><span>Label</span></div>
+                <div class="pv-filtro__checkbox"><span class="pv-filtro__checkbox-box"></span><span>Label</span></div>
+                <div class="pv-filtro__checkbox"><span class="pv-filtro__checkbox-box--checked"><i class="fa-solid fa-square-check"></i></span><span>Label</span></div>
+                <div class="pv-filtro__checkbox"><span class="pv-filtro__checkbox-box"></span><span>Label</span></div>
+                <div class="pv-filtro__actions">
+                  <button class="pv-filtro__btn pv-filtro__btn--sutil">Limpiar</button>
+                  <button class="pv-filtro__btn pv-filtro__btn--gray">Ver resultados</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="preview-item">
+              <span class="preview-item__caption">Chips</span>
+              <div class="pv-filtro" style="width:225px;">
+                <div class="pv-filtro__input"><i class="fa-solid fa-magnifying-glass"></i><span>Placeholder</span></div>
+                <div class="pv-filtro__checkbox"><span class="pv-filtro__checkbox-box"></span><span>Todos</span></div>
+                <div class="pv-filtro__chips-row">
+                  <span class="pv-filtro__chip">LABEL</span>
+                  <span class="pv-filtro__chip">LABEL</span>
+                  <span class="pv-filtro__chip">LABEL</span>
+                  <span class="pv-filtro__chip">LABEL</span>
+                  <span class="pv-filtro__chip">LABEL</span>
+                </div>
+                <div class="pv-filtro__actions">
+                  <button class="pv-filtro__btn pv-filtro__btn--sutil">Limpiar</button>
+                  <button class="pv-filtro__btn pv-filtro__btn--gray">Ver resultados</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="preview-item">
+              <span class="preview-item__caption">Checkbox<br>Numero</span>
+              <div class="pv-filtro" style="width:205px;">
+                <div class="pv-filtro__num-row">
+                  <span class="pv-filtro__num-btn"><i class="fa-solid fa-angle-left"></i></span>
+                  <span class="pv-filtro__num-value">123456</span>
+                </div>
+                <div class="pv-filtro__actions">
+                  <button class="pv-filtro__btn pv-filtro__btn--sutil">Cancelar</button>
+                  <button class="pv-filtro__btn pv-filtro__btn--gray">Aplicar</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="preview-item">
+              <span class="preview-item__caption">Autocomplete<br>con<br>buscador</span>
+              <div class="pv-filtro" style="width:190px;">
+                <div class="pv-filtro__input"><i class="fa-solid fa-magnifying-glass"></i><span>Placeholder</span></div>
+                <div class="pv-filtro__autocomplete-item">Label</div>
+                <div class="pv-filtro__autocomplete-item">Label</div>
+                <div class="pv-filtro__autocomplete-item">Label</div>
+                <div class="pv-filtro__autocomplete-item">Label</div>
+              </div>
+            </div>
+
+            <div class="preview-item">
+              <span class="preview-item__caption">Loading</span>
+              <div class="pv-filtro" style="width:190px; align-items:center;">
+                <div class="pv-filtro__input" style="width:100%;"><i class="fa-solid fa-magnifying-glass"></i><span>Placeholder</span></div>
+                <div class="pv-filtro__loading"><i class="fa-solid fa-spinner fa-spin"></i> Cargando...</div>
+              </div>
+            </div>
+
+            <div class="preview-item">
+              <span class="preview-item__caption">Desplegable<br>menu</span>
+              <div class="pv-filtro__menu"></div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ NAVEGACIÓN SUPERIOR / AZUL ============ -->
+      <div class="doc-card">
+        <div class="doc-card__header">
+          <div class="doc-card__title">Navegación superior / Azul</div>
+          <span class="doc-card__badge">Organismo</span>
+        </div>
+        <p class="doc-card__desc">Barra de navegación superior con fondo azul institucional. Variante principal de navegación de la aplicación.</p>
+
+        <div class="doc-card__subtitle">Propiedades</div>
+        <div style="overflow-x:auto; width:100%;">
+        <table class="prop-table">
+          <colgroup>
+            <col class="col-prop"><col class="col-tipo"><col class="col-valores"><col class="col-desc">
+          </colgroup>
+          <thead><tr><th>Propiedad</th><th>Tipo</th><th>Valores</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td>Items</td><td>Instance[]</td><td>Items de menú</td><td>Elementos de navegación principal</td></tr>
+          </tbody>
+        </table>
+        </div>
+
+        <div class="doc-card__subtitle">Uso recomendado</div>
+        <div class="usage-list">
+          <p>• Usar como navegación principal de la aplicación</p>
+          <p>• Resaltar sección activa</p>
+          <p>• Integrar con el componente Header</p>
+        </div>
+
+        <div class="preview-separator"></div>
+
+        <div class="preview-block">
+          <div class="preview-block__label">
+            <span class="preview-block__icon">◉</span>
+            <span class="preview-block__title">Preview interactivo</span>
+            <span class="preview-block__sub">— Navegación superior / Azul</span>
+          </div>
+          <div class="preview-content" style="padding:24px 0;">
+            <div class="preview-item" style="width:100%; align-items:stretch;">
+              <span class="preview-item__caption" style="padding:0 24px;">Default</span>
+              <div class="pv-navbar">
+                <i class="fa-solid fa-bars pv-navbar__burger"></i>
+                <div class="pv-navbar__brand">
+                  <span class="pv-navbar__brand-name">one clearing</span>
+                  <span class="pv-navbar__brand-by">by <span class="pv-navbar__brand-suelo">SUELO</span></span>
+                </div>
+                <div class="pv-navbar__spacer"></div>
+                <div class="pv-navbar__content">
+                  <div class="pv-navbar__select">
+                    <i class="fa-solid fa-building"></i>
+                    <span>GRANAR S.A.</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                  </div>
+                  <div class="pv-navbar__pill"><i class="fa-solid fa-building"></i><span>GRANAR S.A.</span></div>
+                  <div class="pv-navbar__pill"><i class="fa-solid fa-user"></i><span>Juan Perez</span></div>
+                  <i class="fa-solid fa-bell pv-navbar__bell"></i>
+                  <span class="pv-navbar__avatar">F</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+<div class="accent-bar" style="position:fixed; bottom:0; left:0; right:0;"></div>
+<script src="js/nav.js"></script>
+</body>
+</html>

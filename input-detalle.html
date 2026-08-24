@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SUELO — Detalle: Input (Campo de Texto)</title>
+<meta name="description" content="SUELO — Documentación detallada del componente Input (Campo de Texto): uso, anatomía, propiedades, estados y accesibilidad." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="css/tokens.css" />
+<link rel="stylesheet" href="css/base.css" />
+<style>
+  /* ---------- Página: Detalle Input ---------- */
+  .page-title {
+    font-weight: 700;
+    font-size: 36px;
+    color: #1c2e4d;
+  }
+  .page-desc {
+    font-size: 15px;
+    line-height: 22px;
+    color: var(--texto-light);
+    max-width: 800px;
+  }
+  .subsection-title {
+    font-weight: 700;
+    font-size: 20px;
+    color: var(--texto-default);
+    border-bottom: 1px solid var(--borde-default);
+    padding-bottom: 12px;
+    width: 100%;
+  }
+
+  /* Cuándo usar / evitar */
+  .uso-grid { display:flex; gap:24px; width:100%; align-items:stretch; }
+  .uso-card {
+    background:#fff; border:1px solid var(--borde-default); border-radius:12px;
+    padding:20px; display:flex; flex-direction:column; gap:16px; flex:1 0 0;
+  }
+  .uso-card__head { display:flex; align-items:center; gap:8px; font-size:16px; }
+  .uso-card__head--ok i { color: var(--color-verde); }
+  .uso-card__head--no i { color: var(--color-rojo); }
+  .uso-card__head strong { color: var(--texto-default); font-weight:700; }
+  .uso-list { display:flex; flex-direction:column; gap:12px; margin:0; padding:0; list-style:none; }
+  .uso-list li { font-size:13px; color: var(--texto-light); }
+
+  /* Anatomía */
+  .anatomia-box {
+    background:#fff; border:1px solid var(--borde-default); border-radius:12px;
+    padding:32px; display:flex; gap:40px; align-items:center; width:100%;
+  }
+  .anatomia-preview {
+    background: var(--gris-1); border-radius:8px; padding:24px; width:400px; flex-shrink:0;
+    display:flex; flex-direction:column; gap:4px;
+  }
+  .anatomia-preview .anat-label-row { display:flex; gap:4px; align-items:center; font-size:11px; }
+  .anatomia-preview .anat-label-row .num { color: var(--color-primario); font-weight:600; }
+  .anatomia-preview .anat-label-row .req { color: var(--color-rojo); }
+  .anatomia-field {
+    background:#fff; border:1px solid var(--color-primario); border-radius:6px;
+    display:flex; gap:10px; align-items:center; padding:12px; width:100%;
+    color: var(--texto-light-3); font-size:13px;
+  }
+  .anatomia-field .num { font-size:12px; }
+  .anatomia-helper { font-size:11px; color: var(--texto-light-2); }
+  .anatomia-copy { flex:1 0 0; display:flex; flex-direction:column; gap:12px; }
+  .anatomia-copy h3 { margin:0; font-size:14px; font-weight:600; color: var(--texto-default); }
+  .anatomia-copy ol { margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:8px; }
+  .anatomia-copy li { font-size:13px; color: var(--texto-light); }
+
+  /* Tabla de propiedades */
+  .prop-table-wrap { border:1px solid var(--borde-default); border-radius:12px; overflow:hidden; width:100%; }
+  .prop-table { width:100%; border-collapse:collapse; font-size:13px; }
+  .prop-table th {
+    background: var(--gris-2); text-align:left; padding:16px; font-weight:700; color: var(--texto-default);
+  }
+  .prop-table td { padding:16px; border-top:1px solid var(--borde-default); color: var(--texto-light); vertical-align:top; }
+  .prop-table tr:first-child td { border-top:none; }
+  .prop-table td.prop-name { font-weight:600; color: var(--texto-default); white-space:nowrap; }
+  .prop-table td.prop-type { color: var(--color-primario); white-space:nowrap; }
+
+  /* Preview interactivo dentro de la tabla */
+  .preview-separator { height:1px; background:#e5e8ed; width:100%; }
+  .preview-box {
+    background:#f5f7fa; padding:20px 24px 24px; display:flex; flex-direction:column; gap:16px; width:100%;
+  }
+  .preview-box__head { display:flex; align-items:center; gap:8px; }
+  .preview-box__badge {
+    background: var(--color-primario-fuerte); color:#fff; width:20px; height:20px; border-radius:4px;
+    display:flex; align-items:center; justify-content:center; font-size:11px;
+  }
+  .preview-box__title { font-weight:600; font-size:13px; color:#1c2e4d; }
+  .preview-box__sub { font-size:13px; color:#6b737d; }
+  .preview-content {
+    background:#fff; border-radius:8px; padding:24px; display:flex; flex-wrap:wrap; gap:0 20px;
+    align-items:flex-start; justify-content:center;
+  }
+  .preview-item { display:flex; flex-direction:column; gap:6px; align-items:center; }
+  .preview-item__label { font-weight:600; font-size:10px; color:#6b737d; }
+
+  /* Input field system */
+  .field { display:flex; flex-direction:column; gap:4px; width:273px; }
+  .field--narrow { width:146px; }
+  .field__label-row { display:flex; gap:6px; align-items:flex-start; }
+  .field__label { font-size:11px; color: var(--texto-light); }
+  .field__req { font-size:14px; color:#c01c1c; font-weight:500; }
+  .field__helper { font-size:14px; color: var(--texto-light-2); }
+  .field__error-text { font-size:14px; color:#c91313; }
+
+  .input-ctrl {
+    background:#fff; border:1px solid var(--borde-default); border-radius:4px;
+    height:40px; padding:0 8px; display:flex; align-items:center; gap:10px; width:100%;
+    font-family: var(--font-body); font-size:14px; color: var(--texto-light);
+  }
+  .input-ctrl:focus { outline:none; }
+  .input-ctrl::placeholder { color: var(--texto-light-3); }
+  .input-ctrl--activo { border-color: var(--texto-light-2); color: var(--texto-default); }
+  .input-ctrl--error { background:#f5ecec; border:0.5px solid #e07171; color:#c91313; }
+  .input-ctrl--error::placeholder { color:#c91313; }
+  .input-ctrl--disabled { background: var(--gris-2); border-color: var(--borde-default); color: var(--texto-light-3); }
+  .input-ctrl--hover { border-color: var(--texto-light); }
+  .input-ctrl--focus { border:1.5px solid var(--color-primario); color: var(--texto-default); }
+  .input-ctrl--icon-left { padding-left:8px; }
+  .input-ctrl i.field-icon { color:#525252; font-size:12px; }
+  .input-ctrl--password { justify-content:space-between; padding-right:24px; }
+  .input-ctrl--password .pwd-dots { height:8px; width:104px; display:flex; align-items:center; gap:4px; }
+  .input-ctrl--password .pwd-dots span { width:8px; height:8px; border-radius:50%; background:#414d5f; flex-shrink:0; }
+  .input-ctrl--password i { color: var(--texto-default); font-size:16px; cursor:pointer; }
+
+  /* Numeric stepper */
+  .field-numeric { border:1px solid var(--texto-light-2); border-radius:4px; display:flex; align-items:stretch; width:100%; overflow:hidden; }
+  .field-numeric input {
+    flex:1 0 0; border:none; height:40px; padding:0 8px; font-size:14px; color: var(--texto-light);
+    font-family: var(--font-body); min-width:0;
+  }
+  .field-numeric input:focus { outline:none; }
+  .field-numeric__steppers { display:flex; flex-direction:column; }
+  .field-numeric__steppers button {
+    background:#fff; border:none; border-top:1px solid var(--texto-light-2); border-left:1px solid var(--texto-light-2);
+    width:24px; height:20px; font-size:10px; color: var(--texto-light); cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .field-numeric__steppers button:first-child { border-top:none; }
+
+  .field-textarea {
+    background:#fff; border:1px solid var(--texto-light-2); border-radius:4px;
+    padding:8px 8px 18px; font-size:14px; color: var(--texto-default); font-family: var(--font-body);
+    resize:none; width:100%; height:126px;
+  }
+  .field-textarea:focus { outline:none; }
+
+  /* Ejemplo interactivo */
+  .interactivo-grid { display:flex; gap:24px; width:100%; align-items:stretch; }
+  .control-panel {
+    background:#fff; border:1px solid var(--borde-default); border-radius:12px;
+    padding:24px; display:flex; flex-direction:column; gap:20px; width:400px; flex-shrink:0;
+  }
+  .control-panel__title { font-weight:700; font-size:16px; color: var(--texto-default); margin:0; }
+  .select-ctrl {
+    background:#fff; border:0.5px solid var(--borde-default); border-radius:4px;
+    height:40px; padding:0 8px; display:flex; align-items:center; justify-content:space-between; gap:10px;
+    font-size:14px; color: var(--texto-default); font-family: var(--font-body); width:100%;
+  }
+  .select-ctrl i { color: var(--texto-light-2); font-size:12px; }
+  .toggle-row { display:flex; align-items:center; justify-content:space-between; width:100%; }
+  .toggle-row__label { font-size:13px; color: var(--texto-default); font-weight:600; }
+  .toggle {
+    width:32px; height:16px; border-radius:10px; background: var(--color-primario-fuerte);
+    display:flex; align-items:center; justify-content:flex-end; padding:2px; cursor:pointer; border:none;
+  }
+  .toggle__knob { width:12px; height:12px; border-radius:8px; background: var(--gris-1); }
+
+  .preview-live {
+    background:#fff; border:1px solid var(--borde-default); border-radius:12px;
+    flex:1 0 0; min-height:300px; display:flex; align-items:center; justify-content:center; padding:40px;
+  }
+  .preview-live__inner { display:flex; flex-direction:column; gap:8px; width:320px; }
+  .preview-live__eyebrow { font-weight:600; font-size:11px; color: var(--texto-light-2); text-transform:uppercase; }
+
+  /* Estados grid */
+  .estados-box {
+    background:#fff; border:1px solid var(--borde-default); border-radius:12px;
+    padding:24px; display:flex; gap:20px; align-items:flex-start; width:100%;
+  }
+  .estado-col { flex:1 0 0; display:flex; flex-direction:column; gap:12px; min-width:0; }
+  .estado-col__label { font-weight:700; font-size:13px; color: var(--texto-light-2); }
+
+  /* Buenas y malas prácticas */
+  .practicas-grid { display:flex; gap:24px; width:100%; align-items:stretch; }
+  .practica-card {
+    background:#fff; border-radius:12px; padding:24px; flex:1 0 0;
+    display:flex; flex-direction:column; gap:20px; border:2px solid;
+  }
+  .practica-card--ok { border-color:#50a381; }
+  .practica-card--no { border-color:#e07171; }
+  .practica-card__head { display:flex; align-items:center; gap:8px; font-size:15px; font-weight:700; }
+  .practica-card__head--ok { color:#1e7350; }
+  .practica-card__head--ok i { color: var(--color-verde); }
+  .practica-card__head--no { color:#c91313; }
+  .practica-card__head--no i { color:#c91313; }
+  .practica-item { display:flex; flex-direction:column; gap:6px; }
+  .practica-item__title { font-weight:600; font-size:13px; color: var(--texto-default); }
+  .practica-item__desc { font-size:12px; color: var(--texto-light); }
+
+  /* Accesibilidad */
+  .a11y-box {
+    background:#edf6ff; border:1px solid #0077e4; border-radius:12px;
+    padding:24px; display:flex; flex-direction:column; gap:16px; width:100%;
+  }
+  .a11y-box__head { display:flex; align-items:center; gap:10px; color:#0077e4; }
+  .a11y-box__head i { font-size:18px; }
+  .a11y-box__head strong { font-size:15px; font-weight:700; }
+  .a11y-list { margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:10px; }
+  .a11y-list li { font-size:13px; color: var(--texto-default); }
+  .a11y-list code { background:rgba(0,0,0,0.06); padding:1px 4px; border-radius:3px; font-family:monospace; }
+
+  @media (max-width: 900px) {
+    .uso-grid, .anatomia-box, .interactivo-grid, .estados-box, .practicas-grid { flex-direction:column; }
+    .anatomia-preview, .control-panel { width:100%; }
+  }
+</style>
+</head>
+<body data-page="componentes">
+<div class="app-shell">
+  <nav class="sidebar" id="sidebar-root"></nav>
+
+  <main class="main">
+    <div class="breadcrumbs">
+      <span class="brand">SUELO</span>
+      <span class="sep">›</span>
+      <span class="current">Componentes</span>
+      <span class="sep">›</span>
+      <span style="color:var(--texto-light-2); font-weight:600;">Átomos</span>
+      <span class="sep">›</span>
+      <span style="color:var(--color-primario); font-weight:700;">Input</span>
+    </div>
+
+    <section class="section">
+      <h1 class="page-title">Input (Campo de Texto)</h1>
+      <p class="page-desc">El componente Input permite a los usuarios ingresar, editar y buscar datos en campos de texto estructurados. Soporta etiquetas, iconos y textos de ayuda de manera nativa.</p>
+    </section>
+
+    <!-- Uso del componente -->
+    <section class="section">
+      <h2 class="subsection-title">Uso del Componente</h2>
+      <div class="uso-grid">
+        <div class="uso-card">
+          <div class="uso-card__head uso-card__head--ok"><i class="fa-solid fa-circle-check"></i><strong>Cuándo utilizar</strong></div>
+          <ul class="uso-list">
+            <li>• Para el ingreso de datos simples de una sola línea (nombres, contraseñas, correos).</li>
+            <li>• En formularios de registro, inicio de sesión y configuración.</li>
+            <li>• Campos de búsqueda rápida o filtrado interactivo de grillas.</li>
+          </ul>
+        </div>
+        <div class="uso-card">
+          <div class="uso-card__head uso-card__head--no"><i class="fa-solid fa-circle-xmark"></i><strong>Cuándo evitar</strong></div>
+          <ul class="uso-list">
+            <li>• Si el usuario requiere ingresar textos largos, utilizar un &nbsp;en su lugar.</li>
+            <li>• Si las opciones de respuesta están predefinidas y son fijas, use el componente .</li>
+            <li>• Para la selección de rangos de fechas o valores continuos, usar selectores numéricos dedicados.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Anatomía del componente -->
+    <section class="section">
+      <h2 class="subsection-title">Anatomía del Componente</h2>
+      <div class="anatomia-box">
+        <div class="anatomia-preview">
+          <div class="anat-label-row">
+            <span class="num">1. Label / Etiqueta</span>
+            <span class="req">*</span>
+          </div>
+          <div class="anatomia-field">
+            <span class="num">2. Icono Izq</span>
+            <span style="flex:1 0 0;">3. Texto Placeholder / Input</span>
+            <span class="num">4. Icono Der</span>
+          </div>
+          <div class="anatomia-helper">5. Helper text / Texto descriptivo adicional</div>
+        </div>
+        <div class="anatomia-copy">
+          <h3>Elementos Clave:</h3>
+          <ol>
+            <li>Texto descriptivo corto que indica qué debe ingresar el usuario en el campo. Obligatorio por accesibilidad.</li>
+            <li>Delimita el área activa de interacción. Cambia su color según el estado (Error, Focus, Hover, Inactivo).</li>
+            <li>Proporcionan claves visuales rápidas o disparan acciones adicionales (como borrar o ver contraseña).</li>
+            <li>Información de soporte debajo del contenedor para dar formato o clarificar requisitos.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tabla de propiedades -->
+    <section class="section">
+      <h2 class="subsection-title">Tabla de Propiedades</h2>
+      <div class="prop-table-wrap">
+        <table class="prop-table">
+          <thead>
+            <tr>
+              <th style="width:150px;">Propiedad</th>
+              <th style="width:120px;">Tipo</th>
+              <th style="width:250px;">Valores</th>
+              <th>Descripción</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="prop-name">Variante</td>
+              <td class="prop-type">Variant</td>
+              <td>Default | Oscuro | Linea | Error</td>
+              <td>Define el estilo visual del contenedor del input.</td>
+            </tr>
+            <tr>
+              <td class="prop-name">Estado</td>
+              <td class="prop-type">Variant</td>
+              <td>Inactivo | Activo | Error | No editable</td>
+              <td>Estado interactivo del componente.</td>
+            </tr>
+            <tr>
+              <td class="prop-name">Tamaño</td>
+              <td class="prop-type">Variant</td>
+              <td>small | medium | large</td>
+              <td>Escala de altura del input para densidades alternativas.</td>
+            </tr>
+            <tr>
+              <td class="prop-name">Con Icono</td>
+              <td class="prop-type">Boolean</td>
+              <td>true | false</td>
+              <td>Habilita o deshabilita los iconos derecho e izquierdo.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="preview-separator"></div>
+
+        <div class="preview-box">
+          <div class="preview-box__head">
+            <span class="preview-box__badge">◉</span>
+            <span class="preview-box__title">Preview interactivo</span>
+            <span class="preview-box__sub">— Input — Tipos y estados</span>
+          </div>
+          <div class="preview-content">
+            <div class="preview-item">
+              <span class="preview-item__label">Texto Inactivo</span>
+              <div class="field">
+                <div class="field__label-row">
+                  <span class="field__label">Label</span>
+                  <span class="field__req">*</span>
+                </div>
+                <input class="input-ctrl" type="text" placeholder="Placeholder" disabled>
+              </div>
+            </div>
+            <div class="preview-item">
+              <span class="preview-item__label">Texto Activo</span>
+              <div class="field">
+                <div class="field__label-row">
+                  <span class="field__label">Label</span>
+                  <span class="field__req">*</span>
+                </div>
+                <input class="input-ctrl input-ctrl--activo" type="text" value="Texto del input">
+              </div>
+            </div>
+            <div class="preview-item">
+              <span class="preview-item__label">Texto Error</span>
+              <div class="field">
+                <div class="field__label-row">
+                  <span class="field__label">Label</span>
+                  <span class="field__req" style="color:#c91313;">*</span>
+                </div>
+                <input class="input-ctrl input-ctrl--error" type="text" value="Texto del input">
+                <span class="field__error-text">Texto de error</span>
+              </div>
+            </div>
+            <div class="preview-item">
+              <span class="preview-item__label">No editable</span>
+              <div class="field">
+                <div class="field__label-row">
+                  <span class="field__label">Label</span>
+                  <span class="field__req">*</span>
+                </div>
+                <input class="input-ctrl input-ctrl--disabled" type="text" value="Texto del input" disabled>
+              </div>
+            </div>
+            <div class="preview-item">
+              <span class="preview-item__label">Contraseña</span>
+              <div class="field">
+                <div class="field__label-row">
+                  <span class="field__label">Label</span>
+                  <span class="field__req">*</span>
+                </div>
+                <div class="input-ctrl input-ctrl--activo input-ctrl--password">
+                  <span class="pwd-dots"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span>
+                  <i class="fa-solid fa-eye"></i>
+                </div>
+              </div>
+            </div>
+            <div class="preview-item">
+              <span class="preview-item__label">Numérico</span>
+              <div class="field field--narrow">
+                <div class="field__label-row">
+                  <span class="field__label">Label</span>
+                  <span class="field__req">*</span>
+                </div>
+                <div class="field-numeric">
+                  <input type="text" value="Número">
+                  <div class="field-numeric__steppers">
+                    <button type="button" aria-label="Incrementar">+</button>
+                    <button type="button" aria-label="Decrementar">-</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="preview-item">
+              <span class="preview-item__label">Text area</span>
+              <div class="field">
+                <div class="field__label-row">
+                  <span class="field__label">Label</span>
+                  <span class="field__req">*</span>
+                </div>
+                <textarea class="field-textarea">Texto del input</textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ejemplo interactivo -->
+    <section class="section">
+      <h2 class="subsection-title">Ejemplo Interactivo - Experimenta con las propiedades</h2>
+      <div class="interactivo-grid">
+        <div class="control-panel">
+          <p class="control-panel__title">Controles de Propiedades</p>
+
+          <div class="field" style="width:100%;">
+            <div class="field__label-row"><span class="field__label">Variante</span></div>
+            <div class="select-ctrl">
+              <span>Default (Borde Gris)</span>
+              <i class="fa-solid fa-chevron-down"></i>
+            </div>
+          </div>
+
+          <div class="field" style="width:100%;">
+            <div class="field__label-row"><span class="field__label">Estado</span></div>
+            <div class="select-ctrl">
+              <span>Inactivo (Reposo)</span>
+              <i class="fa-solid fa-chevron-down"></i>
+            </div>
+          </div>
+
+          <div class="field" style="width:100%;">
+            <div class="field__label-row"><span class="field__label">Tamaño</span></div>
+            <div class="select-ctrl">
+              <span>medium (40px)</span>
+              <i class="fa-solid fa-chevron-down"></i>
+            </div>
+          </div>
+
+          <div class="toggle-row">
+            <span class="toggle-row__label">Mostrar Icono Izquierdo</span>
+            <button type="button" class="toggle" aria-pressed="true" aria-label="Mostrar Icono Izquierdo">
+              <span class="toggle__knob"></span>
+            </button>
+          </div>
+        </div>
+
+        <div class="preview-live">
+          <div class="preview-live__inner">
+            <span class="preview-live__eyebrow">PREVIALIZACIÓN EN VIVO</span>
+            <div class="field" style="width:273px;">
+              <div class="field__label-row">
+                <span class="field__label">Nombre Completo</span>
+                <span class="field__req">*</span>
+              </div>
+              <span class="field__helper">Ingrese nombre completo tal como figura en su documento</span>
+              <div class="input-ctrl">
+                <i class="fa-solid fa-user field-icon"></i>
+                <span>Placeholder</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Visualización de estados -->
+    <section class="section">
+      <h2 class="subsection-title">Visualización de Estados</h2>
+      <div class="estados-box">
+        <div class="estado-col">
+          <span class="estado-col__label">Inactivo (Reposo)</span>
+          <div class="field" style="width:100%;">
+            <div class="field__label-row"><span class="field__label">Email</span></div>
+            <input class="input-ctrl" type="text" placeholder="Placeholder">
+          </div>
+        </div>
+        <div class="estado-col">
+          <span class="estado-col__label">Hover (Puntero encima)</span>
+          <div class="field" style="width:100%;">
+            <div class="field__label-row"><span class="field__label">Email</span></div>
+            <input class="input-ctrl input-ctrl--hover" type="text" placeholder="Placeholder">
+          </div>
+        </div>
+        <div class="estado-col">
+          <span class="estado-col__label">Focus (Seleccionado)</span>
+          <div class="field" style="width:100%;">
+            <div class="field__label-row"><span class="field__label">Email</span></div>
+            <input class="input-ctrl input-ctrl--focus" type="text" value="Texto del input">
+          </div>
+        </div>
+        <div class="estado-col">
+          <span class="estado-col__label">Deshabilitado</span>
+          <div class="field" style="width:100%;">
+            <div class="field__label-row"><span class="field__label">Email</span></div>
+            <input class="input-ctrl input-ctrl--disabled" type="text" value="Texto del input" disabled>
+          </div>
+        </div>
+        <div class="estado-col">
+          <span class="estado-col__label">Error</span>
+          <div class="field" style="width:100%;">
+            <div class="field__label-row"><span class="field__label">Email</span></div>
+            <input class="input-ctrl input-ctrl--error" type="text" value="Texto del input">
+            <span class="field__error-text">Texto de error</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Buenas y malas prácticas -->
+    <section class="section">
+      <h2 class="subsection-title">Buenas y Malas Prácticas (Do / Don't)</h2>
+      <div class="practicas-grid">
+        <div class="practica-card practica-card--ok">
+          <div class="practica-card__head practica-card__head--ok"><i class="fa-solid fa-circle-check"></i>Prácticas Recomendadas</div>
+          <div class="practica-item">
+            <span class="practica-item__title">1. Incluya siempre etiquetas visibles</span>
+            <span class="practica-item__desc">La etiqueta orienta permanentemente al usuario incluso si el campo ya fue completado.</span>
+          </div>
+          <div class="practica-item">
+            <span class="practica-item__title">2. Use texto de ayuda descriptivo</span>
+            <span class="practica-item__desc">Guíe al usuario con formatos requeridos o explicaciones cortas bajo el campo.</span>
+          </div>
+        </div>
+        <div class="practica-card practica-card--no">
+          <div class="practica-card__head practica-card__head--no"><i class="fa-solid fa-circle-xmark"></i>Evitar estas prácticas</div>
+          <div class="practica-item">
+            <span class="practica-item__title">1. No oculte la etiqueta confiando en el Placeholder</span>
+            <span class="practica-item__desc">Al escribir, el placeholder desaparece y el usuario pierde el contexto del campo.</span>
+          </div>
+          <div class="practica-item">
+            <span class="practica-item__title">2. No use estados de error para mensajes informativos</span>
+            <span class="practica-item__desc">El color rojo y la señal de alerta están reservados estrictamente para bloqueos del flujo.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lineamientos de accesibilidad -->
+    <section class="section">
+      <h2 class="subsection-title">Lineamientos de Accesibilidad</h2>
+      <div class="a11y-box">
+        <div class="a11y-box__head">
+          <i class="fa-solid fa-wheelchair"></i>
+          <strong>Requisitos de Accesibilidad (WCAG 2.1 AA)</strong>
+        </div>
+        <ul class="a11y-list">
+          <li>• El componente debe ser completamente enfocable mediante el tabulador (<code>Tab</code>) y mostrar un borde de enfoque altamente contrastante (<code>Focus State</code>).</li>
+          <li>• Los elementos descriptivos (<code>Label</code> y <code>Helper Text</code>) deben estar vinculados lógicamente con el input usando atributos de aria descriptivos.</li>
+          <li>• El borde del input y el texto de la etiqueta mantienen una relación de contraste mínima de 4.5:1 contra el fondo.</li>
+        </ul>
+      </div>
+    </section>
+
+    <hr class="rule" />
+  </main>
+</div>
+<div class="accent-bar" style="position:fixed; bottom:0; left:0; right:0;"></div>
+<script src="js/nav.js"></script>
+</body>
+</html>

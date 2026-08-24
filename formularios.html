@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SUELO — Detalle: Formularios</title>
+<meta name="description" content="SUELO — Componentes de formularios: Select, Date picker y Selector múltiple." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="css/tokens.css" />
+<link rel="stylesheet" href="css/base.css" />
+<style>
+  /* ---- Página: Formularios (estilos locales) ---- */
+  .doc-card {
+    background: var(--blanco);
+    border: 1px solid #d1d6db;
+    border-radius: var(--radius-md);
+    padding: 24px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+  }
+  .doc-card__header { display:flex; align-items:center; gap:12px; }
+  .doc-card__title { font-weight:700; font-size:20px; color:#1c2e4d; }
+  .doc-card__badge {
+    background:#5959d9; color:#fff; font-weight:600; font-size:10px;
+    padding:3px 8px; border-radius:10px;
+  }
+  .doc-card__desc { color:#6b737d; font-size:14px; max-width:850px; }
+  .doc-card__subtitle { font-weight:600; font-size:14px; color:#1c2e4d; }
+
+  .prop-table { width:100%; border-collapse: collapse; font-size:11px; }
+  .prop-table thead th {
+    background:#f5f7fa; color:#6b737d; font-weight:600; text-align:left;
+    padding:8px 12px;
+  }
+  .prop-table tbody td { padding:6px 12px; border-top:1px solid #f5f7fa; color:#6b737d; }
+  .prop-table tbody td:first-child { color:#1c2e4d; font-weight:500; }
+  .prop-table col.col-prop { width:150px; }
+  .prop-table col.col-tipo { width:100px; }
+  .prop-table col.col-valores { width:28%; }
+  .prop-table col.col-desc { width:28%; }
+
+  .usage-list { color:#6b737d; font-size:13px; max-width:850px; line-height:1.5; }
+  .usage-list p { margin:0; }
+
+  .preview-separator { height:1px; width:100%; background:#e5e8ed; }
+
+  .preview-block {
+    background:#f5f7fa;
+    border-radius: 0 0 8px 8px;
+    padding: 20px 24px 24px;
+    display:flex; flex-direction:column; gap:16px; width:100%;
+  }
+  .preview-block__label {
+    display:flex; align-items:center; gap:8px;
+  }
+  .preview-block__icon {
+    width:20px; height:20px; border-radius:4px; background:#0469ff;
+    color:#fff; font-weight:700; font-size:12px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .preview-block__title { font-weight:600; font-size:13px; color:#1c2e4d; }
+  .preview-block__sub { font-size:13px; color:#6b737d; }
+  .preview-content {
+    background:#fff; border-radius:8px; padding:24px;
+    display:flex; flex-wrap:wrap; align-items:flex-start; gap:24px 20px;
+  }
+  .preview-item { display:flex; flex-direction:column; align-items:center; gap:6px; }
+  .preview-item__caption { font-weight:600; font-size:10px; color:#6b737d; }
+
+  /* Select field */
+  .field { display:flex; flex-direction:column; gap:4px; width:273px; }
+  .field__label { display:flex; gap:6px; align-items:flex-start; }
+  .field__label span.txt { font-size:11px; color:#414d5f; }
+  .field__label span.req { font-size:14px; font-weight:500; color:#c01c1c; }
+  .field__control {
+    background:#fff; border:0.5px solid #dadee3; border-radius:4px;
+    height:40px; display:flex; align-items:center; gap:10px; padding:0 8px;
+    font-size:14px; color:#414d5f; width:100%;
+  }
+  .field__control input { border:none; background:transparent; font:inherit; color:inherit; outline:none; flex:1 0 0; width:0; font-family: var(--font-body); }
+  .field__control i { color:#778294; font-size:12px; }
+  .field__control--hover { border-color:#778294; }
+  .field__control--error { background:#f5ecec; border-color:#e07171; color:#c91313; }
+  .field__control--error input { color:#c91313; }
+  .field__control--disabled { background:#eaecee; border-color:#a6aebc; color:#778294; }
+  .field__error { font-size:14px; color:#c91313; }
+
+  .field--focus { width:273px; }
+  .focus-dropdown {
+    background:#fff; border:1px solid #dadee3; border-radius:4px;
+    box-shadow: 0 4px 8px rgba(27,36,49,0.15);
+    width:273px; overflow:hidden;
+  }
+  .focus-dropdown__item {
+    border-top:1px solid #dadee3; border-bottom:1px solid #dadee3;
+    min-height:40px; padding:8px 16px; display:flex; align-items:center;
+    font-size:14px; color:#1b2431;
+  }
+
+  /* Date picker */
+  .dp {
+    background:#fff; border:0.5px solid #dadee3; border-radius:4px;
+    box-shadow:0 4px 8px rgba(27,36,49,0.15);
+    padding:8px; display:inline-flex; flex-direction:column; gap:4px;
+  }
+  .dp__header { display:flex; align-items:center; gap:16px; padding:4px 0; }
+  .dp__nav {
+    width:32px; height:32px; border-radius:4px; display:flex; align-items:center;
+    justify-content:center; color:#1b2431; font-size:12px; flex-shrink:0;
+  }
+  .dp__title { flex:1 0 0; text-align:center; font-weight:700; font-size:16px; color:#1b2431; }
+  .dp__rule { height:1px; background:#dadee3; width:100%; }
+  .dp__weekdays { display:grid; grid-template-columns:repeat(7,40px); }
+  .dp__weekdays span { height:32px; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:11px; color:#1b2431; }
+  .dp__days { display:grid; grid-template-columns:repeat(7,40px); grid-auto-rows:40px; }
+  .dp__day { display:flex; align-items:center; justify-content:center; font-size:16px; color:#1b2431; border-radius:4px; }
+  .dp__day--muted { color:#778294; }
+  .dp__day--selected { background:#e4eefd; color:#1b2431; position:relative; }
+  .dp__day--selected::after {
+    content:""; position:absolute; bottom:5px; left:50%; transform:translateX(-50%);
+    width:22px; height:2px; background:#1b2431; border-radius:2px;
+  }
+  .dp__day--range { background:#1d4a91; color:#f6f7fa; }
+  .dp__day--range-start { border-radius:4px 0 0 4px; }
+  .dp__day--range-end { border-radius:0 4px 4px 0; }
+  .dp__selectors { display:flex; gap:8px; padding:8px 0; width:100%; }
+  .dp__footer-rule { height:1px; background:#dadee3; width:100%; }
+  .dp__buttons { display:flex; gap:8px; justify-content:flex-end; padding-top:8px; width:100%; }
+  .dp__btn { height:24px; padding:4px 8px; border-radius:4px; font-size:12px; font-weight:500; display:flex; align-items:center; }
+  .dp__btn--sutil { color:#1b2431; }
+  .dp__btn--primario { background:#0077e4; color:#f6f7fa; }
+
+  .dp-mini { width:358px; }
+
+  .dp-two-up { display:flex; gap:24px; align-items:flex-start; flex-wrap:wrap; }
+
+  .form-section { display:flex; flex-direction:column; gap:32px; width:100%; }
+</style>
+</head>
+<body data-page="formularios">
+<div class="app-shell">
+  <nav class="sidebar" id="sidebar-root"></nav>
+
+  <main class="main">
+    <div class="breadcrumbs">
+      <span class="brand">SUELO</span>
+      <span class="sep">›</span>
+      <span>Componentes</span>
+      <span class="sep">›</span>
+      <span class="current">Formularios</span>
+    </div>
+
+    <div class="accent-bar" style="height:4px;"></div>
+
+    <section class="section">
+      <h1 class="section-title section-title--lg">Formularios y Selección</h1>
+      <p class="section-subtitle">Componentes para entrada de datos, selección de opciones y controles de formulario.</p>
+    </section>
+
+    <hr class="rule" />
+
+    <div class="form-section">
+
+      <!-- ============ SELECT ============ -->
+      <div class="doc-card">
+        <div class="doc-card__header">
+          <div class="doc-card__title">Select</div>
+          <span class="doc-card__badge">Molécula</span>
+        </div>
+        <p class="doc-card__desc">Selector desplegable para elegir una opción de una lista predefinida. Incluye búsqueda en listas largas.</p>
+
+        <div class="doc-card__subtitle">Propiedades</div>
+        <div style="overflow-x:auto; width:100%;">
+        <table class="prop-table">
+          <colgroup>
+            <col class="col-prop"><col class="col-tipo"><col class="col-valores"><col class="col-desc">
+          </colgroup>
+          <thead>
+            <tr><th>Propiedad</th><th>Tipo</th><th>Valores</th><th>Descripción</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Variante</td><td>Variant</td>
+              <td>Default | Outlined | Filled</td>
+              <td>Estilo visual del selector</td>
+            </tr>
+            <tr>
+              <td>Estado</td><td>Variant</td>
+              <td>Default | Open | Error | Disabled</td>
+              <td>Estado actual</td>
+            </tr>
+            <tr>
+              <td>Placeholder</td><td>String</td>
+              <td>Texto libre</td>
+              <td>Texto guía cuando no hay selección</td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+
+        <div class="doc-card__subtitle">Uso recomendado</div>
+        <div class="usage-list">
+          <p>• Usar para listas de 5+ opciones</p>
+          <p>• Para 2-4 opciones usar Radio buttons o Segmented</p>
+          <p>• Incluir siempre un placeholder descriptivo</p>
+        </div>
+
+        <div class="preview-separator"></div>
+
+        <div class="preview-block">
+          <div class="preview-block__label">
+            <span class="preview-block__icon">◉</span>
+            <span class="preview-block__title">Preview interactivo</span>
+            <span class="preview-block__sub">— Select — Estados</span>
+          </div>
+          <div class="preview-content">
+
+            <div class="preview-item">
+              <span class="preview-item__caption">Default</span>
+              <div class="field">
+                <label class="field__label"><span class="txt">Label</span><span class="req">*</span></label>
+                <div class="field__control">
+                  <span style="flex:1 0 0;">Placeholder</span>
+                  <i class="fa-solid fa-chevron-down"></i>
+                </div>
+              </div>
+            </div>
+
+            <div class="preview-item">
+              <span class="preview-item__caption">Hover</span>
+              <div class="field">
+                <label class="field__label"><span class="txt">Label</span><span class="req">*</span></label>
+                <div class="field__control field__control--hover">
+                  <span style="flex:1 0 0;">Placeholder</span>
+                  <i class="fa-solid fa-chevron-down"></i>
+                </div>
+              </div>
+            </div>
+
+            <div class="preview-item">
+              <span class="preview-item__caption">Focus</span>
+              <div class="field field--focus">
+                <label class="field__label"><span class="txt">Label</span><span class="req">*</span></label>
+                <div class="field__control field__control--hover">
+                  <span style="flex:1 0 0;">|</span>
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+                <div class="focus-dropdown">
+                  <div class="focus-dropdown__item">All</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="preview-item">
+              <span class="preview-item__caption">Error</span>
+              <div class="field">
+                <label class="field__label"><span class="txt">Label</span><span class="req">*</span></label>
+                <div class="field__control field__control--error">
+                  <span style="flex:1 0 0;">Texto del input</span>
+                  <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="field__error">Texto de error</div>
+              </div>
+            </div>
+
+            <div class="preview-item">
+              <span class="preview-item__caption">Disabled</span>
+              <div class="field">
+                <label class="field__label"><span class="txt">Label</span><span class="req">*</span></label>
+                <div class="field__control field__control--disabled">
+                  <span style="flex:1 0 0;">Texto del input</span>
+                  <i class="fa-solid fa-chevron-down"></i>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ DATE PICKER ============ -->
+      <div class="doc-card">
+        <div class="doc-card__header">
+          <div class="doc-card__title">Date picker</div>
+          <span class="doc-card__badge">Molécula</span>
+        </div>
+        <p class="doc-card__desc">Selector de fecha con calendario interactivo. Permite selección de día, mes y año.</p>
+
+        <div class="doc-card__subtitle">Propiedades</div>
+        <div style="overflow-x:auto; width:100%;">
+        <table class="prop-table">
+          <colgroup>
+            <col class="col-prop"><col class="col-tipo"><col class="col-valores"><col class="col-desc">
+          </colgroup>
+          <thead>
+            <tr><th>Propiedad</th><th>Tipo</th><th>Valores</th><th>Descripción</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Tipo</td><td>Variant</td>
+              <td>Single | Range</td>
+              <td>Selección simple o rango de fechas</td>
+            </tr>
+            <tr>
+              <td>Formato</td><td>String</td>
+              <td>DD/MM/YYYY</td>
+              <td>Formato de visualización de la fecha</td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+
+        <div class="doc-card__subtitle">Uso recomendado</div>
+        <div class="usage-list">
+          <p>• Usar formato DD/MM/YYYY (estándar local)</p>
+          <p>• Deshabilitar fechas no válidas visualmente</p>
+          <p>• Para rangos, mostrar ambas fechas claramente</p>
+        </div>
+
+        <div class="preview-separator"></div>
+
+        <div class="preview-block">
+          <div class="preview-block__label">
+            <span class="preview-block__icon">◉</span>
+            <span class="preview-block__title">Preview interactivo</span>
+            <span class="preview-block__sub">— Date picker — Tipos</span>
+          </div>
+          <div class="preview-content" style="flex-direction:column; align-items:flex-start; gap:32px;">
+
+            <div class="dp-two-up">
+              <div class="preview-item">
+                <span class="preview-item__caption">Individual</span>
+                <div class="dp">
+                  <div class="dp__header">
+                    <div class="dp__nav"><i class="fa-solid fa-chevron-left"></i></div>
+                    <div class="dp__title">Junio 2026</div>
+                    <div class="dp__nav"><i class="fa-solid fa-chevron-right"></i></div>
+                  </div>
+                  <div class="dp__rule"></div>
+                  <div class="dp__weekdays">
+                    <span>DOM</span><span>LUN</span><span>MAR</span><span>MIE</span><span>JUE</span><span>VIE</span><span>SAB</span>
+                  </div>
+                  <div class="dp__days">
+                    <div class="dp__day dp__day--muted">30</div>
+                    <div class="dp__day dp__day--muted">1</div>
+                    <div class="dp__day dp__day--muted">2</div>
+                    <div class="dp__day dp__day--muted">3</div>
+                    <div class="dp__day dp__day--muted">4</div>
+                    <div class="dp__day dp__day--muted">5</div>
+                    <div class="dp__day dp__day--muted">6</div>
+                    <div class="dp__day dp__day--muted">7</div>
+                    <div class="dp__day dp__day--muted">8</div>
+                    <div class="dp__day dp__day--muted">9</div>
+                    <div class="dp__day dp__day--muted">10</div>
+                    <div class="dp__day dp__day--muted">11</div>
+                    <div class="dp__day dp__day--muted">12</div>
+                    <div class="dp__day dp__day--muted">13</div>
+                    <div class="dp__day dp__day--muted">14</div>
+                    <div class="dp__day dp__day--muted">15</div>
+                    <div class="dp__day dp__day--muted">16</div>
+                    <div class="dp__day dp__day--muted">17</div>
+                    <div class="dp__day dp__day--selected">18</div>
+                    <div class="dp__day">19</div>
+                    <div class="dp__day">20</div>
+                    <div class="dp__day">21</div>
+                    <div class="dp__day">22</div>
+                    <div class="dp__day">23</div>
+                    <div class="dp__day">24</div>
+                    <div class="dp__day">25</div>
+                    <div class="dp__day">26</div>
+                    <div class="dp__day">27</div>
+                    <div class="dp__day">28</div>
+                    <div class="dp__day">29</div>
+                    <div class="dp__day">30</div>
+                    <div class="dp__day">31</div>
+                  </div>
+                  <div class="dp__footer-rule"></div>
+                  <div class="dp__selectors">
+                    <div class="field" style="width:auto; flex:1 0 0;">
+                      <label class="field__label"><span class="txt">Fecha</span></label>
+                      <div class="field__control">
+                        <i class="fa-solid fa-calendar"></i>
+                        <span style="flex:1 0 0;">18/12/2025</span>
+                      </div>
+                    </div>
+                    <div class="field" style="width:auto; flex:1 0 0;">
+                      <label class="field__label"><span class="txt">Hora</span></label>
+                      <div class="field__control">
+                        <i class="fa-solid fa-clock"></i>
+                        <span style="flex:1 0 0;">08:45</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="dp__footer-rule"></div>
+                  <div class="dp__buttons">
+                    <div class="dp__btn dp__btn--sutil">Cancelar</div>
+                    <div class="dp__btn dp__btn--primario">Aceptar</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="preview-item">
+                <span class="preview-item__caption">Rango</span>
+                <div style="display:flex; gap:16px;">
+                  <div class="dp">
+                    <div class="dp__header">
+                      <div class="dp__nav"><i class="fa-solid fa-chevron-left"></i></div>
+                      <div class="dp__title">Junio 2026</div>
+                      <div class="dp__nav"><i class="fa-solid fa-chevron-right"></i></div>
+                    </div>
+                    <div class="dp__rule"></div>
+                    <div class="dp__weekdays">
+                      <span>DOM</span><span>LUN</span><span>MAR</span><span>MIE</span><span>JUE</span><span>VIE</span><span>SAB</span>
+                    </div>
+                    <div class="dp__days">
+                      <div class="dp__day dp__day--muted">30</div>
+                      <div class="dp__day dp__day--muted">1</div>
+                      <div class="dp__day dp__day--muted">2</div>
+                      <div class="dp__day dp__day--muted">3</div>
+                      <div class="dp__day dp__day--muted">4</div>
+                      <div class="dp__day dp__day--muted">5</div>
+                      <div class="dp__day dp__day--muted">6</div>
+                      <div class="dp__day dp__day--muted">7</div>
+                      <div class="dp__day dp__day--muted">8</div>
+                      <div class="dp__day dp__day--muted">9</div>
+                      <div class="dp__day dp__day--muted">10</div>
+                      <div class="dp__day dp__day--muted">11</div>
+                      <div class="dp__day dp__day--muted">12</div>
+                      <div class="dp__day dp__day--muted">13</div>
+                      <div class="dp__day dp__day--muted">14</div>
+                      <div class="dp__day dp__day--muted">15</div>
+                      <div class="dp__day dp__day--muted">16</div>
+                      <div class="dp__day dp__day--muted">17</div>
+                      <div class="dp__day dp__day--range dp__day--range-start">18</div>
+                      <div class="dp__day dp__day--range dp__day--range-end">19</div>
+                      <div class="dp__day">20</div>
+                      <div class="dp__day">21</div>
+                      <div class="dp__day">22</div>
+                      <div class="dp__day">23</div>
+                      <div class="dp__day">24</div>
+                      <div class="dp__day">25</div>
+                      <div class="dp__day">26</div>
+                      <div class="dp__day">27</div>
+                      <div class="dp__day">28</div>
+                      <div class="dp__day">29</div>
+                      <div class="dp__day">30</div>
+                      <div class="dp__day">31</div>
+                    </div>
+                  </div>
+                  <div class="dp">
+                    <div class="dp__header">
+                      <div class="dp__nav"><i class="fa-solid fa-chevron-left"></i></div>
+                      <div class="dp__title">Julio 2026</div>
+                      <div class="dp__nav"><i class="fa-solid fa-chevron-right"></i></div>
+                    </div>
+                    <div class="dp__rule"></div>
+                    <div class="dp__weekdays">
+                      <span>DOM</span><span>LUN</span><span>MAR</span><span>MIE</span><span>JUE</span><span>VIE</span><span>SAB</span>
+                    </div>
+                    <div class="dp__days">
+                      <div class="dp__day">1</div><div class="dp__day">2</div><div class="dp__day">3</div>
+                      <div class="dp__day">4</div><div class="dp__day">5</div><div class="dp__day">6</div><div class="dp__day">7</div>
+                      <div class="dp__day">8</div><div class="dp__day">9</div><div class="dp__day">10</div><div class="dp__day">11</div>
+                      <div class="dp__day">12</div><div class="dp__day">13</div><div class="dp__day">14</div>
+                      <div class="dp__day">15</div><div class="dp__day">16</div><div class="dp__day">17</div><div class="dp__day">18</div>
+                      <div class="dp__day">19</div><div class="dp__day">20</div><div class="dp__day">21</div>
+                      <div class="dp__day">22</div><div class="dp__day">23</div><div class="dp__day">24</div><div class="dp__day">25</div>
+                      <div class="dp__day">26</div><div class="dp__day">27</div><div class="dp__day">28</div>
+                      <div class="dp__day">29</div><div class="dp__day">30</div><div class="dp__day">31</div>
+                    </div>
+                    <div class="dp__footer-rule"></div>
+                    <div class="dp__buttons">
+                      <div class="dp__btn dp__btn--sutil">Cancelar</div>
+                      <div class="dp__btn dp__btn--primario">Aceptar</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="dp-two-up" style="width:100%;">
+              <div class="preview-item">
+                <span class="preview-item__caption">Select fecha</span>
+                <div class="field dp-mini">
+                  <label class="field__label"><span class="txt">Fecha</span></label>
+                  <div class="field__control">
+                    <span style="flex:1 0 0;">18/06/2026 - 19/06/2026 </span>
+                    <i class="fa-solid fa-calendar"></i>
+                  </div>
+                </div>
+              </div>
+
+              <div class="preview-item">
+                <span class="preview-item__caption">Calendario</span>
+                <div class="dp" style="box-shadow:none; border:none; padding:8px 8px 0;">
+                  <div class="dp__header" style="padding-top:0;">
+                    <div class="dp__title">Junio 2026</div>
+                  </div>
+                  <div class="dp__rule"></div>
+                  <div class="dp__weekdays">
+                    <span>DOM</span><span>LUN</span><span>MAR</span><span>MIE</span><span>JUE</span><span>VIE</span><span>SAB</span>
+                  </div>
+                  <div class="dp__days">
+                    <div class="dp__day dp__day--muted">30</div>
+                    <div class="dp__day dp__day--muted">1</div>
+                    <div class="dp__day dp__day--muted">2</div>
+                    <div class="dp__day dp__day--muted">3</div>
+                    <div class="dp__day dp__day--muted">4</div>
+                    <div class="dp__day dp__day--muted">5</div>
+                    <div class="dp__day dp__day--muted">6</div>
+                    <div class="dp__day dp__day--muted">7</div>
+                    <div class="dp__day dp__day--muted">8</div>
+                    <div class="dp__day dp__day--muted">9</div>
+                    <div class="dp__day dp__day--muted">10</div>
+                    <div class="dp__day dp__day--muted">11</div>
+                    <div class="dp__day dp__day--muted">12</div>
+                    <div class="dp__day dp__day--muted">13</div>
+                    <div class="dp__day dp__day--muted">14</div>
+                    <div class="dp__day dp__day--muted">15</div>
+                    <div class="dp__day dp__day--muted">16</div>
+                    <div class="dp__day dp__day--muted">17</div>
+                    <div class="dp__day dp__day--range dp__day--range-start">18</div>
+                    <div class="dp__day dp__day--range dp__day--range-end">19</div>
+                    <div class="dp__day">20</div>
+                    <div class="dp__day">21</div>
+                    <div class="dp__day">22</div>
+                    <div class="dp__day">23</div>
+                    <div class="dp__day">24</div>
+                    <div class="dp__day">25</div>
+                    <div class="dp__day">26</div>
+                    <div class="dp__day">27</div>
+                    <div class="dp__day">28</div>
+                    <div class="dp__day">29</div>
+                    <div class="dp__day">30</div>
+                    <div class="dp__day">31</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ SELECTOR MÚLTIPLE ============ -->
+      <div class="doc-card">
+        <div class="doc-card__header">
+          <div class="doc-card__title">Selector múltiple</div>
+          <span class="doc-card__badge">Molécula</span>
+        </div>
+        <p class="doc-card__desc">Control combinado de selección múltiple con chips de selección y búsqueda integrada.</p>
+
+        <div class="doc-card__subtitle">Propiedades</div>
+        <div style="overflow-x:auto; width:100%;">
+        <table class="prop-table">
+          <colgroup>
+            <col class="col-prop"><col class="col-tipo"><col class="col-valores"><col class="col-desc">
+          </colgroup>
+          <thead>
+            <tr><th>Propiedad</th><th>Tipo</th><th>Valores</th><th>Descripción</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Placeholder</td><td>String</td>
+              <td>Texto libre</td>
+              <td>Texto cuando no hay selección</td>
+            </tr>
+            <tr>
+              <td>Max selección</td><td>Number</td>
+              <td>Ilimitado</td>
+              <td>Máximo de opciones seleccionables</td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+
+        <div class="doc-card__subtitle">Uso recomendado</div>
+        <div class="usage-list">
+          <p>• Usar cuando el usuario necesita seleccionar múltiples opciones de una lista</p>
+          <p>• Los chips seleccionados deben ser removibles individualmente</p>
+          <p>• Incluir acción 'Limpiar todo' para más de 3 selecciones</p>
+        </div>
+      </div>
+
+    </div>
+
+    <hr class="rule" />
+  </main>
+</div>
+<div class="accent-bar" style="position:fixed; bottom:0; left:0; right:0;"></div>
+<script src="js/nav.js"></script>
+</body>
+</html>

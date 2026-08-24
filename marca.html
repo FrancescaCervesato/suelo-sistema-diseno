@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SUELO — Detalle: Marca e Identidad</title>
+<meta name="description" content="SUELO — Assets de marca, logos, stickers e ilustraciones del sistema de diseño SUELO." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="css/tokens.css" />
+<link rel="stylesheet" href="css/base.css" />
+<style>
+  .page-title {
+    font-weight: 700;
+    font-size: var(--h1-size);
+    line-height: var(--h1-lh);
+    letter-spacing: -1.28px;
+    color: #1c2e4d;
+    margin: 0;
+  }
+  .page-desc {
+    font-weight: 400;
+    font-size: var(--body1-size);
+    line-height: var(--body1-lh);
+    color: var(--texto-light);
+    max-width: 800px;
+    margin: 0;
+  }
+
+  .marca-card {
+    background: var(--blanco);
+    border: 1px solid var(--borde-default);
+    border-radius: var(--radius-md);
+    padding: 24px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+  }
+  .marca-card--with-preview { padding-bottom: 0; overflow: hidden; }
+  .marca-card__head {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    width: 100%;
+  }
+  .marca-card__title { font-weight: 700; font-size: 20px; color: #1c2e4d; margin: 0; }
+  .tag--atomo {
+    display: inline-flex;
+    align-items: center;
+    background: #009e94;
+    color: #fff;
+    font-weight: 600;
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 10px;
+  }
+  .marca-card__desc { color: #6b737d; font-size: 14px; max-width: 850px; margin: 0; }
+  .marca-card__subhead { font-weight: 600; font-size: 14px; color: #1c2e4d; margin: 0; }
+
+  .prop-table { width: 100%; display: flex; flex-direction: column; }
+  .prop-table__header {
+    display: flex;
+    background: var(--gris-1);
+    color: #6b737d;
+    font-weight: 600;
+    font-size: 11px;
+    padding: 8px 12px;
+  }
+  .prop-row {
+    display: flex;
+    padding: 6px 12px;
+    font-size: 11px;
+  }
+  .prop-divider { height: 1px; background: var(--gris-1); width: 100%; }
+  .prop-col-1 { width: 150px; flex-shrink: 0; }
+  .prop-col-2 { width: 100px; flex-shrink: 0; }
+  .prop-col-3 { width: 280px; flex-shrink: 0; }
+  .prop-col-4 { width: 280px; flex-shrink: 0; }
+  .prop-row .prop-col-1 { font-weight: 500; color: #1c2e4d; }
+  .prop-row .prop-col-2, .prop-row .prop-col-3, .prop-row .prop-col-4 { color: #6b737d; }
+
+  .uso-list { color: #6b737d; font-size: 13px; max-width: 850px; margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 2px; }
+  .uso-list li::before { content: "• "; }
+
+  .preview-sep { height: 1px; background: #e5e8ed; width: 100%; }
+  .preview-box {
+    background: var(--gris-1);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 20px 24px 24px;
+    width: 100%;
+  }
+  .preview-box__head { display: flex; align-items: center; gap: 8px; }
+  .preview-box__icon {
+    width: 20px; height: 20px; border-radius: 4px;
+    background: var(--color-primario-fuerte); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+  }
+  .preview-box__title { font-weight: 600; font-size: 13px; color: #1c2e4d; }
+  .preview-box__label { font-size: 13px; color: #6b737d; }
+  .preview-content {
+    background: #fff;
+    border-radius: var(--radius-md);
+    padding: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 24px 20px;
+    width: 100%;
+  }
+  .logo-sample { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .logo-sample__label { font-weight: 600; font-size: 10px; color: #6b737d; }
+  .logo-mark {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border-radius: 6px;
+  }
+  .logo-mark--dark { background: var(--sidebar-bg); }
+  .logo-mark__by { font-size: 10px; color: var(--sidebar-text-muted); white-space: nowrap; }
+  .logo-mark__wordmark { display: inline-flex; align-items: center; gap: 4px; }
+  .logo-mark__square {
+    width: 16px; height: 16px; border-radius: 3px;
+    background: var(--color-primario-fuerte); color: #fff;
+    font-weight: 700; font-size: 10px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .logo-mark__name { font-weight: 700; font-size: 12px; color: #fff; }
+  .logo-mark--collapsed { padding: 4px; }
+</style>
+</head>
+<body data-page="marca">
+<div class="app-shell">
+  <nav class="sidebar" id="sidebar-root"></nav>
+
+  <main class="main">
+    <div class="breadcrumbs">
+      <span class="brand">SUELO</span>
+      <span class="sep">›</span>
+      <span class="current">Marca e Identidad</span>
+    </div>
+
+    <section class="section">
+      <h1 class="page-title">Marca e Identidad Visual</h1>
+      <p class="page-desc">Assets de marca, logos, stickers e ilustraciones del sistema de diseño SUELO.</p>
+    </section>
+
+    <hr class="rule" />
+
+    <!-- Logo primary -->
+    <div class="marca-card marca-card--with-preview">
+      <div class="marca-card__head">
+        <h2 class="marca-card__title">Logo primary</h2>
+        <span class="tag--atomo">Átomo</span>
+      </div>
+      <p class="marca-card__desc">Logotipo principal de la marca en su versión primaria. Disponible en variantes de color y monocromo.</p>
+
+      <p class="marca-card__subhead">Propiedades</p>
+      <div class="prop-table">
+        <div class="prop-table__header">
+          <div class="prop-col-1">Propiedad</div>
+          <div class="prop-col-2">Tipo</div>
+          <div class="prop-col-3">Valores</div>
+          <div class="prop-col-4">Descripción</div>
+        </div>
+        <div class="prop-row">
+          <div class="prop-col-1">Variante</div>
+          <div class="prop-col-2">Variant</div>
+          <div class="prop-col-3">Color | Monocromo | Invertido</div>
+          <div class="prop-col-4">Versión del logo según contexto de fondo</div>
+        </div>
+        <div class="prop-divider"></div>
+        <div class="prop-row">
+          <div class="prop-col-1">Tamaño</div>
+          <div class="prop-col-2">Variant</div>
+          <div class="prop-col-3">Small | Medium | Large</div>
+          <div class="prop-col-4">Escala del logotipo</div>
+        </div>
+        <div class="prop-divider"></div>
+      </div>
+
+      <p class="marca-card__subhead">Uso recomendado</p>
+      <ul class="uso-list">
+        <li>Usar la versión Color como primera opción</li>
+        <li>Monocromo para fondos con poco contraste</li>
+        <li>Invertido para fondos oscuros</li>
+        <li>Respetar zona de protección mínima alrededor del logo</li>
+      </ul>
+
+      <div class="preview-sep"></div>
+      <div class="preview-box">
+        <div class="preview-box__head">
+          <span class="preview-box__icon"><i class="fa-solid fa-circle-dot"></i></span>
+          <span class="preview-box__title">Preview interactivo</span>
+          <span class="preview-box__label">— Logo primary — Usos</span>
+        </div>
+        <div class="preview-content">
+          <div class="logo-sample">
+            <span class="logo-sample__label">Navbar</span>
+            <span class="logo-mark logo-mark--dark">
+              <span class="logo-mark__by">by</span>
+              <span class="logo-mark__wordmark">
+                <span class="logo-mark__square">S</span>
+                <span class="logo-mark__name">SUELO</span>
+              </span>
+            </span>
+          </div>
+          <div class="logo-sample">
+            <span class="logo-sample__label">Sidebar completo</span>
+            <span class="logo-mark logo-mark--dark">
+              <span class="logo-mark__by">Powerade by</span>
+              <span class="logo-mark__wordmark">
+                <span class="logo-mark__square">S</span>
+                <span class="logo-mark__name">SUELO</span>
+              </span>
+            </span>
+          </div>
+          <div class="logo-sample">
+            <span class="logo-sample__label">Sidebar colapsado</span>
+            <span class="logo-mark logo-mark--dark logo-mark--collapsed">
+              <span class="logo-mark__square">S</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stickers -->
+    <div class="marca-card">
+      <div class="marca-card__head">
+        <h2 class="marca-card__title">Stickers</h2>
+        <span class="tag--atomo">Átomo</span>
+      </div>
+      <p class="marca-card__desc">Set de stickers decorativos para uso en comunicaciones, presentaciones y materiales internos.</p>
+
+      <p class="marca-card__subhead">Uso recomendado</p>
+      <ul class="uso-list">
+        <li>Usar en contextos informales y comunicaciones internas</li>
+        <li>No usar en interfaces de usuario de producción</li>
+        <li>Mantener proporción original sin distorsionar</li>
+      </ul>
+    </div>
+
+    <!-- Ilustraciones -->
+    <div class="marca-card">
+      <div class="marca-card__head">
+        <h2 class="marca-card__title">Ilustraciones</h2>
+        <span class="tag--atomo">Átomo</span>
+      </div>
+      <p class="marca-card__desc">Biblioteca de ilustraciones vectoriales para empty states, onboarding y comunicación visual.</p>
+
+      <p class="marca-card__subhead">Uso recomendado</p>
+      <ul class="uso-list">
+        <li>Usar para humanizar la interfaz en estados vacíos</li>
+        <li>Seguir la paleta de colores del sistema</li>
+        <li>Preferir ilustraciones sobre fotografías para consistencia</li>
+      </ul>
+    </div>
+
+    <hr class="rule" />
+  </main>
+</div>
+<div class="accent-bar" style="position:fixed; bottom:0; left:0; right:0;"></div>
+<script src="js/nav.js"></script>
+</body>
+</html>

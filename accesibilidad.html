@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SUELO — Accesibilidad y Salud del Sistema</title>
+<meta name="description" content="SUELO — Directrices de accesibilidad (A11y) y auditoría de salud del sistema de diseño." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="css/tokens.css" />
+<link rel="stylesheet" href="css/base.css" />
+<style>
+  .a11y-hero {
+    font-weight: 700;
+    font-size: var(--h1-size);
+    line-height: var(--h1-lh);
+    letter-spacing: -1.28px;
+    color: #1c2e4d;
+  }
+  .a11y-subdesc {
+    font-weight: 400;
+    font-size: var(--body1-size);
+    line-height: var(--body1-lh);
+    color: var(--texto-light);
+    max-width: 1000px;
+  }
+  .a11y-section-header {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--gris-2);
+    width: 100%;
+  }
+  .a11y-section-header .section-title--lg { margin: 0; }
+
+  .export-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 32px;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--borde-default);
+    background: var(--blanco);
+    color: var(--texto-default);
+    font-family: var(--font-body);
+    font-size: var(--body2-size);
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .info-panel {
+    background: var(--gris-1);
+    border: 1px solid var(--gris-2);
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+  }
+  .info-panel__title {
+    font-weight: 700;
+    font-size: var(--h5-size);
+    line-height: var(--h5-lh);
+    color: var(--texto-default);
+    margin: 0;
+  }
+  .info-panel__list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    color: var(--texto-light);
+    font-size: var(--body2-size);
+    line-height: var(--caption-lh);
+  }
+  .info-panel__list p { margin: 0; }
+
+  .action-panel {
+    background: var(--gris-1);
+    border: 1px solid var(--gris-2);
+    border-radius: 20px;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+  }
+  .action-panel__heading { display: flex; flex-direction: column; gap: 6px; }
+  .action-panel__title {
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 38px;
+    color: var(--texto-default);
+    margin: 0;
+  }
+  .action-panel__desc {
+    font-weight: 400;
+    font-size: var(--body2-size);
+    line-height: var(--caption-lh);
+    color: var(--texto-light);
+    margin: 0;
+  }
+  .priority-list { display: flex; flex-direction: column; gap: 16px; width: 100%; }
+  .priority-item { display: flex; flex-direction: column; gap: 12px; width: 100%; }
+  .priority-item__head { display: flex; align-items: center; gap: 8px; }
+  .priority-item__title {
+    font-weight: 700;
+    font-size: var(--body1-size);
+    line-height: 24px;
+    color: var(--texto-default);
+    margin: 0;
+  }
+  .priority-item__list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-left: 16px;
+    margin: 0;
+    color: var(--texto-light);
+    font-size: var(--body2-size);
+    line-height: var(--caption-lh);
+    list-style: none;
+  }
+  .priority-item__list p { margin: 0; }
+  .priority-divider { height: 1px; width: 100%; background: var(--borde-default); }
+
+  .priority-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0 8px;
+    height: 24px;
+    border-radius: 8px;
+    color: #f6f7fa;
+    font-weight: 700;
+    font-size: var(--caption2-size);
+    line-height: 16px;
+    white-space: nowrap;
+  }
+  .priority-chip--p1 { background: var(--color-rojo); }
+  .priority-chip--p2 { background: #ff9800; }
+  .priority-chip--p3 { background: #1d4a91; }
+  .priority-chip i { font-size: 10px; }
+</style>
+</head>
+<body data-page="accesibilidad">
+<div class="app-shell">
+  <nav class="sidebar" id="sidebar-root"></nav>
+
+  <main class="main">
+    <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+      <div class="breadcrumbs">
+        <span class="brand">SUELO</span>
+        <span class="sep">›</span>
+        <span class="current">Accesibilidad</span>
+      </div>
+      <button class="export-btn"><i class="fa-solid fa-file-arrow-down"></i> Exportar Reporte</button>
+    </div>
+
+    <section class="section">
+      <h1 class="a11y-hero">Accesibilidad y Auditoría de Sistema</h1>
+      <p class="a11y-subdesc">Este portal reúne las directrices para el diseño inclusivo bajo la identidad visual de SUELO y documenta el estado de salud, completitud y consistencia del sistema actual.</p>
+    </section>
+
+    <section class="section">
+      <div class="a11y-section-header">
+        <h2 class="section-title section-title--lg">1. Directrices de Accesibilidad (A11y)</h2>
+        <p class="a11y-subdesc">Aseguramos que cada componente de SUELO sea operable, comprensible y robusto para todas las personas, respetando las pautas WCAG 2.1 AA.</p>
+      </div>
+    </section>
+
+    <section class="section" style="gap:32px;">
+      <div class="a11y-section-header">
+        <h2 class="section-title section-title--lg">2. Auditoría y Salud del Sistema</h2>
+        <p class="a11y-subdesc">Estado actual de completitud y consistencia técnica del diseño de SUELO, construido a partir del análisis profundo del archivo Figma auditado.</p>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:24px; width:100%;">
+        <div class="info-panel">
+          <h3 class="info-panel__title">Nomenclatura (Naming)</h3>
+          <div class="info-panel__list">
+            <p>• Ciertas estructuras de componentes poseen nombres genéricos obsoletos, tales como <strong>Frame 2978</strong> y <strong>Frame 2981</strong>.</p>
+            <p>• Se observa una mezcla entre lenguajes (Español e Inglés) dentro de las definiciones.</p>
+            <p>• Inconsistencias en nombres de propiedades tales como <strong>Estado vs State</strong> y <strong>Tipo vs Type</strong>.</p>
+          </div>
+        </div>
+
+        <div class="info-panel">
+          <h3 class="info-panel__title">Documentación del Sistema</h3>
+          <div class="info-panel__list">
+            <p>• <strong>0 de 41 componentes</strong> cuentan con descripciones de Figma completas.</p>
+            <p>• No se han documentado pautas de uso para los componentes interactivos principales.</p>
+            <p>• Las variables semánticas y los tokens carecen de explicaciones de contexto de uso.</p>
+          </div>
+        </div>
+
+        <div class="info-panel">
+          <h3 class="info-panel__title">Consistencia de Estructura</h3>
+          <div class="info-panel__list">
+            <p>• El componente <strong>Card KPI</strong>, a pesar de estar marcado como <strong>OBSOLETO REEMPLAZAR</strong>, sigue publicado en la librería global.</p>
+            <p>• 2 grupos de componentes registran errores críticos en definición de propiedades, obstruyendo la inspección de Figma.</p>
+            <p>• Presencia de páginas en borrador o experimentales publicadas (ej: practica, boton transparencia).</p>
+          </div>
+        </div>
+
+        <div class="info-panel">
+          <h3 class="info-panel__title">Brechas de Completitud</h3>
+          <div class="info-panel__list">
+            <p>• Sin variables detectadas para <strong>Modo Oscuro (Dark Mode)</strong>, pese a contar con la colección llamada 'modoColor'.</p>
+            <p>• Cobertura de estados incompleta en componentes críticos (ej: no hay estados hover en inputs).</p>
+            <p>• Ausencia total de tokens para movimiento/animaciones, bordes (border-radius) y opacidades.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-panel">
+        <div class="action-panel__heading">
+          <h3 class="action-panel__title">📋 Recomendaciones de Priorización (Plan de Acción)</h3>
+          <p class="action-panel__desc">Hojas de ruta sugeridas para subsanar los hallazgos en orden de urgencia de implementación.</p>
+        </div>
+
+        <div class="priority-list">
+          <div class="priority-item">
+            <div class="priority-item__head">
+              <span class="priority-chip priority-chip--p1"><i class="fa-solid fa-circle-exclamation"></i>Prioridad P1</span>
+              <p class="priority-item__title">Acciones Críticas e Inmediatas</p>
+            </div>
+            <div class="priority-item__list">
+              <p>✓ Completar descripciones y pautas en Figma para los 41 componentes base.</p>
+              <p>✓ Reparar las propiedades rotas detectadas en los 2 sets de componentes dañados.</p>
+            </div>
+          </div>
+
+          <div class="priority-divider"></div>
+
+          <div class="priority-item">
+            <div class="priority-item__head">
+              <span class="priority-chip priority-chip--p2"><i class="fa-solid fa-triangle-exclamation"></i>Prioridad P2</span>
+              <p class="priority-item__title">Estandarización y Limpieza</p>
+            </div>
+            <div class="priority-item__list">
+              <p>✓ Normalizar nombres de componentes y propiedades a un idioma único (preferiblemente Español).</p>
+              <p>✓ Retirar formalmente de publicación los elementos marcados como obsoletos (Card KPI).</p>
+            </div>
+          </div>
+
+          <div class="priority-divider"></div>
+
+          <div class="priority-item">
+            <div class="priority-item__head">
+              <span class="priority-chip priority-chip--p3"><i class="fa-solid fa-gears"></i>Prioridad P3</span>
+              <p class="priority-item__title">Mejoras de Robustez y Extensión</p>
+            </div>
+            <div class="priority-item__list">
+              <p>✓ Proveer soporte de contraste y tokens para Modo Oscuro en la colección "modoColor".</p>
+              <p>✓ Crear e incorporar tokens específicos para radio de borde (border-radius), opacidad y movimientos.</p>
+              <p>✓ Integrar requerimientos de accesibilidad como propiedades nativas de documentación.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+<div class="accent-bar" style="position:fixed; bottom:0; left:0; right:0;"></div>
+<script src="js/nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SUELO — Detalle: Botones</title>
+<meta name="description" content="SUELO — Componentes de acción del sistema: variantes, tamaños y estados de los botones." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="css/tokens.css" />
+<link rel="stylesheet" href="css/base.css" />
+<style>
+  /* ---------- Página Botones: extensiones locales ---------- */
+  .comp-card {
+    background: var(--blanco);
+    border: 1px solid var(--borde-default);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    width: 100%;
+  }
+  .comp-card__body {
+    padding: 24px 28px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .comp-card__header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .comp-card__title {
+    font-weight: 700;
+    font-size: 20px;
+    color: #1c2e4d;
+  }
+  .badge-atomo {
+    display: inline-flex;
+    align-items: center;
+    background: #009e94;
+    color: #fff;
+    font-weight: 600;
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 10px;
+    line-height: 1;
+  }
+  .comp-card__desc {
+    color: #6b737d;
+    font-size: 14px;
+    max-width: 850px;
+  }
+  .comp-card__subtitle {
+    font-weight: 600;
+    font-size: 14px;
+    color: #1c2e4d;
+  }
+  .prop-table-wrap { width: 100%; overflow-x: auto; }
+  .prop-table { width: 100%; border-collapse: collapse; font-size: 11px; min-width: 700px; }
+  .prop-table thead th {
+    background: #f5f7fa;
+    color: #6b737d;
+    font-weight: 600;
+    padding: 8px 12px;
+    text-align: left;
+    white-space: nowrap;
+  }
+  .prop-table tbody td {
+    padding: 6px 12px;
+    border-top: 1px solid #f5f7fa;
+    color: #6b737d;
+    vertical-align: top;
+  }
+  .prop-table tbody td:first-child { font-weight: 500; color: #1c2e4d; white-space: nowrap; }
+  .prop-table th:nth-child(1), .prop-table td:nth-child(1) { width: 150px; }
+  .prop-table th:nth-child(2), .prop-table td:nth-child(2) { width: 120px; }
+  .prop-table th:nth-child(3), .prop-table td:nth-child(3) { width: 300px; }
+  .prop-table th:nth-child(4), .prop-table td:nth-child(4) { width: 250px; }
+
+  .usage-list {
+    color: #6b737d;
+    font-size: 13px;
+    max-width: 850px;
+    margin: 0;
+    padding-left: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .divider-preview { height: 1px; width: 100%; background: #e5e8ed; }
+
+  .preview-block {
+    background: #f5f7fa;
+    padding: 20px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+  }
+  .preview-block__header { display: flex; align-items: center; gap: 8px; }
+  .preview-icon {
+    width: 20px; height: 20px;
+    background: #0469ff;
+    color: #fff;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    flex-shrink: 0;
+  }
+  .preview-block__title { font-weight: 600; font-size: 13px; color: #1c2e4d; }
+  .preview-block__subtitle { color: #6b737d; font-size: 13px; }
+  .preview-content {
+    background: var(--blanco);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+  }
+  .preview-item { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
+  .preview-item__label { font-weight: 600; font-size: 10px; color: #6b737d; }
+
+  /* ---------- Variantes de botón adicionales ---------- */
+  .btn--sutil { background: transparent; color: var(--texto-default); }
+  .btn--link { background: transparent; color: var(--color-primario); height: auto; padding: 8px; font-weight: 400; }
+  .btn--vender { background: var(--color-rojo); color: var(--texto-default-invertido); }
+  .btn--comprar { background: var(--color-verde-dark); color: var(--texto-default-invertido); }
+  .btn--link-danger { background: transparent; color: var(--color-rojo); height: auto; padding: 8px; font-weight: 400; }
+  .btn--sutil-danger { background: transparent; color: var(--color-rojo); }
+
+  .btn--24 { height: 24px; min-height: 24px; min-width: 24px; padding: 8px; font-size: 12px; }
+  .btn--32 { height: 32px; min-height: 32px; min-width: 32px; padding: 8px 12px; font-size: 14px; }
+
+  .btn--state-hover { background: #1d4a91; }
+  .btn--state-press { background: #1c2f4d; }
+  .btn--state-disabled { background: var(--texto-light-2); cursor: not-allowed; }
+
+  /* ---------- Botón segmentado ---------- */
+  .segmented { display: inline-flex; flex-direction: column; gap: 4px; align-items: flex-start; }
+  .segmented__group {
+    background: var(--blanco);
+    border: 0.5px solid var(--borde-default);
+    border-radius: 4px;
+    display: inline-flex;
+    overflow: hidden;
+  }
+  .segmented__btn {
+    border: none;
+    border-right: 1px solid var(--borde-default);
+    height: 40px;
+    min-width: 40px;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--blanco);
+    color: var(--texto-light);
+    font-size: 14px;
+    font-family: var(--font-body);
+    cursor: pointer;
+  }
+  .segmented__btn:last-child { border-right: none; }
+  .segmented__btn.is-selected {
+    background: var(--color-primario-light);
+    color: var(--texto-color-invertido, #1d4a91);
+    font-weight: 500;
+  }
+
+  @media (max-width: 900px) {
+    .comp-card__body { padding: 20px 16px; }
+    .preview-block { padding: 16px; }
+    .preview-content { padding: 16px; }
+  }
+</style>
+</head>
+<body data-page="botones">
+<div class="app-shell">
+  <nav class="sidebar" id="sidebar-root"></nav>
+
+  <main class="main">
+    <div class="breadcrumbs">
+      <span class="brand">SUELO</span>
+      <span class="sep">›</span>
+      <span>Componentes</span>
+      <span class="sep">›</span>
+      <span class="current">Botones</span>
+    </div>
+
+    <section class="section">
+      <h1 class="section-title" style="font-size:32px;">Botones</h1>
+      <p class="section-subtitle" style="font-size:16px; max-width:900px;">Componentes de acción del sistema SUELO. Los botones son el medio principal de interacción del usuario con la interfaz.</p>
+    </section>
+
+    <hr class="rule" />
+
+    <!-- ============ Boton default ============ -->
+    <div class="comp-card">
+      <div class="comp-card__body">
+        <div class="comp-card__header">
+          <div class="comp-card__title">Boton default</div>
+          <span class="badge-atomo">Átomo</span>
+        </div>
+        <p class="comp-card__desc">Botón principal del sistema para acciones primarias, secundarias y terciarias. Componente más utilizado en toda la interfaz.</p>
+
+        <div class="comp-card__subtitle">Propiedades</div>
+        <div class="prop-table-wrap">
+          <table class="prop-table">
+            <thead>
+              <tr>
+                <th>Propiedad</th>
+                <th>Tipo</th>
+                <th>Valores</th>
+                <th>Descripción</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Variante</td>
+                <td>Variant</td>
+                <td>Primario | Default | Soft | Link | Compra</td>
+                <td>Define el estilo visual del botón</td>
+              </tr>
+              <tr>
+                <td>Estado</td>
+                <td>Variant</td>
+                <td>Activo | Hover | Focus | Deshabilitado</td>
+                <td>Estado de interacción actual</td>
+              </tr>
+              <tr>
+                <td>Tamaño</td>
+                <td>String</td>
+                <td>default</td>
+                <td>Tamaño del botón</td>
+              </tr>
+              <tr>
+                <td>Con Icono</td>
+                <td>Boolean</td>
+                <td>true | false</td>
+                <td>Muestra icono junto al texto</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="comp-card__subtitle">Uso recomendado</div>
+        <ul class="usage-list">
+          <li>Usar variante Primario para la acción principal de la pantalla</li>
+          <li>Soft para acciones secundarias sin competir visualmente</li>
+          <li>Link para navegación inline</li>
+          <li>Compra exclusivamente para flujos transaccionales</li>
+        </ul>
+      </div>
+
+      <div class="divider-preview"></div>
+
+      <div class="preview-block">
+        <div class="preview-block__header">
+          <div class="preview-icon">◉</div>
+          <div class="preview-block__title">Preview interactivo</div>
+          <div class="preview-block__subtitle">— Botón default — Todas las variantes</div>
+        </div>
+        <div class="preview-content">
+          <div class="preview-item">
+            <div class="preview-item__label">Primario</div>
+            <button class="btn btn--primario">Botón</button>
+          </div>
+          <div class="preview-item">
+            <div class="preview-item__label">Default</div>
+            <button class="btn btn--secundario">Botón</button>
+          </div>
+          <div class="preview-item">
+            <div class="preview-item__label">Sutil</div>
+            <button class="btn btn--sutil">Botón</button>
+          </div>
+          <div class="preview-item">
+            <div class="preview-item__label">Link</div>
+            <button class="btn btn--link">Botón</button>
+          </div>
+          <div class="preview-item">
+            <div class="preview-item__label">Vender</div>
+            <button class="btn btn--vender">Botón</button>
+          </div>
+          <div class="preview-item">
+            <div class="preview-item__label">Comprar</div>
+            <button class="btn btn--comprar">Botón</button>
+          </div>
+          <div class="preview-item">
+            <div class="preview-item__label">Link danger</div>
+            <button class="btn btn--link-danger">Botón</button>
+          </div>
+          <div class="preview-item">
+            <div class="preview-item__label">Sutil danger</div>
+            <button class="btn btn--sutil-danger">Botón</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="preview-block">
+        <div class="preview-block__header">
+          <div class="preview-icon">◉</div>
+          <div class="preview-block__title">Preview interactivo</div>
+          <div class="preview-block__subtitle">— Botón default — Tamaños</div>
+        </div>
+        <div class="preview-content">
+          <div class="preview-item">
+            <div class="preview-item__label">Size 24</div>
+            <button class="btn btn--primario btn--24">Botón</button>
+          </div>
+          <div class="preview-item">
+            <div class="preview-item__label">Size 32</div>
+            <button class="btn btn--primario btn--32">Botón</button>
+          </div>
+          <div class="preview-item">
+            <div class="preview-item__label">Size 40</div>
+            <button class="btn btn--primario">Botón</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="preview-block" style="border-radius: 0 0 8px 8px;">
+        <div class="preview-block__header">
+          <div class="preview-icon">◉</div>
+          <div class="preview-block__title">Preview interactivo</div>
+          <div class="preview-block__subtitle">— Botón default — Estados</div>
+        </div>
+        <div class="preview-content">
+          <div class="preview-item">
+            <div class="preview-item__label">Activo</div>
+            <button class="btn btn--primario">Botón</button>
+          </div>
+          <div class="preview-item">
+            <div class="preview-item__label">Hover</div>
+            <button class="btn btn--primario btn--state-hover">Botón</button>
+          </div>
+          <div class="preview-item">
+            <div class="preview-item__label">Press</div>
+            <button class="btn btn--primario btn--state-press">Botón</button>
+          </div>
+          <div class="preview-item">
+            <div class="preview-item__label">Deshabilitado</div>
+            <button class="btn btn--primario btn--state-disabled" disabled>Botón</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ Boton segmentado ============ -->
+    <div class="comp-card">
+      <div class="comp-card__body">
+        <div class="comp-card__header">
+          <div class="comp-card__title">Boton segmentado</div>
+          <span class="badge-atomo">Átomo</span>
+        </div>
+        <p class="comp-card__desc">Grupo de botones conectados visualmente para alternar entre opciones mutuamente excluyentes. Similar a un toggle group.</p>
+
+        <div class="comp-card__subtitle">Propiedades</div>
+        <div class="prop-table-wrap">
+          <table class="prop-table">
+            <thead>
+              <tr>
+                <th>Propiedad</th>
+                <th>Tipo</th>
+                <th>Valores</th>
+                <th>Descripción</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Segmentos</td>
+                <td>Instance</td>
+                <td>2-5 segmentos</td>
+                <td>Cantidad de opciones</td>
+              </tr>
+              <tr>
+                <td>Seleccionado</td>
+                <td>Variant</td>
+                <td>Índice del activo</td>
+                <td>Segmento actualmente seleccionado</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="comp-card__subtitle">Uso recomendado</div>
+        <ul class="usage-list">
+          <li>Usar para filtros rápidos (ej: Vista Lista / Grilla)</li>
+          <li>Máximo 5 opciones, textos cortos</li>
+          <li>No usar como navegación principal</li>
+        </ul>
+      </div>
+
+      <div class="divider-preview"></div>
+
+      <div class="preview-block" style="border-radius: 0 0 8px 8px;">
+        <div class="preview-block__header">
+          <div class="preview-icon">◉</div>
+          <div class="preview-block__title">Preview interactivo</div>
+          <div class="preview-block__subtitle">— Botón segmentado — Variantes</div>
+        </div>
+        <div class="preview-content">
+          <div class="preview-item">
+            <div class="preview-item__label">2 segmentos</div>
+            <div class="segmented">
+              <div class="segmented__group">
+                <button class="segmented__btn is-selected">Botón</button>
+                <button class="segmented__btn">Botón</button>
+              </div>
+            </div>
+          </div>
+          <div class="preview-item">
+            <div class="preview-item__label">3 segmentos</div>
+            <div class="segmented">
+              <div class="segmented__group">
+                <button class="segmented__btn is-selected">Botón</button>
+                <button class="segmented__btn">Botón</button>
+                <button class="segmented__btn">Botón</button>
+              </div>
+            </div>
+          </div>
+          <div class="preview-item">
+            <div class="preview-item__label">4 segmentos</div>
+            <div class="segmented">
+              <div class="segmented__group">
+                <button class="segmented__btn is-selected">Botón</button>
+                <button class="segmented__btn">Botón</button>
+                <button class="segmented__btn">Botón</button>
+                <button class="segmented__btn">Botón</button>
+              </div>
+            </div>
+          </div>
+          <div class="preview-item">
+            <div class="preview-item__label">5 segmentos</div>
+            <div class="segmented">
+              <div class="segmented__group">
+                <button class="segmented__btn is-selected">Botón</button>
+                <button class="segmented__btn">Botón</button>
+                <button class="segmented__btn">Botón</button>
+                <button class="segmented__btn">Botón</button>
+                <button class="segmented__btn">Botón</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ Partes botón segmentado ============ -->
+    <div class="comp-card">
+      <div class="comp-card__body">
+        <div class="comp-card__header">
+          <div class="comp-card__title">Partes botón segmentado</div>
+          <span class="badge-atomo">Átomo</span>
+        </div>
+        <p class="comp-card__desc">Sub-componentes internos que componen cada segmento individual del botón segmentado. No se usa directamente.</p>
+
+        <div class="comp-card__subtitle">Uso recomendado</div>
+        <ul class="usage-list">
+          <li>Componente interno — no instanciar directamente</li>
+          <li>Modificar solo desde el componente padre Boton segmentado</li>
+        </ul>
+      </div>
+    </div>
+  </main>
+</div>
+<div class="accent-bar" style="position:fixed; bottom:0; left:0; right:0;"></div>
+<script src="js/nav.js"></script>
+</body>
+</html>

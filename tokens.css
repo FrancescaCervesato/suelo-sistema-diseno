@@ -1,0 +1,72 @@
+/* ============================================================
+   SUELO Design System — Design Tokens
+   Extraídos 1:1 del archivo de Figma "Zona de diseño" (LANDING SUELO)
+   ============================================================ */
+:root {
+  /* Color / Marca */
+  --color-primario: #0077e4;
+  --color-primario-fuerte: #0469ff;
+  --color-primario-light: #e4eefd;
+  --color-verde: #0ace79;
+  --color-verde-dark: #1e7350;
+  --color-verde-bg: #f3f8f6;
+  --color-naranja: #ee6002;
+  --color-rojo: #c91313;
+
+  /* Color / Superficie */
+  --gris-1: #f6f7fa;
+  --gris-2: #eaecee;
+  --blanco: #ffffff;
+  --sidebar-bg: #1c2e4d;
+  --sidebar-divider: #2e4266;
+  --sidebar-item-active: #0469ff;
+  --sidebar-text-muted: #b2bfd1;
+
+  /* Color / Texto */
+  --texto-default: #1b2431;
+  --texto-default-invertido: #f6f7fa;
+  --texto-light: #414d5f;
+  --texto-light-2: #778294;
+  --texto-light-3: #a6aebc;
+  --texto-color-primario: #0077e4;
+
+  /* Color / Bordes */
+  --borde-default: #dadee3;
+  --borde-suave: #e5ebf0;
+
+  /* Tipografía */
+  --font-body: "Noto Sans", "Segoe UI", sans-serif;
+  --font-icon: "Font Awesome 6 Free";
+
+  --h1-size: 64px;
+  --h1-lh: 72px;
+  --h3-size: 36px;
+  --h3-lh: 48px;
+  --h5-size: 24px;
+  --h5-lh: 32px;
+  --body1-size: 16px;
+  --body1-lh: 24px;
+  --body2-size: 14px;
+  --body2-lh: 20px;
+  --caption-size: 12px;
+  --caption-lh: 18px;
+  --caption2-size: 11px;
+  --caption2-lh: 16px;
+
+  /* Espaciado — múltiplos de 4px */
+  --space-025: 4px;
+  --space-05: 8px;
+  --space-1: 16px;
+  --space-2: 32px;
+  --space-3: 48px;
+  --space-4: 64px;
+
+  /* Radios */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+
+  --sidebar-width: 240px;
+  --content-max-width: 1200px;
+}

@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SUELO — Detalle: Datos y Tablas</title>
+<meta name="description" content="SUELO — Componentes para visualización de datos tabulares, menús desplegables y carga de archivos." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="css/tokens.css" />
+<link rel="stylesheet" href="css/base.css" />
+<style>
+  .page-hero-title {
+    font-weight: 700;
+    font-size: var(--h3-size);
+    line-height: var(--h3-lh);
+    letter-spacing: -0.72px;
+    color: var(--texto-default);
+    margin: 0;
+  }
+  .page-hero-desc {
+    font-weight: 400;
+    font-size: var(--body1-size);
+    line-height: var(--body1-lh);
+    color: var(--texto-light);
+    max-width: 900px;
+  }
+
+  /* ---------- Doc card (component doc block) ---------- */
+  .doc-card {
+    background: var(--blanco);
+    border: 1px solid #d1d6db;
+    border-radius: var(--radius-md);
+    padding: 24px 28px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+  }
+  .doc-card__header { display: flex; align-items: center; gap: 12px; }
+  .doc-card__title { font-weight: 700; font-size: 20px; color: #1c2e4d; margin: 0; }
+  .badge-molecula {
+    display: inline-flex;
+    align-items: center;
+    background: #5959d9;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 10px;
+  }
+  .doc-card__desc { color: #6b737d; font-size: 14px; max-width: 850px; margin: 0; }
+  .doc-card__subtitle { font-weight: 600; font-size: 14px; color: #1c2e4d; margin: 0; }
+
+  .props-table-wrap { width: 100%; overflow-x: auto; }
+  .props-table { width: 100%; min-width: 700px; border-collapse: collapse; font-size: 11px; }
+  .props-table thead th {
+    background: #f5f7fa;
+    color: #6b737d;
+    font-weight: 600;
+    text-align: left;
+    padding: 8px 12px;
+  }
+  .props-table tbody td { padding: 6px 12px; border-top: 1px solid #f0f1f3; }
+  .props-table tbody td:first-child { font-weight: 500; color: #1c2e4d; white-space: nowrap; }
+  .props-table tbody td:not(:first-child) { color: #6b737d; }
+
+  .usage-list { color: #6b737d; font-size: 13px; line-height: 1.6; margin: 0; padding: 0; list-style: none; max-width: 850px; }
+
+  .preview-separator { height: 1px; width: 100%; background: #e5e8ed; border: none; margin: 0; }
+  .preview-box { background: #f5f7fa; border-radius: 0 0 8px 8px; padding: 20px 24px 24px; display: flex; flex-direction: column; gap: 16px; width: 100%; }
+  .preview-box__label { display: flex; align-items: center; gap: 8px; }
+  .preview-box__icon {
+    width: 20px; height: 20px; background: #0469ff; border-radius: 4px;
+    color: #fff; font-size: 12px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .preview-box__title { font-weight: 600; font-size: 13px; color: #1c2e4d; }
+  .preview-box__subtitle { font-size: 13px; color: #6b737d; }
+  .preview-content {
+    background: #fff; border-radius: 8px; padding: 24px;
+    display: flex; flex-wrap: wrap; gap: 24px 20px; align-items: flex-start;
+  }
+  .demo-item { display: flex; flex-direction: column; gap: 6px; align-items: center; }
+  .demo-item__label { font-size: 10px; font-weight: 600; color: #6b737d; text-align: center; white-space: nowrap; }
+
+  /* ---------- Campos tabla — field cells ---------- */
+  .field-cell {
+    border-bottom: 1px solid var(--borde-default);
+    background: #fff;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 8px;
+    box-sizing: border-box;
+  }
+  .field-cell--texto { width: 200px; }
+  .field-cell--numero { width: 62px; justify-content: flex-end; font-size: 14px; color: var(--texto-default); }
+  .field-cell--link { width: 200px; }
+  .field-cell--link a { color: var(--color-primario); font-size: 16px; }
+  .field-cell--editable { width: 130px; padding: 4px; }
+  .field-cell--checkbox, .field-cell--icono, .field-cell--vacio { width: 40px; justify-content: center; }
+  .field-cell--chip { width: auto; padding: 0 8px; }
+  .field-cell__text { font-size: 14px; color: var(--texto-default); }
+  .field-cell__icon-btn {
+    width: 24px; height: 24px; border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--texto-default); font-size: 12px;
+  }
+  .field-cell__box { width: 14px; height: 14px; border: 2px solid var(--borde-default); border-radius: 2px; }
+  .field-cell__input {
+    width: 100%; height: 32px; border: 1px solid var(--borde-default); border-radius: 4px;
+    background: #fff; display: flex; align-items: center; padding: 0 8px;
+  }
+  .chip-pill {
+    background: var(--gris-1); border: 1px solid var(--texto-light-3); border-radius: 8px;
+    padding: 0 8px; height: 24px; display: inline-flex; align-items: center;
+    font-size: 11px; font-weight: 700; color: var(--texto-light);
+  }
+
+  /* ---------- Columnas — mini tables ---------- */
+  .mini-table { border-collapse: collapse; }
+  .mini-table th {
+    background: #fff; border-bottom: 2px solid var(--borde-default);
+    font-size: 12px; font-weight: 700; color: var(--texto-light);
+    text-align: left; padding: 4px 8px; height: 40px; box-sizing: border-box;
+  }
+  .mini-table td {
+    border-bottom: 1px solid var(--borde-default);
+    font-size: 14px; color: var(--texto-default);
+    padding: 8px; height: 40px; box-sizing: border-box;
+  }
+  .mini-table--default { width: 101px; }
+  .mini-table--numero { width: 101px; }
+  .mini-table--numero td { text-align: right; }
+  .mini-table--checkbox { width: 40px; }
+  .mini-table--checkbox th, .mini-table--checkbox td { text-align: center; padding: 0; }
+  .mini-table--icono { width: 32px; }
+  .mini-table--icono th, .mini-table--icono td { text-align: center; padding: 0; }
+  .mini-table--chip { width: 100px; }
+  .mini-table--link { width: 98px; }
+  .mini-table--link td { color: var(--color-primario); font-size: 16px; }
+  .mini-table__ellipsis {
+    width: 24px; height: 24px; border-radius: 4px; display: flex; align-items: center; justify-content: center;
+    color: var(--texto-default); font-size: 12px; margin: 0 auto;
+  }
+
+  /* ---------- Drag and drop ---------- */
+  .dropzone {
+    border: 1px solid var(--texto-color-primario);
+    border-style: dashed;
+    border-radius: 8px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 24px; padding: 48px 24px; width: 388px; height: 400px;
+    position: relative; box-sizing: border-box;
+  }
+  .dropzone--default { background: #fff; }
+  .dropzone--active { background: var(--color-primario-light); }
+  .dropzone__illustration { font-size: 56px; line-height: 1; }
+  .dropzone__title { font-weight: 600; font-size: 20px; line-height: 30px; color: var(--texto-default); text-align: center; margin: 0; }
+  .dropzone__subtitle { font-weight: 400; font-size: 20px; line-height: 30px; color: var(--texto-light); text-align: center; margin: 0; }
+  .dropzone__btn {
+    height: 40px; padding: 8px 16px; border-radius: 4px;
+    background: var(--gris-2); color: var(--texto-default);
+    font-size: 16px; font-weight: 500; border: none; cursor: pointer;
+    font-family: var(--font-body);
+  }
+  .dropzone--active .dropzone__btn { background: var(--gris-1); color: var(--texto-light-2); }
+  .dropzone__tooltip {
+    position: absolute; top: 40px; right: 40px;
+    background: var(--color-primario); color: #f6f7fa; font-size: 11px;
+    padding: 4px 8px; border-radius: 4px; box-shadow: 0 0 2px rgba(27,36,49,0.3);
+    white-space: nowrap;
+  }
+  .dropzone__cursor { position: absolute; top: 60px; right: 56px; color: #1b2431; font-size: 16px; }
+
+  /* ---------- Desplegable botón ---------- */
+  .dropdown-btn-panel { width: 320px; border: 1px solid var(--borde-default); border-radius: 6px; background: #fff; overflow: hidden; }
+  .dropdown-btn-panel__header { padding: 12px 20px; border-bottom: 1px solid var(--borde-default); font-size: 14px; font-weight: 600; color: var(--texto-light); }
+  .dropdown-btn-panel__item {
+    display: flex; align-items: center; gap: 8px; padding: 8px 16px; height: 24px;
+    font-size: 14px; color: var(--texto-default);
+  }
+  .dropdown-btn-panel__divider { height: 1px; background: var(--borde-default); margin: 0; border: none; }
+  .dropdown-btn-panel__footer { display: flex; justify-content: flex-end; gap: 12px; padding: 12px 20px 20px; }
+  .dropdown-btn-panel__footer .btn { height: 40px; font-size: 16px; }
+
+  /* ---------- Desplegable menu ---------- */
+  .dropdown-menu { width: 200px; border: 1px solid var(--borde-default); border-radius: 4px; background: #fff; box-shadow: 0 4px 8px rgba(27,36,49,0.15); overflow: hidden; }
+  .dropdown-menu__item {
+    min-height: 40px; box-sizing: border-box; display: flex; align-items: center;
+    font-size: 14px; color: var(--texto-default); padding: 8px 16px;
+    border-top: 1px solid var(--borde-default); border-bottom: 1px solid var(--borde-default);
+  }
+  .dropdown-menu__loading { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 11px 16px; font-size: 12px; color: var(--texto-light); width: 200px; box-sizing: border-box; }
+  .spinner-icon { animation: spin 1s linear infinite; color: var(--texto-light-2); }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ---------- Item desplegable (estados) ---------- */
+  .dropdown-item {
+    width: 200px; min-height: 40px; box-sizing: border-box; display: flex; align-items: center; gap: 8px;
+    padding: 8px 16px; border-top: 1px solid var(--borde-default); border-bottom: 1px solid var(--borde-default); background: #fff;
+  }
+  .dropdown-item--select { background: #d7e6fc; }
+  .dropdown-item--hover { background: #eaecee; }
+  .dropdown-item__label { font-size: 14px; color: var(--texto-light); }
+  .dropdown-item--select .dropdown-item__label { color: #1d4a91; }
+  .dropdown-item--hover .dropdown-item__label { color: var(--texto-light); }
+
+  /* ---------- Items de menu ---------- */
+  .menu-item { width: 224px; height: 40px; box-sizing: border-box; border-radius: 4px; display: flex; align-items: center; gap: 4px; padding: 8px; background: #fff; }
+  .menu-item__content { flex: 1 0 0; display: flex; align-items: center; gap: 12px; min-width: 0; }
+  .menu-item__icon { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 12px; color: var(--texto-default); }
+  .menu-item__label { font-size: 14px; color: var(--texto-default); white-space: nowrap; }
+  .menu-item__caret { font-size: 12px; color: var(--texto-default); }
+  .menu-item--hover { background: var(--color-primario-light); border: 0.3px solid #78a8f3; }
+  .menu-item--hover .menu-item__label { font-weight: 600; color: #1d4a91; }
+  .menu-item--hover .menu-item__icon, .menu-item--hover .menu-item__caret { color: #1d4a91; }
+  .menu-item--select { width: 222px; background: #d7e6fc; border: 0.3px solid #78a8f3; }
+  .menu-item--select .menu-item__label { font-weight: 500; color: #1d4a91; }
+  .menu-item--select .menu-item__icon, .menu-item--select .menu-item__caret { color: #1d4a91; }
+  .menu-item--sub { padding-left: 20px; }
+  .menu-item--nocaret { padding-left: 18px; }
+  .menu-item__divider { width: 240px; height: 1px; background: var(--borde-default); }
+</style>
+</head>
+<body data-page="datos-tablas">
+<div class="app-shell">
+  <nav class="sidebar" id="sidebar-root"></nav>
+
+  <main class="main">
+    <div class="breadcrumbs">
+      <span class="brand">SUELO</span>
+      <span class="sep">›</span>
+      <span>Componentes</span>
+      <span class="sep">›</span>
+      <span class="current">Datos y Tablas</span>
+    </div>
+
+    <div class="accent-bar" style="border-radius:4px;"></div>
+
+    <section class="section">
+      <h1 class="page-hero-title">Datos, Tablas y Menús</h1>
+      <p class="page-hero-desc">Componentes para visualización de datos tabulares, menús desplegables y carga de archivos.</p>
+    </section>
+
+    <hr class="rule" />
+
+    <!-- 1. Campos tabla -->
+    <div class="doc-card">
+      <div class="doc-card__header">
+        <h2 class="doc-card__title">Campos tabla</h2>
+        <span class="badge-molecula">Molécula</span>
+      </div>
+      <p class="doc-card__desc">Celdas y campos editables para uso dentro de tablas de datos. Soportan diferentes tipos de contenido.</p>
+
+      <p class="doc-card__subtitle">Propiedades</p>
+      <div class="props-table-wrap">
+        <table class="props-table">
+          <thead>
+            <tr><th>Propiedad</th><th>Tipo</th><th>Valores</th><th>Descripción</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Tipo</td><td>Variant</td><td>Text | Number | Date | Action</td><td>Tipo de dato de la celda</td></tr>
+            <tr><td>Editable</td><td>Boolean</td><td>true | false</td><td>Permite edición inline</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="doc-card__subtitle">Uso recomendado</p>
+      <ul class="usage-list">
+        <li>• Alinear números a la derecha</li>
+        <li>• Texto a la izquierda</li>
+        <li>• Acciones centradas en la columna</li>
+      </ul>
+
+      <hr class="preview-separator" />
+      <div class="preview-box">
+        <div class="preview-box__label">
+          <span class="preview-box__icon">◉</span>
+          <span class="preview-box__title">Preview interactivo</span>
+          <span class="preview-box__subtitle">— Campos tabla — Tipos de campo</span>
+        </div>
+        <div class="preview-content">
+          <div class="demo-item">
+            <span class="demo-item__label">Texto</span>
+            <div class="field-cell field-cell--texto"><span class="field-cell__text">Texto</span></div>
+          </div>
+          <div class="demo-item">
+            <span class="demo-item__label">Número</span>
+            <div class="field-cell field-cell--numero">451565</div>
+          </div>
+          <div class="demo-item">
+            <span class="demo-item__label">Link</span>
+            <div class="field-cell field-cell--link"><a href="#">Link</a></div>
+          </div>
+          <div class="demo-item">
+            <span class="demo-item__label">Editable</span>
+            <div class="field-cell field-cell--editable"><div class="field-cell__input"></div></div>
+          </div>
+          <div class="demo-item">
+            <span class="demo-item__label">Checkbox</span>
+            <div class="field-cell field-cell--checkbox"><span class="field-cell__box"></span></div>
+          </div>
+          <div class="demo-item">
+            <span class="demo-item__label">Icono</span>
+            <div class="field-cell field-cell--icono"><span class="field-cell__icon-btn"><i class="fa-solid fa-pen"></i></span></div>
+          </div>
+          <div class="demo-item">
+            <span class="demo-item__label">Chip</span>
+            <div class="field-cell field-cell--chip"><span class="chip-pill">LABEL</span></div>
+          </div>
+          <div class="demo-item">
+            <span class="demo-item__label">Vacío</span>
+            <div class="field-cell field-cell--vacio"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Columnas -->
+    <div class="doc-card">
+      <div class="doc-card__header">
+        <h2 class="doc-card__title">Columnas</h2>
+        <span class="badge-molecula">Molécula</span>
+      </div>
+      <p class="doc-card__desc">Definición de columnas para tablas de datos con encabezados, ordenamiento y redimensionamiento.</p>
+
+      <p class="doc-card__subtitle">Propiedades</p>
+      <div class="props-table-wrap">
+        <table class="props-table">
+          <thead>
+            <tr><th>Propiedad</th><th>Tipo</th><th>Valores</th><th>Descripción</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Ordenable</td><td>Boolean</td><td>true | false</td><td>Permite ordenar por esta columna</td></tr>
+            <tr><td>Ancho</td><td>Variant</td><td>Fixed | Flexible</td><td>Comportamiento del ancho de columna</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="doc-card__subtitle">Uso recomendado</p>
+      <ul class="usage-list">
+        <li>• Incluir indicador visual de ordenamiento activo</li>
+        <li>• Columnas de acción siempre al final</li>
+        <li>• Ancho mínimo para evitar truncamiento de texto</li>
+      </ul>
+
+      <hr class="preview-separator" />
+      <div class="preview-box">
+        <div class="preview-box__label">
+          <span class="preview-box__icon">◉</span>
+          <span class="preview-box__title">Preview interactivo</span>
+          <span class="preview-box__subtitle">— Columnas — Tipos</span>
+        </div>
+        <div class="preview-content">
+          <div class="demo-item">
+            <span class="demo-item__label">Default</span>
+            <table class="mini-table mini-table--default">
+              <thead><tr><th>Title</th></tr></thead>
+              <tbody>
+                <tr><td>Texto</td></tr>
+                <tr><td>Texto</td></tr>
+                <tr><td>Texto</td></tr>
+                <tr><td>Texto</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="demo-item">
+            <span class="demo-item__label">Numero</span>
+            <table class="mini-table mini-table--numero">
+              <thead><tr><th>Title</th></tr></thead>
+              <tbody>
+                <tr><td>451565</td></tr>
+                <tr><td>451565</td></tr>
+                <tr><td>451565</td></tr>
+                <tr><td>451565</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="demo-item">
+            <span class="demo-item__label">Checkbox</span>
+            <table class="mini-table mini-table--checkbox">
+              <thead><tr><th><span class="field-cell__box" style="margin:0 auto;"></span></th></tr></thead>
+              <tbody>
+                <tr><td><span class="field-cell__box" style="margin:0 auto;"></span></td></tr>
+                <tr><td><span class="field-cell__box" style="margin:0 auto;"></span></td></tr>
+                <tr><td><span class="field-cell__box" style="margin:0 auto;"></span></td></tr>
+                <tr><td><span class="field-cell__box" style="margin:0 auto;"></span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="demo-item">
+            <span class="demo-item__label">Icono</span>
+            <table class="mini-table mini-table--icono">
+              <thead><tr><th></th></tr></thead>
+              <tbody>
+                <tr><td><span class="mini-table__ellipsis"><i class="fa-solid fa-ellipsis-vertical"></i></span></td></tr>
+                <tr><td><span class="mini-table__ellipsis"><i class="fa-solid fa-ellipsis-vertical"></i></span></td></tr>
+                <tr><td><span class="mini-table__ellipsis"><i class="fa-solid fa-ellipsis-vertical"></i></span></td></tr>
+                <tr><td><span class="mini-table__ellipsis"><i class="fa-solid fa-ellipsis-vertical"></i></span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="demo-item">
+            <span class="demo-item__label">Chip</span>
+            <table class="mini-table mini-table--chip">
+              <thead><tr><th>Title</th></tr></thead>
+              <tbody>
+                <tr><td><span class="chip-pill">LABEL</span></td></tr>
+                <tr><td><span class="chip-pill">LABEL</span></td></tr>
+                <tr><td><span class="chip-pill">LABEL</span></td></tr>
+                <tr><td><span class="chip-pill">LABEL</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="demo-item">
+            <span class="demo-item__label">Link</span>
+            <table class="mini-table mini-table--link">
+              <thead><tr><th>Title</th></tr></thead>
+              <tbody>
+                <tr><td><a href="#" style="color:inherit;">Link</a></td></tr>
+                <tr><td><a href="#" style="color:inherit;">Link</a></td></tr>
+                <tr><td><a href="#" style="color:inherit;">Link</a></td></tr>
+                <tr><td><a href="#" style="color:inherit;">Link</a></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Drag and drop (uploader) -->
+    <div class="doc-card">
+      <div class="doc-card__header">
+        <h2 class="doc-card__title">Drag and drop (uploader)</h2>
+        <span class="badge-molecula">Molécula</span>
+      </div>
+      <p class="doc-card__desc">Zona de arrastre para carga de archivos con feedback visual de estados drag, drop y progreso.</p>
+
+      <p class="doc-card__subtitle">Propiedades</p>
+      <div class="props-table-wrap">
+        <table class="props-table">
+          <thead>
+            <tr><th>Propiedad</th><th>Tipo</th><th>Valores</th><th>Descripción</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Estado</td><td>Variant</td><td>Default | Drag Over | Uploading | Complete | Error</td><td>Estado actual del uploader</td></tr>
+            <tr><td>Múltiple</td><td>Boolean</td><td>true | false</td><td>Permite múltiples archivos</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="doc-card__subtitle">Uso recomendado</p>
+      <ul class="usage-list">
+        <li>• Mostrar formatos aceptados claramente</li>
+        <li>• Incluir límite de tamaño visible</li>
+        <li>• Feedback de progreso durante la carga</li>
+      </ul>
+
+      <hr class="preview-separator" />
+      <div class="preview-box">
+        <div class="preview-box__label">
+          <span class="preview-box__icon">◉</span>
+          <span class="preview-box__title">Preview interactivo</span>
+          <span class="preview-box__subtitle">— Drag and drop — Estados y orientación</span>
+        </div>
+        <div class="preview-content">
+          <div class="demo-item">
+            <span class="demo-item__label">Estado=Activo<br />Tipo=Vertical</span>
+            <div class="dropzone dropzone--active">
+              <div class="dropzone__illustration">🗂️</div>
+              <div>
+                <p class="dropzone__title">Para importar un archivo arrastralo hasta acá o selecciona un archivo.</p>
+                <p class="dropzone__subtitle">Selecciona un archivo en formato .txt</p>
+              </div>
+              <button class="dropzone__btn">+ Seleccionar archivo</button>
+              <div class="dropzone__tooltip">customers_Q5_2024.json</div>
+              <span class="dropzone__cursor"><i class="fa-solid fa-arrow-pointer"></i></span>
+            </div>
+          </div>
+          <div class="demo-item">
+            <span class="demo-item__label">Estado=Default<br />Tipo=Vertical</span>
+            <div class="dropzone dropzone--default">
+              <div class="dropzone__illustration">🗂️</div>
+              <div>
+                <p class="dropzone__title">Para importar un archivo arrastralo hasta acá o selecciona un archivo.</p>
+                <p class="dropzone__subtitle">Selecciona un archivo en formato .txt</p>
+              </div>
+              <button class="dropzone__btn">+ Seleccionar archivo</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Desplegable botón -->
+    <div class="doc-card">
+      <div class="doc-card__header">
+        <h2 class="doc-card__title">Desplegable botón</h2>
+        <span class="badge-molecula">Molécula</span>
+      </div>
+      <p class="doc-card__desc">Botón que al hacer click abre un menú desplegable con opciones de acción adicionales.</p>
+
+      <p class="doc-card__subtitle">Propiedades</p>
+      <div class="props-table-wrap">
+        <table class="props-table">
+          <thead>
+            <tr><th>Propiedad</th><th>Tipo</th><th>Valores</th><th>Descripción</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Posición</td><td>Variant</td><td>Bottom-Left | Bottom-Right</td><td>Posición del menú respecto al botón</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="doc-card__subtitle">Uso recomendado</p>
+      <ul class="usage-list">
+        <li>• Usar para acciones secundarias agrupadas</li>
+        <li>• Máximo 7 opciones por menú</li>
+        <li>• Incluir separadores para agrupar acciones relacionadas</li>
+      </ul>
+
+      <hr class="preview-separator" />
+      <div class="preview-box">
+        <div class="preview-box__label">
+          <span class="preview-box__icon">◉</span>
+          <span class="preview-box__title">Preview interactivo</span>
+          <span class="preview-box__subtitle">— Desplegable botón</span>
+        </div>
+        <div class="preview-content">
+          <div class="demo-item">
+            <span class="demo-item__label">Default</span>
+            <div class="dropdown-btn-panel">
+              <div class="dropdown-btn-panel__header">Seleccione instrumento</div>
+              <div class="dropdown-btn-panel__item"><span class="field-cell__box"></span> Todos</div>
+              <div class="dropdown-btn-panel__item"><span class="field-cell__box"></span> A3 Agro</div>
+              <div class="dropdown-btn-panel__item"><span class="field-cell__box"></span> A3 Monedas</div>
+              <div class="dropdown-btn-panel__item"><span class="field-cell__box"></span> A3 Otros</div>
+              <div class="dropdown-btn-panel__item"><span class="field-cell__box"></span> ByMA</div>
+              <div class="dropdown-btn-panel__item"><span class="field-cell__box"></span> FCI</div>
+              <hr class="dropdown-btn-panel__divider" />
+              <div class="dropdown-btn-panel__footer">
+                <button class="btn btn--secundario">Cancelar</button>
+                <button class="btn btn--primario">Aceptar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. Desplegable menu -->
+    <div class="doc-card">
+      <div class="doc-card__header">
+        <h2 class="doc-card__title">Desplegable menu</h2>
+        <span class="badge-molecula">Molécula</span>
+      </div>
+      <p class="doc-card__desc">Menú contextual desplegable con lista de opciones seleccionables.</p>
+
+      <p class="doc-card__subtitle">Propiedades</p>
+      <div class="props-table-wrap">
+        <table class="props-table">
+          <thead>
+            <tr><th>Propiedad</th><th>Tipo</th><th>Valores</th><th>Descripción</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Items</td><td>Instance</td><td>Lista de Item desplegable</td><td>Opciones del menú</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="doc-card__subtitle">Uso recomendado</p>
+      <ul class="usage-list">
+        <li>• Usar para menús contextuales (click derecho)</li>
+        <li>• Incluir íconos cuando mejoren la comprensión</li>
+        <li>• Indicar atajos de teclado cuando existan</li>
+      </ul>
+
+      <hr class="preview-separator" />
+      <div class="preview-box">
+        <div class="preview-box__label">
+          <span class="preview-box__icon">◉</span>
+          <span class="preview-box__title">Preview interactivo</span>
+          <span class="preview-box__subtitle">— Desplegable menú — Variantes</span>
+        </div>
+        <div class="preview-content">
+          <div class="demo-item">
+            <span class="demo-item__label">1 líneas</span>
+            <div class="dropdown-menu">
+              <div class="dropdown-menu__item">All</div>
+            </div>
+          </div>
+          <div class="demo-item">
+            <span class="demo-item__label">3 líneas</span>
+            <div class="dropdown-menu">
+              <div class="dropdown-menu__item">All</div>
+              <div class="dropdown-menu__item">All</div>
+              <div class="dropdown-menu__item">All</div>
+            </div>
+          </div>
+          <div class="demo-item">
+            <span class="demo-item__label">5 líneas</span>
+            <div class="dropdown-menu">
+              <div class="dropdown-menu__item">All</div>
+              <div class="dropdown-menu__item">All</div>
+              <div class="dropdown-menu__item">All</div>
+              <div class="dropdown-menu__item">All</div>
+              <div class="dropdown-menu__item">All</div>
+            </div>
+          </div>
+          <div class="demo-item">
+            <span class="demo-item__label">Loading</span>
+            <div class="dropdown-menu">
+              <div class="dropdown-menu__loading"><i class="fa-solid fa-spinner spinner-icon"></i> Cargando...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. Item desplegable -->
+    <div class="doc-card">
+      <div class="doc-card__header">
+        <h2 class="doc-card__title">Item desplegable</h2>
+        <span class="badge-molecula">Molécula</span>
+      </div>
+      <p class="doc-card__desc">Elemento individual dentro de un menú desplegable. Soporta ícono, texto y atajo.</p>
+
+      <p class="doc-card__subtitle">Propiedades</p>
+      <div class="props-table-wrap">
+        <table class="props-table">
+          <thead>
+            <tr><th>Propiedad</th><th>Tipo</th><th>Valores</th><th>Descripción</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Con Icono</td><td>Boolean</td><td>true | false</td><td>Muestra ícono a la izquierda</td></tr>
+            <tr><td>Destructivo</td><td>Boolean</td><td>true | false</td><td>Estilo rojo para acciones destructivas</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="doc-card__subtitle">Uso recomendado</p>
+      <ul class="usage-list">
+        <li>• Acciones destructivas siempre al final del menú</li>
+        <li>• Confirmar acciones destructivas con un modal</li>
+      </ul>
+
+      <hr class="preview-separator" />
+      <div class="preview-box">
+        <div class="preview-box__label">
+          <span class="preview-box__icon">◉</span>
+          <span class="preview-box__title">Preview interactivo</span>
+          <span class="preview-box__subtitle">— Item desplegable — Estados</span>
+        </div>
+        <div class="preview-content">
+          <div class="demo-item">
+            <span class="demo-item__label">Default</span>
+            <div class="dropdown-item"><span class="dropdown-item__label">All</span></div>
+          </div>
+          <div class="demo-item">
+            <span class="demo-item__label">Select</span>
+            <div class="dropdown-item dropdown-item--select"><span class="dropdown-item__label">All</span></div>
+          </div>
+          <div class="demo-item">
+            <span class="demo-item__label">Hover</span>
+            <div class="dropdown-item dropdown-item--hover"><span class="dropdown-item__label">All</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7. Items de menu -->
+    <div class="doc-card">
+      <div class="doc-card__header">
+        <h2 class="doc-card__title">Items de menu</h2>
+        <span class="badge-molecula">Molécula</span>
+      </div>
+      <p class="doc-card__desc">Colección de elementos de menú para navegación lateral y acciones de sección.</p>
+
+      <p class="doc-card__subtitle">Propiedades</p>
+      <div class="props-table-wrap">
+        <table class="props-table">
+          <thead>
+            <tr><th>Propiedad</th><th>Tipo</th><th>Valores</th><th>Descripción</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Activo</td><td>Boolean</td><td>true | false</td><td>Indica el item seleccionado</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="doc-card__subtitle">Uso recomendado</p>
+      <ul class="usage-list">
+        <li>• Usar para navegación lateral de sección</li>
+        <li>• Resaltar el item activo con color primario</li>
+        <li>• Soportar niveles de anidamiento con indentación</li>
+      </ul>
+
+      <hr class="preview-separator" />
+      <div class="preview-box">
+        <div class="preview-box__label">
+          <span class="preview-box__icon">◉</span>
+          <span class="preview-box__title">Preview interactivo</span>
+          <span class="preview-box__subtitle">— Items de menú — Tipos</span>
+        </div>
+        <div class="preview-content">
+          <div class="demo-item">
+            <span class="demo-item__label">default</span>
+            <div class="menu-item">
+              <span class="menu-item__caret"><i class="fa-solid fa-caret-right"></i></span>
+              <span class="menu-item__content">
+                <span class="menu-item__icon"><i class="fa-regular fa-pen"></i></span>
+                <span class="menu-item__label">Ofertas de entrega</span>
+              </span>
+            </div>
+          </div>
+          <div class="demo-item">
+            <span class="demo-item__label">hover</span>
+            <div class="menu-item menu-item--hover">
+              <span class="menu-item__caret"><i class="fa-solid fa-caret-right"></i></span>
+              <span class="menu-item__content">
+                <span class="menu-item__icon"><i class="fa-solid fa-pen"></i></span>
+                <span class="menu-item__label">Ofertas de entrega</span>
+              </span>
+            </div>
+          </div>
+          <div class="demo-item">
+            <span class="demo-item__label">select</span>
+            <div class="menu-item menu-item--select">
+              <span class="menu-item__caret"><i class="fa-solid fa-caret-right"></i></span>
+              <span class="menu-item__content">
+                <span class="menu-item__icon"><i class="fa-regular fa-pen"></i></span>
+                <span class="menu-item__label">Ofertas de entrega</span>
+              </span>
+            </div>
+          </div>
+          <div class="demo-item">
+            <span class="demo-item__label">Subcategoría</span>
+            <div class="menu-item menu-item--sub">
+              <span class="menu-item__content">
+                <span class="menu-item__icon"><i class="fa-regular fa-pen"></i></span>
+                <span class="menu-item__label">Ofertas de entrega</span>
+              </span>
+            </div>
+          </div>
+          <div class="demo-item">
+            <span class="demo-item__label">Default sin caret</span>
+            <div class="menu-item menu-item--nocaret">
+              <span class="menu-item__content">
+                <span class="menu-item__icon"><i class="fa-regular fa-pen"></i></span>
+                <span class="menu-item__label">Ofertas de entrega</span>
+              </span>
+            </div>
+          </div>
+          <div class="demo-item">
+            <span class="demo-item__label">Divisor</span>
+            <div class="menu-item__divider"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+<div class="accent-bar" style="position:fixed; bottom:0; left:0; right:0;"></div>
+<script src="js/nav.js"></script>
+</body>
+</html>
