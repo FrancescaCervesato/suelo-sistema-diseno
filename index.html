@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>SUELO — Sistema de Diseño</title>
-<meta name="description" content="SUELO — Sistema de diseño robusto, cohesivo y escalable para los productos digitales." />
+<title>suelo — Sistema de Diseño</title>
+<meta name="description" content="suelo — Sistema de diseño 1.0. Documentación de tokens, átomos, moléculas y organismos organizados según Atomic Design." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
@@ -17,101 +17,88 @@
   <nav class="sidebar" id="sidebar-root"></nav>
 
   <main class="main">
-    <div class="breadcrumbs">
-      <span class="brand">SUELO</span>
-      <span class="sep">›</span>
-      <span class="current">Inicio</span>
+    <div class="main-inner">
+
+      <section class="hero">
+        <div class="hero-top">
+          <h1 class="hero-title">suelo</h1>
+          <span class="tag tag--verde">Versión 1.0</span>
+        </div>
+        <p class="hero-desc">Sistema de diseño que unifica la experiencia visual y funcional de los productos digitales de SUELO. Organizado con Atomic Design para que diseño y desarrollo compartan un mismo lenguaje: tokens, átomos, moléculas y organismos.</p>
+        <div class="hero-actions">
+          <a class="btn btn--primario" href="tokens-de-color.html"><i class="fa-solid fa-palette"></i> Explorar tokens</a>
+          <a class="btn btn--secundario" href="https://github.com/FrancescaCervesato/suelo-sistema-diseno" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> Ver repositorio</a>
+        </div>
+        <p class="hero-credit">Diseñado por Milagros, Florencia y Francesca · basado en el archivo Figma "Sistema de diseño 1.0"</p>
+      </section>
+
+      <div class="grid grid--4">
+        <div class="stat-card"><div class="stat-card__value" style="color:var(--color-primario);">57</div><div class="stat-card__label">Componentes documentados</div></div>
+        <div class="stat-card"><div class="stat-card__value" style="color:#1e7350;">10</div><div class="stat-card__label">Átomos</div></div>
+        <div class="stat-card"><div class="stat-card__value" style="color:#6a2fb0;">14</div><div class="stat-card__label">Moléculas</div></div>
+        <div class="stat-card"><div class="stat-card__value" style="color:#a3480a;">4</div><div class="stat-card__label">Organismos</div></div>
+      </div>
+
+      <div class="callout callout--tip">
+        <span class="callout__icon">💡</span>
+        <div>
+          <div class="callout__title">Cómo navegar este sitio</div>
+          <div class="callout__body">Cada página de componente incluye sus propiedades, estados y ejemplos de uso — con recomendaciones de cuándo sí y cuándo no aplicarlo. Empezá por <a href="tokens-de-color.html" style="color:var(--texto-tip); text-decoration:underline;">Tokens</a> si vas a definir estilos, o por <a href="atomo-boton.html" style="color:var(--texto-tip); text-decoration:underline;">Átomos</a> si ya estás armando pantallas.</div>
+        </div>
+      </div>
+
+      <section class="section">
+        <h2 class="section-title">Fundamentos</h2>
+        <p class="section-subtitle">Tokens y pilares de marca que rigen la identidad visual, legibilidad y accesibilidad de todo el sistema.</p>
+        <div class="grid grid--4">
+          <a class="card" href="tokens-de-color.html">
+            <div class="card__title">Colores</div>
+            <div class="card__desc">Paleta primaria, escala de grises y colores semánticos.</div>
+          </a>
+          <a class="card" href="tipografia.html">
+            <div class="card__title">Tipografía y espaciado</div>
+            <div class="card__desc">Escala tipográfica, pesos y sistema de espaciado en base 8px.</div>
+          </a>
+          <a class="card" href="marca.html">
+            <div class="card__title">Marca</div>
+            <div class="card__desc">Logo, stickers e ilustraciones de la identidad SUELO.</div>
+          </a>
+          <a class="card" href="accesibilidad.html">
+            <div class="card__title">Accesibilidad</div>
+            <div class="card__desc">Pautas WCAG 2.1 AA aplicadas a color, foco y contenido.</div>
+          </a>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Arquitectura de componentes</h2>
+        <div style="display:flex; align-items:center; gap:8px; margin-top:-4px;">
+          <span class="tag tag--azul">Atomic Design</span>
+          <span style="color:var(--texto-light-2); font-size:14px;">Los componentes se agrupan por su nivel de complejidad, no por función.</span>
+        </div>
+        <div style="display:flex; gap:16px; width:100%; flex-wrap:wrap;">
+          <a class="cat-card cat-card--atomo" href="atomo-boton.html">
+            <div class="cat-card__icon"><i class="fa-solid fa-atom"></i></div>
+            <div class="cat-card__title">Átomos</div>
+            <div class="cat-card__count">10 componentes</div>
+            <div class="cat-card__desc">Elementos primitivos e indivisibles: botón, input, checkbox, tag y más.</div>
+          </a>
+          <a class="cat-card cat-card--molecula" href="molecula-cards.html">
+            <div class="cat-card__icon"><i class="fa-solid fa-diagram-project"></i></div>
+            <div class="cat-card__title">Moléculas</div>
+            <div class="cat-card__count">14 componentes</div>
+            <div class="cat-card__desc">Combinaciones funcionales de átomos: cards, modales, tabs, uploader y más.</div>
+          </a>
+          <a class="cat-card cat-card--organismo" href="organismo-tablas.html">
+            <div class="cat-card__icon"><i class="fa-solid fa-table-cells-large"></i></div>
+            <div class="cat-card__title">Organismos</div>
+            <div class="cat-card__count">4 componentes</div>
+            <div class="cat-card__desc">Estructuras complejas: sidebar, navbar, tablas y gráfico de torta.</div>
+          </a>
+        </div>
+      </section>
+
     </div>
-
-    <section class="section">
-      <div style="display:flex; align-items:center; gap:16px;">
-        <h1 class="hero-title" style="margin:0;">suelo</h1>
-        <span class="tag tag--verde">v1.0.0 Stable</span>
-      </div>
-      <p class="hero-desc">Un sistema de diseño robusto, cohesivo y escalable que unifica la experiencia visual y funcional de los productos digitales de SUELO. Diseñado para optimizar flujos de trabajo, promover la accesibilidad y acelerar el desarrollo tecnológico.</p>
-      <div style="display:flex; gap:12px;">
-        <button class="btn btn--primario"><i class="fa-solid fa-palette"></i> Empezar como Diseñador</button>
-        <button class="btn btn--secundario"><i class="fa-brands fa-github"></i> Ver repositorio en GitHub</button>
-      </div>
-    </section>
-
-    <div class="grid grid--4">
-      <div class="stat-card"><div class="stat-card__value" style="color:var(--color-primario);">41</div><div class="stat-card__label">Componentes listos</div></div>
-      <div class="stat-card"><div class="stat-card__value" style="color:var(--color-verde);">70+</div><div class="stat-card__label">Variables semánticas</div></div>
-      <div class="stat-card"><div class="stat-card__value" style="color:var(--color-naranja);">24</div><div class="stat-card__label">Estilos tipográficos</div></div>
-      <div class="stat-card"><div class="stat-card__value" style="color:var(--color-rojo);">3</div><div class="stat-card__label">Colecciones de tokens</div></div>
-    </div>
-
-    <hr class="rule" />
-
-    <section class="section">
-      <h2 class="section-title">¿Qué busca SUELO?</h2>
-      <div class="grid grid--auto">
-        <div class="info-card">
-          <div class="info-card__icon">🎨</div>
-          <div class="info-card__title">Lenguaje Compartido</div>
-          <div class="info-card__desc">Puente de comunicación entre diseñadores y desarrolladores.</div>
-        </div>
-        <div class="info-card">
-          <div class="info-card__icon">⚡</div>
-          <div class="info-card__title">Eficiencia</div>
-          <div class="info-card__desc">Componentes reutilizables que aceleran el desarrollo.</div>
-        </div>
-        <div class="info-card">
-          <div class="info-card__icon">♿</div>
-          <div class="info-card__title">Accesibilidad</div>
-          <div class="info-card__desc">Diseño inclusivo que cumple con las pautas WCAG 2.1 AA.</div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <h2 class="section-title">Fundamentos del sistema</h2>
-      <p class="section-subtitle">Pilares fundamentales que rigen la identidad visual, legibilidad e interacción de SUELO.</p>
-      <div class="grid grid--3">
-        <a class="info-card" href="tokens-de-color.html">
-          <div class="info-card__icon" style="color:var(--color-primario-fuerte); font-weight:700;">🎨</div>
-          <div class="info-card__title">Tokens de Color</div>
-          <div class="info-card__desc">Paleta semántica y escalas de color para toda la interfaz.</div>
-        </a>
-        <a class="info-card" href="tipografia.html">
-          <div class="info-card__icon" style="color:var(--color-primario-fuerte); font-weight:700;">Aa</div>
-          <div class="info-card__title">Tipografía</div>
-          <div class="info-card__desc">Escalas tipográficas, pesos y jerarquía de textos.</div>
-        </a>
-        <div class="info-card">
-          <div class="info-card__icon" style="color:var(--color-primario-fuerte); font-weight:700;">⬜</div>
-          <div class="info-card__title">Espaciado</div>
-          <div class="info-card__desc">Sistema de espaciado consistente basado en múltiplos de 4px.</div>
-        </div>
-      </div>
-    </section>
-
-    <hr class="rule" />
-
-    <section class="section">
-      <div>
-        <h2 class="section-title section-title--lg">Arquitectura de componentes</h2>
-        <div style="display:flex; align-items:center; gap:6px; margin-top:8px;">
-          <span class="tag tag--azul">Metodología</span>
-          <span style="color:var(--texto-light); font-size:16px;">Atomic Design aplicado a la modularidad y orden de nuestro catálogo.</span>
-        </div>
-      </div>
-      <div style="display:flex; gap:16px; width:100%;">
-        <a class="category-card" href="componentes.html">
-          <div class="category-card__title">Átomos</div>
-          <div class="category-card__desc">15 componentes primitivos autónomos</div>
-        </a>
-        <a class="category-card" href="componentes.html">
-          <div class="category-card__title">Moléculas</div>
-          <div class="category-card__desc">14 combinaciones funcionales de átomos</div>
-        </a>
-        <a class="category-card" href="organismos.html">
-          <div class="category-card__title">Organismos</div>
-          <div class="category-card__desc">12 organismos estructurales complejos</div>
-        </a>
-      </div>
-    </section>
   </main>
 </div>
 <div class="accent-bar" style="position:fixed; bottom:0; left:0; right:0;"></div>
