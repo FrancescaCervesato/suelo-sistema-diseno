@@ -11,6 +11,45 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="stylesheet" href="css/tokens.css" />
 <link rel="stylesheet" href="css/base.css" />
+<link rel="stylesheet" href="css/demo.css" />
+<style>
+  .hero-cover {
+    background: radial-gradient(circle at 15% 0%, #232b45 0%, var(--gris-10) 55%);
+    border-radius: var(--radius-xl);
+    padding: var(--space-3) var(--space-3) var(--space-25);
+    display: flex; flex-direction: column; gap: var(--space-1);
+    position: relative; overflow: hidden;
+  }
+  .hero-cover__top { display: flex; align-items: center; justify-content: space-between; }
+  .hero-cover__eyebrow { color: var(--gris-4); font-size: 13px; }
+  .hero-cover__eyebrow strong { color: #fff; font-weight: 700; }
+  .hero-cover__pill {
+    display: inline-flex; align-items: center; height: 30px; padding: 2px;
+    border-radius: var(--radius-pill); background: var(--gradient-marca);
+  }
+  .hero-cover__pill span {
+    display: inline-flex; align-items: center; height: 100%; padding: 0 12px;
+    border-radius: var(--radius-pill); background: #14192a; font-size: 12px; font-family: monospace; color: #fff;
+  }
+  .hero-cover__rule { height: 2px; width: 100%; background: var(--gradient-marca); border-radius: 2px; opacity: 0.85; }
+  .hero-cover__wordmark {
+    font-family: var(--font-display); font-weight: 700; font-size: 88px; line-height: 1;
+    letter-spacing: -0.02em; margin: 8px 0 0;
+    background: var(--gradient-marca); -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .hero-cover__subtitle {
+    font-family: var(--font-display); font-weight: 500; font-size: 20px; letter-spacing: 0.45em;
+    background: var(--gradient-marca); -webkit-background-clip: text; background-clip: text; color: transparent;
+    margin-left: 3px;
+  }
+  .hero-intro { display: flex; flex-direction: column; gap: var(--space-1); padding: 0 var(--space-05); }
+  .hero-actions { display: flex; gap: var(--space-1); flex-wrap: wrap; }
+  .hero-credit { color: var(--texto-light-2); font-size: var(--caption-size); }
+  @media (max-width: 640px) {
+    .hero-cover__wordmark { font-size: 56px; }
+    .hero-cover__subtitle { font-size: 13px; letter-spacing: 0.3em; }
+  }
+</style>
 </head>
 <body data-page="inicio">
 <div class="app-shell">
@@ -19,11 +58,17 @@
   <main class="main">
     <div class="main-inner">
 
-      <section class="hero">
-        <div class="hero-top">
-          <h1 class="hero-title">suelo</h1>
-          <span class="tag tag--verde">Versión 1.0</span>
+      <section class="hero-cover">
+        <div class="hero-cover__top">
+          <span class="hero-cover__eyebrow"><strong>primary</strong> · equipo ux</span>
+          <span class="hero-cover__pill"><span>versión 1.0</span></span>
         </div>
+        <div class="hero-cover__rule"></div>
+        <h1 class="hero-cover__wordmark">suelo</h1>
+        <p class="hero-cover__subtitle">sistema de diseño</p>
+      </section>
+
+      <section class="hero-intro">
         <p class="hero-desc">Sistema de diseño que unifica la experiencia visual y funcional de los productos digitales de SUELO. Organizado con Atomic Design para que diseño y desarrollo compartan un mismo lenguaje: tokens, átomos, moléculas y organismos.</p>
         <div class="hero-actions">
           <a class="btn btn--primario" href="tokens-de-color.html"><i class="fa-solid fa-palette"></i> Explorar tokens</a>
@@ -32,18 +77,11 @@
         <p class="hero-credit">Diseñado por Milagros, Florencia y Francesca · basado en el archivo Figma "Sistema de diseño 1.0"</p>
       </section>
 
-      <div class="grid grid--4">
-        <div class="stat-card"><div class="stat-card__value" style="color:var(--color-primario);">57</div><div class="stat-card__label">Componentes documentados</div></div>
-        <div class="stat-card"><div class="stat-card__value" style="color:#1e7350;">10</div><div class="stat-card__label">Átomos</div></div>
-        <div class="stat-card"><div class="stat-card__value" style="color:#6a2fb0;">14</div><div class="stat-card__label">Moléculas</div></div>
-        <div class="stat-card"><div class="stat-card__value" style="color:#a3480a;">4</div><div class="stat-card__label">Organismos</div></div>
-      </div>
-
       <div class="callout callout--tip">
-        <span class="callout__icon">💡</span>
+        <span class="icon-badge icon-badge--sm icon-badge--tip"><i class="fa-solid fa-lightbulb"></i></span>
         <div>
           <div class="callout__title">Cómo navegar este sitio</div>
-          <div class="callout__body">Cada página de componente incluye sus propiedades, estados y ejemplos de uso — con recomendaciones de cuándo sí y cuándo no aplicarlo. Empezá por <a href="tokens-de-color.html" style="color:var(--texto-tip); text-decoration:underline;">Tokens</a> si vas a definir estilos, o por <a href="atomo-boton.html" style="color:var(--texto-tip); text-decoration:underline;">Átomos</a> si ya estás armando pantallas.</div>
+          <div class="callout__body">Cada página de componente incluye un ejemplo interactivo y sus propiedades documentadas — con recomendaciones de cuándo sí y cuándo no aplicarlo. Empezá por <a href="tokens-de-color.html" style="color:var(--texto-tip); text-decoration:underline;">Tokens</a> si vas a definir estilos, o por <a href="atomo-boton.html" style="color:var(--texto-tip); text-decoration:underline;">Átomos</a> si ya estás armando pantallas.</div>
         </div>
       </div>
 
@@ -52,18 +90,22 @@
         <p class="section-subtitle">Tokens y pilares de marca que rigen la identidad visual, legibilidad y accesibilidad de todo el sistema.</p>
         <div class="grid grid--4">
           <a class="card" href="tokens-de-color.html">
+            <span class="icon-badge icon-badge--sm" style="background:var(--elevacion-primario-light); color:var(--color-primario-dark);"><i class="fa-solid fa-palette"></i></span>
             <div class="card__title">Colores</div>
             <div class="card__desc">Paleta primaria, escala de grises y colores semánticos.</div>
           </a>
           <a class="card" href="tipografia.html">
+            <span class="icon-badge icon-badge--sm" style="background:var(--elevacion-primario-light); color:var(--color-primario-dark);"><i class="fa-solid fa-font"></i></span>
             <div class="card__title">Tipografía y espaciado</div>
             <div class="card__desc">Escala tipográfica, pesos y sistema de espaciado en base 8px.</div>
           </a>
           <a class="card" href="marca.html">
+            <span class="icon-badge icon-badge--sm icon-badge--fundamento"><i class="fa-solid fa-seedling"></i></span>
             <div class="card__title">Marca</div>
-            <div class="card__desc">Logo, stickers e ilustraciones de la identidad SUELO.</div>
+            <div class="card__desc">Wordmark, stickers e ilustraciones de la identidad SUELO.</div>
           </a>
           <a class="card" href="accesibilidad.html">
+            <span class="icon-badge icon-badge--sm icon-badge--fundamento"><i class="fa-solid fa-universal-access"></i></span>
             <div class="card__title">Accesibilidad</div>
             <div class="card__desc">Pautas WCAG 2.1 AA aplicadas a color, foco y contenido.</div>
           </a>
@@ -103,5 +145,6 @@
 </div>
 <div class="accent-bar" style="position:fixed; bottom:0; left:0; right:0;"></div>
 <script src="js/nav.js"></script>
+<script src="js/playground.js"></script>
 </body>
 </html>

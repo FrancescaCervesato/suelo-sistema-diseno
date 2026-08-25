@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="stylesheet" href="css/tokens.css" />
 <link rel="stylesheet" href="css/base.css" />
+<link rel="stylesheet" href="css/demo.css" />
 </head>
 <body data-page="organismo-grafico-torta">
 <div class="app-shell">
@@ -27,14 +28,31 @@
       </div>
 
       <div class="page-header">
-        <span class="page-badge page-badge--organismo">🧱 Organismo</span>
+        <span class="page-badge page-badge--organismo"><span class="icon-badge icon-badge--sm page-badge--organismo" style="background:transparent; width:16px; height:16px; font-size:12px;"><i class="fa-solid fa-table-cells-large"></i></span> Organismo</span>
         <h1 class="page-title">Gráfico de torta</h1>
         <p class="page-desc">Visualización de datos en formato circular. Muestra proporciones de un total. Incluye leyenda lateral con colores, etiquetas y porcentajes de cada segmento.</p>
       </div>
 
+      <div class="comp-block">
+        <div class="comp-block__head">
+          <span class="icon-badge page-badge--organismo"><i class="fa-solid fa-chart-pie"></i></span>
+          <h2 class="comp-block__title">Probalo</h2>
+        </div>
+        <div class="playground">
+          <span class="playground__label">Ejemplo interactivo</span>
+          <div class="playground__stage demo-stage"><div class="demo-pie"></div><div class="demo-pie-legend"><span><i style="background:var(--color-primario);"></i>Soja — 45%</span><span><i style="background:#9747ff;"></i>Maíz — 25%</span><span><i style="background:var(--color-advertencia);"></i>Trigo — 30%</span></div></div><div class="playground__controls"></div>
+        </div>
+      </div>
+
+      <div class="comp-block">
+        <div class="comp-block__head">
+          <h2 class="comp-block__title" style="font-size:16px;">Propiedades documentadas</h2>
+        </div>
+        <table class="spec-table"><thead><tr><th>Propiedad</th><th>Valores</th><th>Descripción</th></tr></thead><tbody><tr><td class="spec-prop">Elemento</td><td class="spec-values"><code class="spec-tag">Segmento</code><code class="spec-tag">Leyenda</code><code class="spec-tag">Etiqueta de porcentaje</code></td><td class="spec-desc">Partes que componen la visualización.</td></tr></tbody></table>
+      </div>
 
       <div class="callout callout--tip">
-        <span class="callout__icon">💡</span>
+        <span class="icon-badge icon-badge--sm icon-badge--tip"><i class="fa-solid fa-lightbulb"></i></span>
         <div>
           <div class="callout__title">Tip de uso</div>
           <div class="callout__body">Limitá a 5-6 segmentos como máximo: por encima de eso, un gráfico de barras suele comunicar mejor las proporciones.</div>
@@ -42,10 +60,10 @@
       </div>
 
       <div class="callout callout--tech">
-        <span class="callout__icon">🛠️</span>
+        <span class="icon-badge icon-badge--sm icon-badge--tech"><i class="fa-solid fa-wrench"></i></span>
         <div>
           <div class="callout__title">Nota técnica</div>
-          <div class="callout__body">Documentado en <code>Sistema de diseño 1.0</code> · Figma, página "📖 Manual de Componentes". Esta ficha refleja únicamente lo relevado hasta el momento; el detalle visual interactivo (props, ejemplos en vivo) se irá ampliando a medida que se documente en el archivo de origen.</div>
+          <div class="callout__body">Documentado en <code>Sistema de diseño 1.0</code> · Figma, página "Manual de Componentes". El ejemplo interactivo de esta ficha es una implementación de referencia para navegar el sistema — no reemplaza al componente productivo de la librería de Figma.</div>
         </div>
       </div>
 
@@ -59,5 +77,6 @@
 </div>
 <div class="accent-bar" style="position:fixed; bottom:0; left:0; right:0;"></div>
 <script src="js/nav.js"></script>
+<script src="js/playground.js"></script>
 </body>
 </html>

@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="stylesheet" href="css/tokens.css" />
 <link rel="stylesheet" href="css/base.css" />
+<link rel="stylesheet" href="css/demo.css" />
 <style>
   .swatch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: var(--space-1); }
   .swatch { display: flex; flex-direction: column; border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-card); background: var(--blanco); }
@@ -35,16 +36,16 @@
       </div>
 
       <div class="page-header">
-        <span class="page-badge" style="background: var(--elevacion-primario-light); color: var(--color-primario-dark);">🎨 Tokens</span>
+        <span class="page-badge" style="background: var(--elevacion-primario-light); color: var(--color-primario-dark);"><span class="icon-badge icon-badge--sm" style="background:transparent; color:var(--color-primario-dark); width:16px; height:16px; font-size:12px;"><i class="fa-solid fa-palette"></i></span> Tokens</span>
         <h1 class="page-title">Colores</h1>
         <p class="page-desc">Paleta semántica y escalas de color relevadas 1:1 de las variables de Figma. Usar estos valores literalmente en cualquier implementación — no aproximar ni inventar tonos parecidos.</p>
       </div>
 
       <div class="callout callout--tech">
-        <span class="callout__icon">🛠️</span>
+        <span class="icon-badge icon-badge--sm icon-badge--tech"><i class="fa-solid fa-wrench"></i></span>
         <div>
           <div class="callout__title">Nota técnica</div>
-          <div class="callout__body">Cada token está disponible como variable CSS en <code>css/tokens.css</code> (ej. <code>var(--color-primario)</code>). Fuente: página "🎨 Colores" del archivo Figma <code>Sistema de diseño 1.0</code>.</div>
+          <div class="callout__body">Cada token está disponible como variable CSS en <code>css/tokens.css</code> (ej. <code>var(--color-primario)</code>). Fuente: página "Colores" del archivo Figma <code>Sistema de diseño 1.0</code>. La marca SUELO (wordmark, gradiente) es solo identidad de este sitio web y no forma parte del sistema de tokens documentado.</div>
         </div>
       </div>
 
@@ -107,17 +108,8 @@
         </div>
       </section>
 
-      <section class="section">
-        <h2 class="section-title">Gradiente de marca</h2>
-        <p class="section-subtitle">Uso exclusivo para el isotipo, el título de portada y acentos puntuales de marca. No aplicar sobre componentes de interfaz.</p>
-        <div class="swatch" style="max-width:360px;">
-          <div class="swatch__color" style="background: var(--gradient-marca);"></div>
-          <div class="swatch__meta"><span class="swatch__name">Gradiente marca</span><span class="swatch__hex">#5081ff → #9747ff (45%) → #f49959 (89%)</span></div>
-        </div>
-      </section>
-
       <div class="callout callout--tip">
-        <span class="callout__icon">💡</span>
+        <span class="icon-badge icon-badge--sm icon-badge--tip"><i class="fa-solid fa-lightbulb"></i></span>
         <div>
           <div class="callout__title">Tip de uso</div>
           <div class="callout__body">Para texto, usá siempre los tokens de la sección "Texto" en vez de tomar un gris de la escala general — así el contraste queda garantizado en ambos modos.</div>

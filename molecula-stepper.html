@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="stylesheet" href="css/tokens.css" />
 <link rel="stylesheet" href="css/base.css" />
+<link rel="stylesheet" href="css/demo.css" />
 </head>
 <body data-page="molecula-stepper">
 <div class="app-shell">
@@ -27,14 +28,31 @@
       </div>
 
       <div class="page-header">
-        <span class="page-badge page-badge--molecula">🧱 Molécula</span>
+        <span class="page-badge page-badge--molecula"><span class="icon-badge icon-badge--sm page-badge--molecula" style="background:transparent; width:16px; height:16px; font-size:12px;"><i class="fa-solid fa-diagram-project"></i></span> Molécula</span>
         <h1 class="page-title">Stepper</h1>
         <p class="page-desc">Indicador de pasos en un flujo secuencial. Muestra el paso actual, completados y pendientes. Usado en formularios de múltiples etapas y wizards.</p>
       </div>
 
+      <div class="comp-block">
+        <div class="comp-block__head">
+          <span class="icon-badge page-badge--molecula"><i class="fa-solid fa-list-ol"></i></span>
+          <h2 class="comp-block__title">Probalo</h2>
+        </div>
+        <div class="playground">
+          <span class="playground__label">Ejemplo interactivo</span>
+          <div class="playground__stage demo-stage"><div class="demo-stepper"><span class="demo-stepper__dot is-done"><i class="fa-solid fa-check"></i></span><span class="demo-stepper__line"></span><span class="demo-stepper__dot is-current">2</span><span class="demo-stepper__line"></span><span class="demo-stepper__dot">3</span></div></div><div class="playground__controls"><div class="control-row"><span class="control-row__label">Navegar</span><button class="control-btn" onclick="pgStep(this,-1)">← Anterior</button><button class="control-btn" onclick="pgStep(this,1)">Siguiente →</button></div></div>
+        </div>
+      </div>
+
+      <div class="comp-block">
+        <div class="comp-block__head">
+          <h2 class="comp-block__title" style="font-size:16px;">Propiedades documentadas</h2>
+        </div>
+        <table class="spec-table"><thead><tr><th>Propiedad</th><th>Valores</th><th>Descripción</th></tr></thead><tbody><tr><td class="spec-prop">Estado del paso</td><td class="spec-values"><code class="spec-tag">Completado</code><code class="spec-tag">Actual</code><code class="spec-tag">Pendiente</code></td><td class="spec-desc">Progreso dentro del flujo secuencial.</td></tr></tbody></table>
+      </div>
 
       <div class="callout callout--tip">
-        <span class="callout__icon">💡</span>
+        <span class="icon-badge icon-badge--sm icon-badge--tip"><i class="fa-solid fa-lightbulb"></i></span>
         <div>
           <div class="callout__title">Tip de uso</div>
           <div class="callout__body">Permití volver a un paso anterior siempre que los datos ya ingresados no se pierdan — el stepper debe reducir fricción, no generarla.</div>
@@ -42,10 +60,10 @@
       </div>
 
       <div class="callout callout--tech">
-        <span class="callout__icon">🛠️</span>
+        <span class="icon-badge icon-badge--sm icon-badge--tech"><i class="fa-solid fa-wrench"></i></span>
         <div>
           <div class="callout__title">Nota técnica</div>
-          <div class="callout__body">Documentado en <code>Sistema de diseño 1.0</code> · Figma, página "📖 Manual de Componentes". Esta ficha refleja únicamente lo relevado hasta el momento; el detalle visual interactivo (props, ejemplos en vivo) se irá ampliando a medida que se documente en el archivo de origen.</div>
+          <div class="callout__body">Documentado en <code>Sistema de diseño 1.0</code> · Figma, página "Manual de Componentes". El ejemplo interactivo de esta ficha es una implementación de referencia para navegar el sistema — no reemplaza al componente productivo de la librería de Figma.</div>
         </div>
       </div>
 
@@ -59,5 +77,6 @@
 </div>
 <div class="accent-bar" style="position:fixed; bottom:0; left:0; right:0;"></div>
 <script src="js/nav.js"></script>
+<script src="js/playground.js"></script>
 </body>
 </html>

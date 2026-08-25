@@ -90,10 +90,9 @@ ul { margin: 0; padding: 0; list-style: none; }
 
 /* ---------- Callouts: tips y notas técnicas ---------- */
 .callout {
-  display: flex; gap: var(--space-05); padding: var(--space-1);
-  border-radius: var(--radius-md); border: 1px solid transparent;
+  display: flex; gap: var(--space-1); padding: var(--space-1);
+  border-radius: var(--radius-md); border: 1px solid transparent; align-items: flex-start;
 }
-.callout__icon { flex-shrink: 0; font-size: 16px; line-height: 1; margin-top: 1px; }
 .callout__title { font-weight: 700; font-size: var(--body2-size); margin-bottom: 2px; }
 .callout__body { font-size: var(--body2-size); line-height: 20px; }
 .callout--tip { background: var(--fondo-tip); border-color: var(--borde-tip); color: var(--texto-tip); }
@@ -148,14 +147,6 @@ a.card:hover { box-shadow: var(--shadow-card-hover); transform: translateY(-1px)
 .comp-block__title { font-family: var(--font-display); font-weight: 700; font-size: 20px; }
 .comp-block__desc { color: var(--texto-light); font-size: var(--body1-size); line-height: var(--body1-lh); max-width: 640px; }
 
-.prop-table { display: flex; flex-direction: column; border: 1px solid var(--borde-default); border-radius: var(--radius-md); overflow: hidden; }
-.prop-table__row { display: grid; grid-template-columns: 140px 140px 1fr; gap: var(--space-1); padding: 10px var(--space-1); font-size: var(--body2-size); }
-.prop-table__row:nth-child(odd) { background: var(--gris-1); }
-.prop-table__row--head { background: var(--gris-2) !important; font-weight: 700; color: var(--gris-6); font-size: var(--caption-size); text-transform: uppercase; letter-spacing: 0.03em; }
-.prop-table__prop { font-weight: 600; color: var(--texto-default); }
-.prop-table__values { color: var(--color-primario-dark); }
-.prop-table__desc { color: var(--texto-light-2); }
-
 .preview-block { background: var(--gris-1); border: 1px dashed var(--borde-default); border-radius: var(--radius-md); padding: var(--space-15); display: flex; flex-direction: column; gap: var(--space-1); }
 .preview-block__label { font-size: var(--caption2-size); font-weight: 700; color: var(--gris-5); letter-spacing: 0.04em; }
 .preview-row { display: flex; flex-wrap: wrap; gap: var(--space-1); align-items: center; }
@@ -206,5 +197,4 @@ a.card:hover { box-shadow: var(--shadow-card-hover); transform: translateY(-1px)
   .sidebar { position: relative; height: auto; width: 100%; }
   .main { padding: var(--space-2) var(--space-1) var(--space-3); }
   .grid--4, .grid--3, .grid--2, .usage-grid { grid-template-columns: 1fr; }
-  .prop-table__row { grid-template-columns: 1fr; gap: 4px; }
 }

@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="stylesheet" href="css/tokens.css" />
 <link rel="stylesheet" href="css/base.css" />
+<link rel="stylesheet" href="css/demo.css" />
 </head>
 <body data-page="atomo-select">
 <div class="app-shell">
@@ -27,18 +28,31 @@
       </div>
 
       <div class="page-header">
-        <span class="page-badge page-badge--atomo">⚛️ Átomo</span>
+        <span class="page-badge page-badge--atomo"><span class="icon-badge icon-badge--sm page-badge--atomo" style="background:transparent; width:16px; height:16px; font-size:12px;"><i class="fa-solid fa-atom"></i></span> Átomo</span>
         <h1 class="page-title">Select</h1>
         <p class="page-desc">Selector desplegable de una opción. Estados: default, abierto, con valor, deshabilitado. Se usa cuando hay 5 o más opciones disponibles.</p>
       </div>
 
-      <div class="grid grid--auto" style="grid-template-columns:repeat(auto-fill, minmax(220px,1fr));">
-          <div class="stat-card" style="padding:12px 16px; gap:2px;"><div style="font-size:11px; font-weight:700; letter-spacing:0.04em; color:var(--texto-light-2); text-transform:uppercase;">Estados</div><div style="font-size:14px; font-weight:600; color:var(--texto-default);">default, abierto, con valor, deshabilitado</div></div>
+      <div class="comp-block">
+        <div class="comp-block__head">
+          <span class="icon-badge page-badge--atomo"><i class="fa-solid fa-caret-down"></i></span>
+          <h2 class="comp-block__title">Probalo</h2>
+        </div>
+        <div class="playground">
+          <span class="playground__label">Ejemplo interactivo</span>
+          <div class="playground__stage demo-stage" data-estado="default" style="justify-content:flex-start;"><div class="demo-select"><span>Seleccioná una provincia</span><i class="fa-solid fa-chevron-down"></i></div><div class="demo-select-menu"><span>Buenos Aires</span><span>Córdoba</span><span>Santa Fe</span></div></div><div class="playground__controls"><div class="control-row"><span class="control-row__label">Estado</span><button class="control-btn is-active" onclick="pgSet(this,'estado','default')">Default</button><button class="control-btn" onclick="pgSet(this,'estado','abierto')">Abierto</button><button class="control-btn" onclick="pgSet(this,'estado','con-valor')">Con valor</button><button class="control-btn" onclick="pgSet(this,'estado','deshabilitado')">Deshabilitado</button></div></div>
+        </div>
       </div>
 
+      <div class="comp-block">
+        <div class="comp-block__head">
+          <h2 class="comp-block__title" style="font-size:16px;">Propiedades documentadas</h2>
+        </div>
+        <table class="spec-table"><thead><tr><th>Propiedad</th><th>Valores</th><th>Descripción</th></tr></thead><tbody><tr><td class="spec-prop">Estado</td><td class="spec-values"><code class="spec-tag">Default</code><code class="spec-tag">Abierto</code><code class="spec-tag">Con valor</code><code class="spec-tag">Deshabilitado</code></td><td class="spec-desc">Estado de interacción del selector.</td></tr></tbody></table>
+      </div>
 
       <div class="callout callout--tip">
-        <span class="callout__icon">💡</span>
+        <span class="icon-badge icon-badge--sm icon-badge--tip"><i class="fa-solid fa-lightbulb"></i></span>
         <div>
           <div class="callout__title">Tip de uso</div>
           <div class="callout__body">Comparte el mismo patrón de estados documentado para el Selector: default, hover, active, focus, empty, loading, disabled, error y selected — en modo light y dark.</div>
@@ -46,10 +60,10 @@
       </div>
 
       <div class="callout callout--tech">
-        <span class="callout__icon">🛠️</span>
+        <span class="icon-badge icon-badge--sm icon-badge--tech"><i class="fa-solid fa-wrench"></i></span>
         <div>
           <div class="callout__title">Nota técnica</div>
-          <div class="callout__body">Documentado en <code>Sistema de diseño 1.0</code> · Figma, página "📖 Manual de Componentes". Esta ficha refleja únicamente lo relevado hasta el momento; el detalle visual interactivo (props, ejemplos en vivo) se irá ampliando a medida que se documente en el archivo de origen.</div>
+          <div class="callout__body">Documentado en <code>Sistema de diseño 1.0</code> · Figma, página "Manual de Componentes". El ejemplo interactivo de esta ficha es una implementación de referencia para navegar el sistema — no reemplaza al componente productivo de la librería de Figma.</div>
         </div>
       </div>
 
@@ -63,5 +77,6 @@
 </div>
 <div class="accent-bar" style="position:fixed; bottom:0; left:0; right:0;"></div>
 <script src="js/nav.js"></script>
+<script src="js/playground.js"></script>
 </body>
 </html>

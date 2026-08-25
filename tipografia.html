@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="stylesheet" href="css/tokens.css" />
 <link rel="stylesheet" href="css/base.css" />
+<link rel="stylesheet" href="css/demo.css" />
 <style>
   .type-row { display: flex; align-items: baseline; gap: var(--space-2); padding: var(--space-1) 0; border-bottom: 1px solid var(--borde-default); }
   .type-row:last-child { border-bottom: none; }
@@ -39,13 +40,13 @@
       </div>
 
       <div class="page-header">
-        <span class="page-badge" style="background: var(--elevacion-primario-light); color: var(--color-primario-dark);">🎨 Tokens</span>
+        <span class="page-badge" style="background: var(--elevacion-primario-light); color: var(--color-primario-dark);"><span class="icon-badge icon-badge--sm" style="background:transparent; color:var(--color-primario-dark); width:16px; height:16px; font-size:12px;"><i class="fa-solid fa-font"></i></span> Tokens</span>
         <h1 class="page-title">Tipografía y espaciado</h1>
         <p class="page-desc">Escala tipográfica y sistema de espaciado relevados de las variables de Figma. Familia base: Noto Sans. Iconografía: Font Awesome 6 Pro (Regular, 14px).</p>
       </div>
 
       <div class="callout callout--tech">
-        <span class="callout__icon">🛠️</span>
+        <span class="icon-badge icon-badge--sm icon-badge--tech"><i class="fa-solid fa-wrench"></i></span>
         <div>
           <div class="callout__title">Nota técnica</div>
           <div class="callout__body">Este sitio usa <code>Noto Sans</code> para todo el cuerpo de texto y <code>Space Grotesk</code> (Google Fonts) como reemplazo abierto de "Natom Pro" — la tipografía de marca usada en el cover oficial, que no está disponible públicamente— solo para títulos display (H1/H2/H3 y wordmark).</div>
@@ -119,7 +120,7 @@
       </section>
 
       <div class="callout callout--tip">
-        <span class="callout__icon">💡</span>
+        <span class="icon-badge icon-badge--sm icon-badge--tip"><i class="fa-solid fa-lightbulb"></i></span>
         <div>
           <div class="callout__title">Tip de uso</div>
           <div class="callout__body">Usá siempre un token de espaciado (nunca un valor suelto en px) para separaciones entre elementos — así cualquier ajuste futuro de la escala se propaga automáticamente a toda la interfaz.</div>
@@ -127,7 +128,7 @@
       </div>
 
       <div class="callout callout--tech">
-        <span class="callout__icon">🛠️</span>
+        <span class="icon-badge icon-badge--sm icon-badge--tech"><i class="fa-solid fa-wrench"></i></span>
         <div>
           <div class="callout__title">Pendiente de completar</div>
           <div class="callout__body">Falta confirmar si "espaciado/3" es un token separado o un duplicado, y relevar la variante Body 1 en Regular Display (solo se documentó Semibold). No se completa con valores estimados hasta confirmarlo con el equipo.</div>
