@@ -21,7 +21,7 @@
   --sidebar-divider: #2e4266;
   --sidebar-item-active: #0469ff;
   --sidebar-text-muted: #b2bfd1;
-  --gradient-marca: linear-gradient(90deg, #5081ff 0%, #9747ff 50%, #f49959 100%);
+  --gradient-marca: linear-gradient(90deg, #5081ff 0%, #9747ff 45%, #f49959 89%);
 
   /* Color / Texto */
   --texto-default: #1b2431;
@@ -41,6 +41,8 @@
 
   --h1-size: 64px;
   --h1-lh: 72px;
+  --h2-size: 32px;
+  --h2-lh: 40px;
   --h3-size: 36px;
   --h3-lh: 48px;
   --h5-size: 24px;
