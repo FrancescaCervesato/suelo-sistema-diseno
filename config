@@ -1,0 +1,11 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+[user]
+	email = fcervesato@primary.com.ar
+	name = Francesca Cervesato
+[remote "origin"]
+	url = https://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@github.com/FrancescaCervesato/suelo-sistema-diseno.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
